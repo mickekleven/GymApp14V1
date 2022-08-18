@@ -18,6 +18,10 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+
+//ToDo: skapa seedningen här.
+// Seeda roller (Admin, Member)
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
