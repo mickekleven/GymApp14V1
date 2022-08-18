@@ -1,6 +1,7 @@
 ﻿using GymApp14V1.Data;
 using GymApp14V1.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,12 @@ namespace GymApp14V1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public GymPassController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public GymPassController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
 
@@ -153,6 +157,28 @@ namespace GymApp14V1.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        [HttpPost, ActionName("BookingToggle")]
+        public async Task<IActionResult> BookingToggleAsync(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) { return NotFound(); }
+
+            var member = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (member is null) { return NotFound(); }
+
+            var gymPass = await _context.GymPasses
+                .Include(x => x.ActiveMembers)
+                .FirstOrDefaultAsync(i => i.GymPassId == int.Parse(id));
+
+
+
+
+            throw new NotImplementedException();
+
+
+        }
+
 
         private bool GymPassExists(int id)
         {
