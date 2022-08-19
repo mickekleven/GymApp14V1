@@ -4,16 +4,18 @@ using GymApp14V1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GymApp14V1.Data.Migrations
+namespace GymApp14V1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220819092423_init db")]
+    partial class initdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +107,7 @@ namespace GymApp14V1.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("ApplicationUserGymClass", (string)null);
+                    b.ToTable("ApplicationUserGymClass");
                 });
 
             modelBuilder.Entity("GymApp14V1.Models.GymClass", b =>
@@ -130,7 +132,7 @@ namespace GymApp14V1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GymPasses", (string)null);
+                    b.ToTable("GymPasses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

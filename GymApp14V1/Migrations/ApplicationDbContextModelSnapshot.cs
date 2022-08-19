@@ -4,18 +4,16 @@ using GymApp14V1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GymApp14V1.Data.Migrations
+namespace GymApp14V1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220819083127_RemoveIdFromApplicationUser")]
-    partial class RemoveIdFromApplicationUser
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,15 +98,12 @@ namespace GymApp14V1.Data.Migrations
                     b.Property<int>("GymClassId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ApplicationUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId1")
+                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("GymClassId", "ApplicationUserId");
 
-                    b.HasIndex("ApplicationUserId1");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("ApplicationUserGymClass");
                 });
@@ -279,7 +274,9 @@ namespace GymApp14V1.Data.Migrations
                 {
                     b.HasOne("GymApp14V1.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("GymPasses")
-                        .HasForeignKey("ApplicationUserId1");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("GymApp14V1.Models.GymClass", "GymClass")
                         .WithMany("ActiveMembers")
