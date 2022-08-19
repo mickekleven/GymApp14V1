@@ -70,11 +70,11 @@ namespace GymApp14V1.Seeding
 
             //Add Roles
             var _roles = GetRoles();
-            _db.AddRange(_roles);
+            _db.Roles.AddRange(_roles);
 
             //Get Member
             var _members = GetMember();
-            _db.AddRange(_members);
+            _db.Users.AddRange(_members);
 
             //Add GymPasses
 
@@ -88,7 +88,13 @@ namespace GymApp14V1.Seeding
         private static IEnumerable<IdentityRole> GetRoles()
         {
             var _roles = roles.Where(i => i.Value is not null)
-                              .Select(l => new IdentityRole { Name = l.Value, ConcurrencyStamp = "0" }).ToList();
+                              .Select(l => new IdentityRole
+                              {
+                                  Name = l.Value,
+                                  NormalizedName = l.Value.ToUpper(),
+                                  ConcurrencyStamp = "0"
+                              })
+                              .ToList();
             return _roles;
         }
 
@@ -103,6 +109,9 @@ namespace GymApp14V1.Seeding
                 user.LastName = lastNames.ElementAt(rnd.Next(0, lastNames.Count())).Value;
                 user.Email = $"{user.FirstName}.{user.LastName}@{emailProviders.ElementAt(rnd.Next(0, emailProviders.Count())).Value}";
                 user.PasswordHash = seedPwd;
+                user.UserName = $"{user.FirstName}{user.LastName}";
+                user.NormalizedEmail = user.Email.ToUpper();
+                user.NormalizedUserName = user.UserName.ToUpper();
 
                 //Lägg till GymPasses
 
@@ -117,7 +126,7 @@ namespace GymApp14V1.Seeding
                 _applicationUsers.Add(user);
             }
 
-            return _applicationUsers;
+            return _applicationUsers.ToList();
         }
 
 
