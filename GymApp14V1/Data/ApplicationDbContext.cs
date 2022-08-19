@@ -21,8 +21,8 @@ namespace GymApp14V1.Data
         {
             base.OnModelCreating(builder);
 
-
-            builder.Entity<ApplicationUserGymClass>().HasKey(aug => new { aug.GymClassId, aug.ApplicationUserId });
+            builder.Entity<ApplicationUserGymClass>()
+                .HasKey(aug => new { aug.GymClassId, aug.ApplicationUserId });
 
         }
 

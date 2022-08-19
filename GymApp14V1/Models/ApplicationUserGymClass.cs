@@ -6,6 +6,6 @@
         public GymClass GymClass { get; set; }
         public int GymClassId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public int ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
     }
 }
