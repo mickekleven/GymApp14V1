@@ -1,5 +1,6 @@
 ﻿using GymApp14V1.Data;
 using GymApp14V1.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymApp14V1.Seeding
@@ -15,6 +16,7 @@ namespace GymApp14V1.Seeding
         private static IEnumerable<KeyValuePair<string, string>> gymPasses;
         private static IEnumerable<KeyValuePair<string, string>> emailProviders;
         private static IEnumerable<KeyValuePair<string, string>> roles;
+        private static IEnumerable<KeyValuePair<string, string>> gymClasses;
 
         public static async Task AddGymData(this WebApplication appl, IConfigurationSection confSection)
         {
@@ -40,8 +42,6 @@ namespace GymApp14V1.Seeding
         public static async Task AddGymData(this WebApplication appl, ConfigurationManager confManager)
         {
 
-
-
             SetSeedDataParams(confManager.GetSection("SeedDataParams"));
 
             SetSeedRoles(confManager.GetSection("Roles"));
@@ -66,20 +66,31 @@ namespace GymApp14V1.Seeding
         public static async Task SeedAsync(this ApplicationDbContext _db)
         {
             //Remove database
-            //EnsureDeleted(_db);
+            EnsureDeleted(_db);
 
             //Add Roles
-            var _roles = roles.Where(r => r.Value is not null).ToList();
-            //_db.AddRange(roles);
+            var _roles = GetRoles();
+            _db.AddRange(_roles);
+
+            //Get Member
+            var _members = GetMember();
+            _db.AddRange(_members);
 
             //Add GymPasses
 
-            //Get Memeber
-            var _members = GetMember();
+            var gymClasses = GetGymClasses(_members);
+            _db.AddRange(gymClasses);
 
-
+            await _db.SaveChangesAsync();
         }
 
+
+        private static IEnumerable<IdentityRole> GetRoles()
+        {
+            var _roles = roles.Where(i => i.Value is not null)
+                              .Select(l => new IdentityRole { Name = l.Value, ConcurrencyStamp = "0" }).ToList();
+            return _roles;
+        }
 
         private static IEnumerable<ApplicationUser> GetMember()
         {
@@ -88,7 +99,6 @@ namespace GymApp14V1.Seeding
 
             for (int i = 0; i < numberOfSeedItems; i++)
             {
-
                 user.FirstName = firstNames.ElementAt(rnd.Next(0, firstNames.Count())).Value;
                 user.LastName = lastNames.ElementAt(rnd.Next(0, lastNames.Count())).Value;
                 user.Email = $"{user.FirstName}.{user.LastName}@{emailProviders.ElementAt(rnd.Next(0, emailProviders.Count())).Value}";
@@ -111,6 +121,16 @@ namespace GymApp14V1.Seeding
         }
 
 
+        private static IEnumerable<GymClass> GetGymClasses(IEnumerable<ApplicationUser> _users)
+        {
+            var days = rnd.Next(10);
+
+            var _gymClasses = gymClasses.Where(r => r.Value is not null)
+                .Select(l => new GymClass { Description = l.Value, Duration = new TimeSpan(3), Name = l.Value, StartTime = DateTime.Now.AddDays(rnd.Next(10)) });
+
+            return _gymClasses;
+        }
+
 
 
         private static void EnsureDeleted(ApplicationDbContext _db)
@@ -128,8 +148,7 @@ namespace GymApp14V1.Seeding
             lastNames = _confSection.GetSection("LastNames").AsEnumerable();
             gymPasses = _confSection.GetSection("GymPasses").AsEnumerable();
             emailProviders = _confSection.GetSection("EmailProviders").AsEnumerable();
-
-
+            gymClasses = _confSection.GetSection("GymClasses").AsEnumerable();
         }
 
         private static void SetSeedRoles(IConfigurationSection _confSection)
