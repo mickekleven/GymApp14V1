@@ -81,6 +81,9 @@ namespace GymApp14V1.Seeding
             var gymClasses = GetGymClasses(_members);
             _db.AddRange(gymClasses);
 
+
+            //ToDo: Add GymClasses and members
+
             await _db.SaveChangesAsync();
         }
 
@@ -107,26 +110,24 @@ namespace GymApp14V1.Seeding
             {
                 user.FirstName = firstNames.ElementAt(rnd.Next(0, firstNames.Count())).Value;
                 user.LastName = lastNames.ElementAt(rnd.Next(0, lastNames.Count())).Value;
-                user.Email = $"{user.FirstName}.{user.LastName}@{emailProviders.ElementAt(rnd.Next(0, emailProviders.Count())).Value}";
+                user.Email = ConvertTo($"{user.FirstName}.{user.LastName}@{emailProviders.ElementAt(rnd.Next(0, emailProviders.Count())).Value}");
                 user.PasswordHash = seedPwd;
                 user.UserName = $"{user.FirstName}{user.LastName}";
-                user.NormalizedEmail = user.Email.ToUpper();
+                user.NormalizedEmail = ConvertTo(user.Email.ToUpper());
                 user.NormalizedUserName = user.UserName.ToUpper();
-
-                //Lägg till GymPasses
-
-
-                //FirstName
-                //LastName
-                //Email
-                //password
-                //ConfirmPassword
-
 
                 _applicationUsers.Add(user);
             }
 
             return _applicationUsers.ToList();
+        }
+
+        private static string ConvertTo(string inpArg)
+        {
+            return inpArg
+               .Replace("Å", "A").Replace("å", "a")
+               .Replace("Ä", "A").Replace("ä", "a")
+               .Replace("Ö", "O").Replace("ö", "o");
         }
 
 
@@ -158,6 +159,11 @@ namespace GymApp14V1.Seeding
             gymPasses = _confSection.GetSection("GymPasses").AsEnumerable();
             emailProviders = _confSection.GetSection("EmailProviders").AsEnumerable();
             gymClasses = _confSection.GetSection("GymClasses").AsEnumerable();
+
+            firstNames = firstNames.Where(r => r.Value is not null);
+            lastNames = lastNames.Where(r => r.Value is not null);
+            emailProviders = emailProviders.Where(r => r.Value is not null);
+            gymClasses = gymClasses.Where(r => r.Value is not null);
         }
 
         private static void SetSeedRoles(IConfigurationSection _confSection)
