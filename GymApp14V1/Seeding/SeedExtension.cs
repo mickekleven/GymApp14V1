@@ -105,10 +105,12 @@ namespace GymApp14V1.Seeding
         private static IEnumerable<ApplicationUser> GetMember()
         {
             List<ApplicationUser> _applicationUsers = new();
-            ApplicationUser user = new();
+
 
             for (int i = 0; i < numberOfSeedItems; i++)
             {
+                ApplicationUser user = new();
+
                 user.FirstName = firstNames.ElementAt(rnd.Next(0, firstNames.Count())).Value;
                 user.LastName = lastNames.ElementAt(rnd.Next(0, lastNames.Count())).Value;
                 user.Email = ConvertTo($"{user.FirstName}.{user.LastName}@{emailProviders.ElementAt(rnd.Next(0, emailProviders.Count())).Value}");
@@ -118,9 +120,13 @@ namespace GymApp14V1.Seeding
                 user.NormalizedUserName = user.UserName.ToUpper();
 
                 _applicationUsers.Add(user);
+
+
             }
 
-            return _applicationUsers.ToList();
+
+            _applicationUsers.Distinct();
+            return _applicationUsers.DistinctBy(n => n.UserName);
         }
 
         private static string ConvertTo(string inpArg)
