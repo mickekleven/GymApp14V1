@@ -12,7 +12,7 @@ namespace GymApp14V1.Data
         {
         }
 
-        public DbSet<GymPass> GymPasses => Set<GymPass>();
+        public DbSet<GymClass> GymPasses => Set<GymClass>();
         public DbSet<ApplicationUser> GymMembers => Set<ApplicationUser>();
 
         //public DbSet<ApplicationUserGymClass> GymRelation => Set<ApplicationUserGymClass>();
@@ -22,7 +22,7 @@ namespace GymApp14V1.Data
             base.OnModelCreating(builder);
 
 
-            builder.Entity<ApplicationUserGymClass>().HasKey(aug => new { aug.GymPassId, aug.MemberId });
+            builder.Entity<ApplicationUserGymClass>().HasKey(aug => new { aug.GymClassId, aug.ApplicationUserId });
 
         }
 

@@ -1,9 +1,9 @@
 ﻿namespace GymApp14V1.Models
 {
 #nullable disable
-    public class GymPass
+    public class GymClass
     {
-        public int GymPassId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime StartTime { get; set; }
         public TimeSpan Duration { get; set; }

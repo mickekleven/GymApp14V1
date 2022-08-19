@@ -39,7 +39,7 @@ namespace GymApp14V1.Controllers
             }
 
             var gymPass = await _context.GymPasses
-                .FirstOrDefaultAsync(m => m.GymPassId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (gymPass == null)
             {
                 return NotFound();
@@ -59,7 +59,7 @@ namespace GymApp14V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GymPassId,Name,StartTime,Duration,Description")] GymPass gymPass)
+        public async Task<IActionResult> Create([Bind("GymPassId,Name,StartTime,Duration,Description")] GymClass gymPass)
         {
             if (ModelState.IsValid)
             {
@@ -91,9 +91,9 @@ namespace GymApp14V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GymPassId,Name,StartTime,Duration,Description")] GymPass gymPass)
+        public async Task<IActionResult> Edit(int id, [Bind("GymPassId,Name,StartTime,Duration,Description")] GymClass gymPass)
         {
-            if (id != gymPass.GymPassId)
+            if (id != gymPass.Id)
             {
                 return NotFound();
             }
@@ -107,7 +107,7 @@ namespace GymApp14V1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GymPassExists(gymPass.GymPassId))
+                    if (!GymPassExists(gymPass.Id))
                     {
                         return NotFound();
                     }
@@ -130,7 +130,7 @@ namespace GymApp14V1.Controllers
             }
 
             var gymPass = await _context.GymPasses
-                .FirstOrDefaultAsync(m => m.GymPassId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (gymPass == null)
             {
                 return NotFound();
@@ -169,7 +169,7 @@ namespace GymApp14V1.Controllers
 
             var gymPass = await _context.GymPasses
                 .Include(x => x.ActiveMembers)
-                .FirstOrDefaultAsync(i => i.GymPassId == int.Parse(id));
+                .FirstOrDefaultAsync(i => i.Id == int.Parse(id));
 
 
 
@@ -182,7 +182,7 @@ namespace GymApp14V1.Controllers
 
         private bool GymPassExists(int id)
         {
-            return (_context.GymPasses?.Any(e => e.GymPassId == id)).GetValueOrDefault();
+            return (_context.GymPasses?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

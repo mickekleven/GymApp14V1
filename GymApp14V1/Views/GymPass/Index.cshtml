@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GymApp14V1.Models.GymPass>
+﻿@model IEnumerable<GymApp14V1.Models.GymClass>
 
 @{
     ViewData["Title"] = "Index";
@@ -43,9 +43,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.GymPassId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GymPassId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GymPassId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
