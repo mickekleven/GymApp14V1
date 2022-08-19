@@ -105,7 +105,7 @@ namespace GymApp14V1.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("ApplicationUserGymClass");
+                    b.ToTable("ApplicationUserGymClass", (string)null);
                 });
 
             modelBuilder.Entity("GymApp14V1.Models.GymClass", b =>
@@ -130,7 +130,7 @@ namespace GymApp14V1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GymPasses");
+                    b.ToTable("GymPasses", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
