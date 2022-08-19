@@ -11,6 +11,7 @@ namespace GymApp14V1.Seeding
         private static IEnumerable<KeyValuePair<string, string>> lastNames;
         private static IEnumerable<KeyValuePair<string, string>> gymPasses;
         private static IEnumerable<KeyValuePair<string, string>> emailProviders;
+        private static IEnumerable<KeyValuePair<string, string>> roles;
 
         public static async Task AddGymData(this WebApplication appl, IConfigurationSection confSection)
         {
@@ -32,13 +33,38 @@ namespace GymApp14V1.Seeding
 
         }
 
+
+        public static async Task AddGymData(this WebApplication appl, ConfigurationManager confManager)
+        {
+            SetSeedDataParams(confManager.GetSection("SeedDataParams"));
+
+            SetSeedRoles(confManager.GetSection("Roles"));
+
+            var test = roles.Select(r => r.Value).ToList();
+
+            using (var scope = appl.Services.CreateScope())
+            {
+                try
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    await db.SeedAsync();
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+
+        }
+
+
         public static async Task SeedAsync(this ApplicationDbContext _db)
         {
             //Remove database
             EnsureDeleted(_db);
 
             //Add Roles
-
+            var _roles = GetRoles();
 
 
             //Add Memeber
@@ -46,6 +72,15 @@ namespace GymApp14V1.Seeding
             //Add GymPasses
 
         }
+
+
+        private static IEnumerable<string> GetRoles()
+        {
+            var _roles = roles.Select(x => x.Value).ToList();
+
+            throw new NotImplementedException();
+        }
+
 
         private static void EnsureDeleted(ApplicationDbContext _db)
         {
@@ -61,6 +96,14 @@ namespace GymApp14V1.Seeding
             lastNames = _confSection.GetSection("LastNames").AsEnumerable();
             gymPasses = _confSection.GetSection("GymPasses").AsEnumerable();
             emailProviders = _confSection.GetSection("EmailProviders").AsEnumerable();
+
+        }
+
+        private static void SetSeedRoles(IConfigurationSection _confSection)
+        {
+            //roles = _confSection.GetValue<string>("")
+
+            throw new NotImplementedException();
         }
     }
 }
