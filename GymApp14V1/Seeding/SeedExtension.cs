@@ -160,10 +160,10 @@ namespace GymApp14V1.Seeding
             emailProviders = _confSection.GetSection("EmailProviders").AsEnumerable();
             gymClasses = _confSection.GetSection("GymClasses").AsEnumerable();
 
-            firstNames = firstNames.Where(r => r.Value is not null);
-            lastNames = lastNames.Where(r => r.Value is not null);
-            emailProviders = emailProviders.Where(r => r.Value is not null);
-            gymClasses = gymClasses.Where(r => r.Value is not null);
+            firstNames = firstNames.Where(r => r.Value is not null).ToList();
+            lastNames = lastNames.Where(r => r.Value is not null).ToList();
+            emailProviders = emailProviders.Where(r => r.Value is not null).ToList();
+            gymClasses = gymClasses.Where(r => r.Value is not null).ToList();
         }
 
         private static void SetSeedRoles(IConfigurationSection _confSection)
