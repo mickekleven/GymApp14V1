@@ -1,4 +1,5 @@
 ﻿using GymApp14V1.Data;
+using GymApp14V1.Extensions;
 using GymApp14V1.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -111,7 +112,7 @@ namespace GymApp14V1.Seeding
                 user.FirstName = firstNames.ElementAt(rnd.Next(0, firstNames.Count())).Value;
                 user.LastName = lastNames.ElementAt(rnd.Next(0, lastNames.Count())).Value;
                 user.Email = ConvertTo($"{user.FirstName}.{user.LastName}@{emailProviders.ElementAt(rnd.Next(0, emailProviders.Count())).Value}");
-                user.PasswordHash = seedPwd;
+                user.PasswordHash = seedPwd.HashPassword();
                 user.UserName = $"{user.FirstName}{user.LastName}";
                 user.NormalizedEmail = ConvertTo(user.Email.ToUpper());
                 user.NormalizedUserName = user.UserName.ToUpper();
