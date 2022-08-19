@@ -1,5 +1,6 @@
 using GymApp14V1.Data;
 using GymApp14V1.Models;
+using GymApp14V1.Seeding;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,12 @@ var app = builder.Build();
 
 //ToDo: skapa seedningen här.
 // Seeda roller (Admin, Member)
+
+var seedParams = builder.Configuration.GetSection("SeedDataParams");
+if (seedParams.GetValue<bool>("IsSeedDatabase"))
+{
+    await app.AddGymData(seedParams);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
