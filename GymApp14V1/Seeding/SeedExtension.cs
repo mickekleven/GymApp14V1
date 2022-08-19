@@ -14,12 +14,8 @@ namespace GymApp14V1.Seeding
 
         public static async Task AddGymData(this WebApplication appl, IConfigurationSection confSection)
         {
-            numberOfSeedItems = confSection.GetValue<int>("NumberOfSeedItems");
-            firstNames = confSection.GetSection("FirstNames").AsEnumerable();
-            lastNames = confSection.GetSection("LastNames").AsEnumerable();
-            gymPasses = confSection.GetSection("GymPasses").AsEnumerable();
-            emailProviders = confSection.GetSection("EmailProviders").AsEnumerable();
 
+            SetSeedDataParams(confSection);
 
             using (var scope = appl.Services.CreateScope())
             {
@@ -55,6 +51,16 @@ namespace GymApp14V1.Seeding
         {
             _db.Database.EnsureDeleted();
             _db.Database.Migrate();
+        }
+
+
+        private static void SetSeedDataParams(IConfigurationSection _confSection)
+        {
+            numberOfSeedItems = _confSection.GetValue<int>("NumberOfSeedItems");
+            firstNames = _confSection.GetSection("FirstNames").AsEnumerable();
+            lastNames = _confSection.GetSection("LastNames").AsEnumerable();
+            gymPasses = _confSection.GetSection("GymPasses").AsEnumerable();
+            emailProviders = _confSection.GetSection("EmailProviders").AsEnumerable();
         }
     }
 }
