@@ -124,8 +124,6 @@ namespace GymApp14V1.Seeding
 
             }
 
-
-            _applicationUsers.Distinct();
             return _applicationUsers.DistinctBy(n => n.UserName);
         }
 
