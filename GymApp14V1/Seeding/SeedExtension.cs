@@ -1,5 +1,4 @@
 ﻿using GymApp14V1.Data;
-using GymApp14V1.Extensions;
 using GymApp14V1.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +28,10 @@ namespace GymApp14V1.Seeding
                 try
                 {
                     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                    await db.SeedAsync();
+
+                    var pwdHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<ApplicationUser>>();
+
+                    //await db.SeedAsync();
                 }
                 catch (Exception e)
                 {
@@ -54,7 +56,10 @@ namespace GymApp14V1.Seeding
                 try
                 {
                     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                    await db.SeedAsync();
+
+                    var pwdHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<ApplicationUser>>();
+
+                    await db.SeedAsync(pwdHasher);
                 }
                 catch (Exception e)
                 {
@@ -64,7 +69,7 @@ namespace GymApp14V1.Seeding
         }
 
 
-        public static async Task SeedAsync(this ApplicationDbContext _db)
+        public static async Task SeedAsync(this ApplicationDbContext _db, IPasswordHasher<ApplicationUser> _pwdHasher)
         {
             //Remove database
             EnsureDeleted(_db);
@@ -74,7 +79,7 @@ namespace GymApp14V1.Seeding
             _db.Roles.AddRange(_roles);
 
             //Get Member
-            var _members = GetMember();
+            var _members = GetMember(_pwdHasher);
             _db.Users.AddRange(_members);
 
             //Add GymPasses
@@ -146,7 +151,7 @@ namespace GymApp14V1.Seeding
             return _roles;
         }
 
-        private static IEnumerable<ApplicationUser> GetMember()
+        private static IEnumerable<ApplicationUser> GetMember(IPasswordHasher<ApplicationUser> pwdHasher)
         {
             List<ApplicationUser> _applicationUsers = new();
 
@@ -158,7 +163,8 @@ namespace GymApp14V1.Seeding
                 user.FirstName = firstNames.ElementAt(rnd.Next(0, firstNames.Count())).Value;
                 user.LastName = lastNames.ElementAt(rnd.Next(0, lastNames.Count())).Value;
                 user.Email = ConvertTo($"{user.FirstName.ToLower()}.{user.LastName.ToLower()}@{emailProviders.ElementAt(rnd.Next(0, emailProviders.Count())).Value}");
-                user.PasswordHash = seedPwd.HashPassword();
+                //user.PasswordHash = seedPwd.HashPassword();
+                user.PasswordHash = pwdHasher.HashPassword(user, seedPwd);
                 user.UserName = $"{user.FirstName}{user.LastName}";
                 user.NormalizedEmail = ConvertTo(user.Email.ToUpper());
                 user.NormalizedUserName = user.UserName.ToUpper();

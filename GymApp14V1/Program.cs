@@ -20,6 +20,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
+builder.Services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
+
 var app = builder.Build();
 
 
