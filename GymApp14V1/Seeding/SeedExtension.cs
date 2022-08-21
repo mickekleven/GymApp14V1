@@ -141,7 +141,7 @@ namespace GymApp14V1.Seeding
             var days = rnd.Next(10);
 
             var _gymClasses = gymClasses.Where(r => r.Value is not null)
-                .Select(l => new GymClass { Description = l.Value, Duration = new TimeSpan(3), Name = l.Value, StartTime = DateTime.Now.AddDays(rnd.Next(10)) });
+                .Select(l => new GymClass { Description = l.Value, Duration = TimeSpan.FromHours(2), Name = l.Value, StartTime = DateTime.Now.AddDays(rnd.Next(10)) });
 
             return _gymClasses;
         }
@@ -161,7 +161,6 @@ namespace GymApp14V1.Seeding
             seedPwd = _confSection.GetValue<string>("SeedPwd");
             firstNames = _confSection.GetSection("FirstNames").AsEnumerable();
             lastNames = _confSection.GetSection("LastNames").AsEnumerable();
-            gymPasses = _confSection.GetSection("GymPasses").AsEnumerable();
             emailProviders = _confSection.GetSection("EmailProviders").AsEnumerable();
             gymClasses = _confSection.GetSection("GymClasses").AsEnumerable();
 
