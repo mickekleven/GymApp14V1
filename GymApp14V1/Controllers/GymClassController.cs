@@ -1,5 +1,7 @@
-﻿using GymApp14V1.Data;
+﻿using AutoMapper;
+using GymApp14V1.Data;
 using GymApp14V1.Models;
+using GymApp14V1.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +13,17 @@ namespace GymApp14V1.Controllers
     public class GymClassController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public GymClassController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+
+        public GymClassController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _context = context;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
 
@@ -178,6 +184,19 @@ namespace GymApp14V1.Controllers
 
 
         }
+
+
+        [HttpGet, ActionName("GetGympasses")]
+        public async Task<IActionResult> GetGymClassesAsync()
+        {
+            var getResult = await _mapper
+                .ProjectTo<GymClassViewModel>(_context.GymPasses)
+                .OrderBy(o => o.Name).ToListAsync();
+
+            return View(getResult);
+
+        }
+
 
 
         private bool GymPassExists(int id)

@@ -27,9 +27,15 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="GymClasses">Gym Classes</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Booking</a>
-                        </li>
+
+                        @if (User is not null && User.Identity.IsAuthenticated) {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Booking</a>
+                            </li>
+                        }
+
+
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

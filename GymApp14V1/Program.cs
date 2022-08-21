@@ -1,3 +1,4 @@
+using GymApp14V1.AutoMapper;
 using GymApp14V1.Data;
 using GymApp14V1.Models;
 using GymApp14V1.Seeding;
@@ -16,6 +17,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(typeof(MapProfile));
 
 var app = builder.Build();
 
