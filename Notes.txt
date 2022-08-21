@@ -1,0 +1,12 @@
+
+Target tables within this project
+
+Note: Seed is performed on these tables as default
+SELECT * FROM [GymAppDBInstance].[dbo].[AspNetUsers]
+SELECT * FROM [GymAppDBInstance].[dbo].[AspNetRoles]
+SELECT * FROM [GymAppDBInstance].[dbo].[AspNetUserRoles]
+SELECT * FROM [GymAppDBInstance].[dbo].[GymPasses]
+SELECT * FROM [GymAppDBInstance].[dbo].[ApplicationUserGymClass]
+
+Disble the seed?
+Set flag IsSeedDatabase to false in appsettings.json
