@@ -200,9 +200,7 @@ namespace GymApp14V1.Controllers
         [HttpGet, ActionName("GymClasses")]
         public async Task<IActionResult> GetGymClassesAsync()
         {
-            var getResult = await _mapper
-                .ProjectTo<GymClassViewModel>(_context.GymPasses)
-                .OrderBy(o => o.Name).ToListAsync();
+            var getResult = await GetAllGymClassesAsync();
 
             return View("GymClassListView", getResult);
         }
@@ -239,8 +237,10 @@ namespace GymApp14V1.Controllers
             await _context.GymPasses.FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
 
 
-        private async Task<IEnumerable<GymClassViewModel>> GetAllAsync() =>
-            await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses).ToListAsync();
+        private async Task<IEnumerable<GymClassViewModel>> GetAllGymClassesAsync() =>
+            await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses)
+            .OrderBy(a => a.Name)
+            .ToListAsync();
 
 
         // *******************************************************************
