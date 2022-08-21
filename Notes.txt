@@ -10,3 +10,6 @@ SELECT * FROM [GymAppDBInstance].[dbo].[ApplicationUserGymClass]
 
 Disble the seed?
 Set flag IsSeedDatabase to false in appsettings.json
+
+Set the amount of seed records?
+Adjust the NumberOfSeedItems value in appsettings.json. The value is 40 as default
