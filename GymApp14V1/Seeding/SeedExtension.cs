@@ -109,7 +109,7 @@ namespace GymApp14V1.Seeding
                 appUsrGymClasses.Add(appUsrGymClass);
             }
 
-            return appUsrGymClasses;
+            return appUsrGymClasses.ToList();
         }
 
         private static IEnumerable<IdentityUserRole<string>> ReferenceUsersAndRoles(IEnumerable<ApplicationUser> users, IEnumerable<IdentityRole> _roles)
