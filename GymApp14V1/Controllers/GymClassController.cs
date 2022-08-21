@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymApp14V1.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class GymClassController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -185,7 +185,7 @@ namespace GymApp14V1.Controllers
 
         }
 
-
+        [AllowAnonymous]
         [HttpGet, ActionName("GymClasses")]
         public async Task<IActionResult> GetGymClassesAsync()
         {
