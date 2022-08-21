@@ -31,8 +31,10 @@ namespace GymApp14V1.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+
+
             return _context.GymPasses != null ?
-                        View(await _context.GymPasses.ToListAsync()) :
+                        View(await GetGymClassesAsync()) :
                         Problem("Entity set 'ApplicationDbContext.GymPasses'  is null.");
         }
 
@@ -180,7 +182,16 @@ namespace GymApp14V1.Controllers
         public async Task<IActionResult> BookingToggleAsync()
         {
             var member = await GetMemberVMAsync(User.Identity.Name);
-            if (member is null) { return NotFound(); }
+            if (member is null)
+            {
+                var info = new BookingViewModel
+                {
+                    MemberAction = MemberAction.UserMessage,
+                    UserMessage = "You are not logged in"
+                };
+
+                return View("../Bookings/Booking", info);
+            }
 
             var gymClasses = await GetGymClassesAsync();
 
@@ -225,7 +236,7 @@ namespace GymApp14V1.Controllers
             };
 
 
-            return View("../GymClass/BookingView", bookingVM);
+            return View("../Bookings/Booking", bookingVM);
         }
 
         [AllowAnonymous]

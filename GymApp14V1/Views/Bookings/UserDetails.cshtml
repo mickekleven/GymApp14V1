@@ -1,0 +1,28 @@
+﻿@model GymApp14V1.Models.ViewModels.BookingViewModel
+
+
+
+<div>
+
+    <H1 class="display-4 text-uppercase">Member</H1>
+    <p>@Model.Member.FirstName @Model.Member.LastName</p>
+    <p>Member since:</p>
+    <hr />
+
+
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.FirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Member.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Member.Email)
+        </dt>
+    </dl>
+</div>
+<div>
+    <a asp-controller="GymClass" asp-action="UserDetails" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
