@@ -13,6 +13,9 @@ namespace GymApp14V1.AutoMapper
             CreateMap<GymClass, GymClassViewModel>();
             CreateMap<GymClass, GymClassViewModel>().ReverseMap();
 
+            CreateMap<ApplicationUser, MemberViewModel>();
+            CreateMap<ApplicationUser, MemberViewModel>().ReverseMap();
+
         }
 
     }

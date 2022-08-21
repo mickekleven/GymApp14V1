@@ -247,7 +247,23 @@ namespace GymApp14V1.Controllers
         // Member queries - private
         // *******************************************************************
 
+        private async Task<MemberViewModel> GetMemberVMAsync(string _memberId)
+        {
+            var member = await GetMemberAsync(_memberId);
 
-        // Todo: Add MemberGetAsync(), GetMemberVMAsync(), GetAllAsync() 
+            return _mapper.Map<MemberViewModel>(member);
+        }
+
+
+        private async Task<ApplicationUser> GetMemberAsync(string _memberId) =>
+                                                await _userManager.FindByIdAsync(_memberId);
+
+
+        private async Task<IEnumerable<MemberViewModel>> GetAllMemberAsync()
+        {
+            return await _mapper.ProjectTo<MemberViewModel>(_context.Users)
+                .OrderBy(a => a.FirstName)
+                .ToListAsync();
+        }
     }
 }
