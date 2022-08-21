@@ -114,6 +114,8 @@ namespace GymApp14V1.Areas.Identity.Pages.Account
 
                 var _user = await _userManager.FindByEmailAsync(Input.Email);
 
+                var _isValid = await _userManager.CheckPasswordAsync(_user, Input.Password);
+
                 var result = await _signInManager.PasswordSignInAsync(_user.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
