@@ -112,11 +112,8 @@ namespace GymApp14V1.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
 
-                var _user = await _userManager.FindByEmailAsync(Input.Email);
 
-                var _isValid = await _userManager.CheckPasswordAsync(_user, Input.Password);
-
-                var result = await _signInManager.PasswordSignInAsync(_user.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
