@@ -186,14 +186,14 @@ namespace GymApp14V1.Controllers
         }
 
 
-        [HttpGet, ActionName("GetGymClasses")]
+        [HttpGet, ActionName("GymClasses")]
         public async Task<IActionResult> GetGymClassesAsync()
         {
             var getResult = await _mapper
                 .ProjectTo<GymClassViewModel>(_context.GymPasses)
                 .OrderBy(o => o.Name).ToListAsync();
 
-            return View(getResult);
+            return View("GymClassListView", getResult);
         }
 
 

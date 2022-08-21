@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using GymApp14V1.Models.ViewModels;
 
 namespace GymApp14V1.Data
 {
@@ -25,6 +26,10 @@ namespace GymApp14V1.Data
                 .HasKey(aug => new { aug.GymClassId, aug.ApplicationUserId });
 
         }
+
+        //public DbSet<ApplicationUserGymClass> GymRelation => Set<ApplicationUserGymClass>();
+
+        public DbSet<GymApp14V1.Models.ViewModels.GymClassViewModel>? GymClassViewModel { get; set; }
 
 
     }
