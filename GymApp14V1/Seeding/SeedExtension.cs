@@ -147,7 +147,6 @@ namespace GymApp14V1.Seeding
         }
 
 
-
         private static void EnsureDeleted(ApplicationDbContext _db)
         {
             _db.Database.EnsureDeleted();
