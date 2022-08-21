@@ -133,11 +133,6 @@ namespace GymApp14V1.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
 
 
-                user.UserName = await CheckUserName($"{user.FirstName}{user.LastName}");
-
-
-
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -147,6 +142,13 @@ namespace GymApp14V1.Areas.Identity.Pages.Account
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+
+                    await _userManager.AddToRoleAsync(user, "Member");
+
+
+
+
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,

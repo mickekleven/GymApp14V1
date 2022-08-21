@@ -7,7 +7,7 @@
 
     @foreach (var vt in Model.GymClasses)
     {
-        <option value="@vt.Id">@vt.Name</option>
+        <option value="@vt.Id"><span class="text-primary">@vt.Name</span> | Date: @vt.StartTime.ToString("yyyy-MM-dd hh:mm")</option>
     }
 </select>
 
