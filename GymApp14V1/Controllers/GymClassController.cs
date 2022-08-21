@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 namespace GymApp14V1.Controllers
 {
     //[Authorize]
-    public class GymPassController : Controller
+    public class GymClassController : Controller
     {
         private readonly ApplicationDbContext _context;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public GymPassController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public GymClassController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -168,7 +168,7 @@ namespace GymApp14V1.Controllers
             if (member is null) { return NotFound(); }
 
             var gymPass = await _context.GymPasses
-                .Include(x => x.ActiveMembers)
+                .Include(x => x.AttendingMembers)
                 .FirstOrDefaultAsync(i => i.Id == int.Parse(id));
 
 

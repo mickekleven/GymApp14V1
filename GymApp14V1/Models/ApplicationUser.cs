@@ -8,6 +8,6 @@ namespace GymApp14V1.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public ICollection<ApplicationUserGymClass> GymPasses { get; set; }
+        public ICollection<ApplicationUserGymClass> AttendedClasses { get; set; }
     }
 }
