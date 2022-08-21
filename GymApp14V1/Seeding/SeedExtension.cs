@@ -138,13 +138,12 @@ namespace GymApp14V1.Seeding
 
         private static IEnumerable<GymClass> GetGymClasses(IEnumerable<ApplicationUser> _users)
         {
-            var days = rnd.Next(10);
 
             var _gymClasses = gymClasses.Where(r => r.Value is not null)
                 .Select(l => new GymClass
                 {
                     Description = l.Value,
-                    Duration = TimeSpan.FromHours(2),
+                    Duration = TimeSpan.FromHours(rnd.Next(1, 5)),
                     Name = l.Value,
                     StartTime = DateTime.Now.AddDays(rnd.Next(10))
                 });
