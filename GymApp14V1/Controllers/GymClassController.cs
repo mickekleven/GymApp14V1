@@ -176,24 +176,56 @@ namespace GymApp14V1.Controllers
         }
 
 
-        [HttpPost, ActionName("BookingToggle")]
-        public async Task<IActionResult> BookingToggleAsync(string id)
+        [HttpGet, ActionName("BookingToggle")]
+        public async Task<IActionResult> BookingToggleAsync()
         {
-            if (string.IsNullOrWhiteSpace(id)) { return NotFound(); }
-
-            var member = await _userManager.FindByNameAsync(User.Identity.Name);
+            var member = await GetMemberVMAsync(User.Identity.Name);
             if (member is null) { return NotFound(); }
 
-            var gymPass = await _context.GymPasses
-                .Include(x => x.AttendingMembers)
-                .FirstOrDefaultAsync(i => i.Id == int.Parse(id));
+            var gymClasses = await GetGymClassesAsync();
+
+            var bookingVM = new BookingViewModel
+            {
+                Member = member,
+                GymClasses = await GetAllGymClassesAsync(),
+                MemberAction = MemberAction.Add
+            };
+
+            return View("../GymClass/BookingView", bookingVM);
+        }
 
 
+        [HttpPost, ActionName("BookingToggle")]
+        public async Task<IActionResult> BookingToggleAsync(BookingViewModel model)
+        {
+            if (model.GymClassId == 0) { return NotFound(); }
+
+            var member = await GetMemberAsync(User.Identity.Name);
+            if (member is null) { return NotFound(); }
+
+            var gymClass = await GetGymClassAsync(model.GymClassId.ToString());
+            if (gymClass is null) { return NotFound(); }
+
+            var appUserGymClass = new ApplicationUserGymClass
+            {
+                ApplicationUser = member,
+                GymClass = gymClass
+            };
+
+            _context.Add(appUserGymClass);
+            var addResult = await _context.SaveChangesAsync();
 
 
-            throw new NotImplementedException();
+            var bookingVM = new BookingViewModel
+            {
+                MemberAction = MemberAction.UserMessage,
+                UserMessage = addResult > 0
+                    ? $"You are now added as participant to {gymClass.Name}"
+                    : "Opps! Something went wrong during this action"
+            };
 
 
+            return View("../GymClass/BookingView", bookingVM);
         }
 
         [AllowAnonymous]
@@ -247,6 +279,9 @@ namespace GymApp14V1.Controllers
         // Member queries - private
         // *******************************************************************
 
+
+
+
         private async Task<MemberViewModel> GetMemberVMAsync(string _memberId)
         {
             var member = await GetMemberAsync(_memberId);
@@ -255,8 +290,31 @@ namespace GymApp14V1.Controllers
         }
 
 
-        private async Task<ApplicationUser> GetMemberAsync(string _memberId) =>
-                                                await _userManager.FindByIdAsync(_memberId);
+        private async Task<ApplicationUser> GetMemberAsync(string _memberIdOrName)
+        {
+
+            if (string.IsNullOrWhiteSpace(_memberIdOrName))
+            {
+                throw new ArgumentNullException(_memberIdOrName, "Argument is null or empty");
+            }
+
+            var isGuid = Guid.TryParse(_memberIdOrName, out Guid _guid);
+
+            ApplicationUser _user;
+
+            if (isGuid)
+            {
+                _user = await _userManager.FindByIdAsync(_memberIdOrName);
+            }
+            else
+            {
+                _user = await _userManager.FindByNameAsync(_memberIdOrName);
+            }
+
+            return _user;
+
+        }
+
 
 
         private async Task<IEnumerable<MemberViewModel>> GetAllMemberAsync()

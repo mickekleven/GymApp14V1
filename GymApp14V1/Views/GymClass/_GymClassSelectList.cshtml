@@ -1,11 +1,13 @@
-﻿@model IEnumerable<GymClassViewModel>
+﻿@model MemberViewModel
 
 
+<select asp-for="GymClassId" class="form-select">
 
-@*<select asp-for="">
-    <option value="">-Select-</option>
-    @foreach (var yc in Model)
+    <option value="">-Välj ägare-</option>
+
+    @foreach (var vt in Model.GymClasses)
     {
-       <option value="@yc.Id">@yc.Name</option>
+        <option value="@vt.Id">@vt.Name</option>
     }
-</select>*@
+</select>
+
