@@ -4,7 +4,7 @@
     {
 
         /// <summary>
-        /// Set Daytime e.g 9am, 12:00, afternoon and evening
+        /// Set Daytime e.g 9am, 12:00, morning, afternoon, evening
         /// Args: 0 = Morning time from 09:00
         /// Args: 1 = LunchTime from 12:15
         /// Args: 2 = EveningTime from 19:00

@@ -141,10 +141,18 @@ namespace GymApp14V1.Seeding
             var days = rnd.Next(10);
 
             var _gymClasses = gymClasses.Where(r => r.Value is not null)
-                .Select(l => new GymClass { Description = l.Value, Duration = TimeSpan.FromHours(2), Name = l.Value, StartTime = DateTime.Now.AddDays(rnd.Next(10)) });
+                .Select(l => new GymClass
+                {
+                    Description = l.Value,
+                    Duration = TimeSpan.FromHours(2),
+                    Name = l.Value,
+                    StartTime = DateTime.Now.AddDays(rnd.Next(10))
+                });
 
             return _gymClasses;
         }
+
+
 
 
         private static void EnsureDeleted(ApplicationDbContext _db)
