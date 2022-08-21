@@ -192,7 +192,7 @@ namespace GymApp14V1.Seeding
                     StartTime = DateTime.Now.AddDays(rnd.Next(10))
                 });
 
-            return _gymClasses;
+            return _gymClasses.ToList();
         }
 
 
