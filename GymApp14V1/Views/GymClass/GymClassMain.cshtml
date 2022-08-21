@@ -1,14 +1,20 @@
 ﻿@model IEnumerable<GymApp14V1.Models.ViewModels.GymClassViewModel>
 
-@{
-    ViewData["Title"] = "GymClassListView";
-}
 
 <h1>GymClassListView</h1>
 
 <p>
     <a asp-action="Create">Add Gym Class</a>
 </p>
+
+<p>
+    <a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Register">Register</a>
+</p>
+
+<p>
+    <a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Login">Login</a>
+</p>
+
 
 <p class="text-primary fw-bold"> Number of Gym classes: @Model.Count()</p>
 

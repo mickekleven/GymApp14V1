@@ -245,7 +245,7 @@ namespace GymApp14V1.Controllers
         {
             var getResult = await GetAllGymClassesAsync();
 
-            return View("GymClassListView", getResult);
+            return View("GymClassMain", getResult);
         }
 
 
