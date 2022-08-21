@@ -186,7 +186,7 @@ namespace GymApp14V1.Controllers
         }
 
 
-        [HttpGet, ActionName("GetGympasses")]
+        [HttpGet, ActionName("GetGymClasses")]
         public async Task<IActionResult> GetGymClassesAsync()
         {
             var getResult = await _mapper
@@ -194,7 +194,6 @@ namespace GymApp14V1.Controllers
                 .OrderBy(o => o.Name).ToListAsync();
 
             return View(getResult);
-
         }
 
 
