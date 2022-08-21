@@ -2,6 +2,17 @@
 {
     public static class DateTimeExtension
     {
+
+        /// <summary>
+        /// Set Daytime e.g 9am, 12:00, afternoon and evening
+        /// Args: 0 = Current Day 2 hours ahead
+        /// Args: 1 = One day ahead, time 09:00
+        /// Args: 2 = One day ahead, time 12:15
+        /// Args: 3 = Current day, 2 hours ahead
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="dayTimeOpt"></param>
+        /// <returns></returns>
         public static DateTime SetDayTime(this DateTime value, int dayTimeOpt = 0)
         {
             var dateTimeNow = DateTime.Now.AddDays(1);
