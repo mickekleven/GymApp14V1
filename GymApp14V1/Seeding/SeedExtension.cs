@@ -82,16 +82,34 @@ namespace GymApp14V1.Seeding
             var gymClasses = GetGymClasses(_members);
             _db.AddRange(gymClasses);
 
-            //Todo: Reference Member and roles
+            //References User with indentityRole
             var identUserRoles = ReferenceUsersAndRoles(_members, _roles);
             _db.AddRange(identUserRoles);
 
-
-
-
             //ToDo: Add GymClasses and members
+            var userAndGymClasses = ReferenceUserAndGymClass(_members, gymClasses);
+            _db.AddRange(userAndGymClasses);
 
             await _db.SaveChangesAsync();
+        }
+
+        private static IEnumerable<ApplicationUserGymClass> ReferenceUserAndGymClass(IEnumerable<ApplicationUser> members, IEnumerable<GymClass> gymClasses)
+        {
+            ApplicationUserGymClass appUsrGymClass;
+            List<ApplicationUserGymClass> appUsrGymClasses = new();
+
+            foreach (var memb in members)
+            {
+                appUsrGymClass = new ApplicationUserGymClass
+                {
+                    ApplicationUser = memb,
+                    GymClass = gymClasses.ElementAt(rnd.Next(gymClasses.Count()))
+                };
+
+                appUsrGymClasses.Add(appUsrGymClass);
+            }
+
+            return appUsrGymClasses;
         }
 
         private static IEnumerable<IdentityUserRole<string>> ReferenceUsersAndRoles(IEnumerable<ApplicationUser> users, IEnumerable<IdentityRole> _roles)
