@@ -133,7 +133,7 @@ namespace GymApp14V1.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
 
 
-                user.UserName = await CheckUserName($"{user.FirstName}{user.FirstName}");
+                user.UserName = await CheckUserName($"{user.FirstName}{user.LastName}");
 
 
 

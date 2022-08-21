@@ -164,10 +164,10 @@ namespace GymApp14V1.Seeding
                 user.LastName = lastNames.ElementAt(rnd.Next(0, lastNames.Count())).Value;
                 user.Email = ConvertTo($"{user.FirstName.ToLower()}.{user.LastName.ToLower()}@{emailProviders.ElementAt(rnd.Next(0, emailProviders.Count())).Value}");
                 //user.PasswordHash = seedPwd.HashPassword();
-                user.PasswordHash = pwdHasher.HashPassword(user, seedPwd);
                 user.UserName = $"{user.FirstName}{user.LastName}";
                 user.NormalizedEmail = ConvertTo(user.Email.ToUpper());
                 user.NormalizedUserName = user.UserName.ToUpper();
+                user.PasswordHash = pwdHasher.HashPassword(user, seedPwd);
 
                 _applicationUsers.Add(user);
 
