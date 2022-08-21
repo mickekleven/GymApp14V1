@@ -7,8 +7,12 @@
 <h1>GymClassListView</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add Gym Class</a>
 </p>
+
+<p class="text-primary fw-bold"> Number of Gym classes: @Model.Count()</p>
+
+
 <table class="table">
     <thead>
         <tr>
