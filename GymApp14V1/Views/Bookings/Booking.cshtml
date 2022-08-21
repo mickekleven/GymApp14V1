@@ -1,0 +1,54 @@
+﻿@model GymApp14V1.Models.ViewModels.BookingViewModel
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <h1 class="display-1 fw-bold">Booking</h1>
+        <p class="display-6">You are fully free to change or delete this booking as last 2 hours before it starts</p>
+    </div>
+    <hr />
+
+    @if (Model.MemberAction == MemberAction.Add)
+    {
+        <div class="col-md-4">
+            <form asp-controller="GymClass" asp-action="AddBooking">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <partial name="../Bookings/_GymClassSelectList"></partial>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
+            </form>
+        </div>
+    }
+    else if (Model.MemberAction == MemberAction.UserMessage) {
+
+
+        <h1 class="display-4 fw-bold">Booking OK</h1>
+
+        <h1 class="display-4 fw-bold">Booking to our Gymclasses</h1>
+    }
+
+
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -78,7 +78,7 @@ namespace GymApp14V1.Controllers
 
 
         [Authorize(Roles = "Administrator, Member")]
-        [HttpGet, ActionName("Booking")]
+        [HttpGet, ActionName("BookingXX")]
         public async Task<IActionResult> BookingAsync(string gymClassId)
         {
             if (string.IsNullOrWhiteSpace(gymClassId)) { return NotFound(); }
@@ -176,7 +176,7 @@ namespace GymApp14V1.Controllers
         }
 
 
-        [HttpGet, ActionName("BookingToggle")]
+        [HttpGet, ActionName("Booking")]
         public async Task<IActionResult> BookingToggleAsync()
         {
             var member = await GetMemberVMAsync(User.Identity.Name);
@@ -191,11 +191,11 @@ namespace GymApp14V1.Controllers
                 MemberAction = MemberAction.Add
             };
 
-            return View("../GymClass/BookingView", bookingVM);
+            return View("../Bookings/Booking", bookingVM);
         }
 
 
-        [HttpPost, ActionName("BookingToggle")]
+        [HttpPost, ActionName("Booking")]
         public async Task<IActionResult> BookingToggleAsync(BookingViewModel model)
         {
             if (model.GymClassId == 0) { return NotFound(); }
