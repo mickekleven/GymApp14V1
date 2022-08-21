@@ -11,6 +11,7 @@ namespace GymApp14V1.AutoMapper
         public MapProfile()
         {
             CreateMap<GymClass, GymClassViewModel>();
+            CreateMap<GymClass, GymClassViewModel>().ReverseMap();
 
         }
 

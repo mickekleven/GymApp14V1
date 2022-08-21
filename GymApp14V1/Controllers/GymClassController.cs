@@ -76,6 +76,17 @@ namespace GymApp14V1.Controllers
             return View(gymPass);
         }
 
+
+        [Authorize(Roles = "Administrator, Member")]
+        [HttpGet, ActionName("Booking")]
+        public async Task<IActionResult> BookingAsync(string gymClassId)
+        {
+            if (string.IsNullOrWhiteSpace(gymClassId)) { return NotFound(); }
+            var getResult = await GetGymClassVMAsync(gymClassId);
+            return View(getResult);
+        }
+
+
         // GET: GymPass/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -202,5 +213,41 @@ namespace GymApp14V1.Controllers
         {
             return (_context.GymPasses?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        // *******************************************************************
+        // Gymclass queries - private
+        // *******************************************************************
+
+        /// <summary>
+        /// Returns ViewModel
+        /// </summary>
+        /// <param name="_gymClassId"></param>
+        /// <returns></returns>
+        private async Task<GymClassViewModel?> GetGymClassVMAsync(string _gymClassId)
+        {
+            return await _mapper.
+                ProjectTo<GymClassViewModel>(_context.GymPasses)
+                .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
+        }
+
+        /// <summary>
+        /// Returns Entity
+        /// </summary>
+        /// <param name="_gymClassId"></param>
+        /// <returns></returns>
+        private async Task<GymClass?> GetGymClassAsync(string _gymClassId) =>
+            await _context.GymPasses.FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
+
+
+        private async Task<IEnumerable<GymClassViewModel>> GetAllAsync() =>
+            await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses).ToListAsync();
+
+
+        // *******************************************************************
+        // Member queries - private
+        // *******************************************************************
+
+
+        // Todo: Add MemberGetAsync(), GetMemberVMAsync(), GetAllAsync() 
     }
 }
