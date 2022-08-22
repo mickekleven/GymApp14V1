@@ -108,17 +108,21 @@ namespace GymApp14V1.Controllers
         {
             if (id == null) { return NotFound(); }
 
-            var gymPass = await GetGymClassVMAsync(id.ToString());
-            if (gymPass == null) { return NotFound(); }
-            return View("../GymClass/GymClassEdit", gymPass);
+            var getResult = await GetGymClassVMAsync(id.ToString());
+            if (getResult == null) { return NotFound(); }
+
+
+            getResult.PageHeader = GetPageHeader("Update GymClass", "CRUD operation");
+
+
+            return View("../GymClass/GymClassEdit", getResult);
+
         }
 
-        // POST: GymPass/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, GymClassViewModel model)
+        public async Task<IActionResult> EditAsync(int id, GymClassViewModel model)
         {
             if (id != model.Id) { return NotFound(); }
 
@@ -152,39 +156,30 @@ namespace GymApp14V1.Controllers
             return View("../GymClass/Index");
         }
 
-        // GET: GymPass/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [Authorize(Roles = "Administrator")]
+        [HttpGet, ActionName("Delete")]
+        public async Task<IActionResult> DeleteAsync(int? id)
         {
-            if (id == null || _context.GymPasses == null)
-            {
-                return NotFound();
-            }
+            if (id == null) { return NotFound(); }
 
-            var gymPass = await _context.GymPasses
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (gymPass == null)
-            {
-                return NotFound();
-            }
+            var gymClass = await GetGymClassVMAsync(id.ToString());
+            if (gymClass == null) { return NotFound(); }
 
-            return View(gymPass);
+            gymClass.PageHeader = GetPageHeader("Delete GymClass", "CRUD operation");
+
+            return View("../GymClass/GymClassDelete", gymClass);
+
         }
 
-        // POST: GymPass/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
+        [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmedAsync(int id)
         {
-            if (_context.GymPasses == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.GymPasses'  is null.");
-            }
-            var gymPass = await _context.GymPasses.FindAsync(id);
-            if (gymPass != null)
-            {
-                _context.GymPasses.Remove(gymPass);
-            }
+            var entity = await GetGymClassAsync(id.ToString());
+            if (entity is null) { return NotFound(); }
 
+            _context.GymPasses.Remove(entity);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
