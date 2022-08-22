@@ -36,6 +36,10 @@
     <tbody>
         @foreach (var item in Model)
         {
+            @if (User?.Identity?.Name?.ToLower() == item.Email) {
+
+            }
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.FirstName)
