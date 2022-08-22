@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<GymApp14V1.Core.ViewModels.GymClassViewModel>
 
-@{
-    ViewData["Title"] = "GymClass start";
+
+@if (ViewBag.PageHeader is not null) {
+    <partial name="_PageHeader" model="ViewBag.PageHeader"></partial>
 }
 
-<h1>Welcome to Gainer Gym</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-info btn-lg mt-4" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>

@@ -17,5 +17,7 @@
 
         public string UserMessage { get; set; }
 
+        public PageHeaderViewModel PageHeader { get; set; }
+
     }
 }

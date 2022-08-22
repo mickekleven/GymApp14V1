@@ -15,5 +15,8 @@ namespace GymApp14V1.Core.ViewModels
         public TimeSpan Duration { get; set; }
         public DateTime EndTime => StartTime + Duration;
         public string Description { get; set; }
+
+
+        public PageHeaderViewModel PageHeader { get; set; }
     }
 }
