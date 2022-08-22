@@ -24,7 +24,8 @@ namespace GymApp14V1.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Index()
+        [HttpGet, ActionName("Index")]
+        public async Task<IActionResult> IndexAsync()
         {
             var getResult = await GetAllAsync();
 
@@ -40,16 +41,10 @@ namespace GymApp14V1.Controllers
         // GET: Member/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) { return NotFound(); }
 
             var memberViewModel = await GetVMAsync(id);
-            if (memberViewModel == null)
-            {
-                return NotFound();
-            }
+            if (memberViewModel == null) { return NotFound(); }
 
             return View(memberViewModel);
         }

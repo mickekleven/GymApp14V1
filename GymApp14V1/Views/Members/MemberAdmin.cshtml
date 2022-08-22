@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GymApp14V1.Models.ViewModels.MemberViewModel>
+﻿@model AdminViewModel
 
 
 <h1>Admin panel - Member</h1>
@@ -14,7 +14,7 @@
 </div>
 
 <
-<p class="text-primary fw-bold"> Number of Registered members: @Model.Count()</p>
+<p class="text-primary fw-bold"> Number of Registered members: @Model.Members.Count()</p>
 
 
-<partial name="../Members/_MemberListTable"></partial>
+<partial name="../Members/_MemberListTable" model="Model.Members"></partial>
