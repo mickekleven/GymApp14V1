@@ -123,9 +123,6 @@ namespace GymApp14V1.Controllers
                     .RemoveFromRolesAsync(member, new List<string> { "Administrator", "Member", "Visitor" });
                 if (!deleteRoles.Succeeded) { return BadRequest(); }
 
-
-
-
                 var deleteRole = _userManager.DeleteAsync(member);
 
             }
