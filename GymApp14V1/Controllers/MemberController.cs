@@ -73,35 +73,31 @@ namespace GymApp14V1.Controllers
         }
 
         // GET: Member/Edit/5
-        public async Task<IActionResult> Edit(string id)
+
+        [HttpGet, ActionName("MemberEdit")]
+        public async Task<IActionResult> MemberEditAsync(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (string.IsNullOrWhiteSpace(id)) return NotFound();
+
 
             var memberViewModel = await GetVMAsync(id);
-            if (memberViewModel == null)
-            {
-                return NotFound();
-            }
+            if (memberViewModel == null) return NotFound();
+
             return View(memberViewModel);
         }
 
-        // POST: Member/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("MemberEdit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,UserName,Email,Password,ConfirmPassword,GymClassId")] MemberViewModel memberViewModel)
+
+        public async Task<IActionResult> MemberEditAsync(string id, MemberViewModel memberViewModel)
         {
-            if (id != memberViewModel.Id)
-            {
-                return NotFound();
-            }
+            if (id != memberViewModel.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
+                var member = await GetAsync(memberViewModel.Id);
+                if (member is null) return NotFound();
+
                 try
                 {
                     _context.Update(memberViewModel);
