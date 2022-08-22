@@ -91,7 +91,7 @@ namespace GymApp14V1.Controllers
         }
 
 
-        [Authorize(Roles = "Administrator, Member")]
+        [Authorize(Roles = "Administrator")]
         [HttpGet, ActionName("BookingXX")]
         public async Task<IActionResult> BookingAsync(string gymClassId)
         {
@@ -101,20 +101,16 @@ namespace GymApp14V1.Controllers
         }
 
 
-        // GET: GymPass/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.GymPasses == null)
-            {
-                return NotFound();
-            }
 
-            var gymPass = await _context.GymPasses.FindAsync(id);
-            if (gymPass == null)
-            {
-                return NotFound();
-            }
-            return View(gymPass);
+        [Authorize(Roles = "Administrator")]
+        [HttpGet, ActionName("Edit")]
+        public async Task<IActionResult> EditAsync(int? id)
+        {
+            if (id == null) { return NotFound(); }
+
+            var gymPass = await GetGymClassVMAsync(id.ToString());
+            if (gymPass == null) { return NotFound(); }
+            return View("../GymClass/GymClassEdit", gymPass);
         }
 
         // POST: GymPass/Edit/5
@@ -122,23 +118,27 @@ namespace GymApp14V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GymPassId,Name,StartTime,Duration,Description")] GymClass gymPass)
+        public async Task<IActionResult> Edit(int id, GymClassViewModel model)
         {
-            if (id != gymPass.Id)
-            {
-                return NotFound();
-            }
+            if (id != model.Id) { return NotFound(); }
+
+            var entity = await GetGymClassAsync(id.ToString());
+
+            entity.Description = model.Description;
+            entity.Name = model.Name;
+            entity.Duration = model.Duration;
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(gymPass);
+                    _context.Update(entity);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GymPassExists(gymPass.Id))
+                    if (!GymPassExists(entity.Id))
                     {
                         return NotFound();
                     }
@@ -149,7 +149,7 @@ namespace GymApp14V1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(gymPass);
+            return View("../GymClass/Index");
         }
 
         // GET: GymPass/Delete/5
