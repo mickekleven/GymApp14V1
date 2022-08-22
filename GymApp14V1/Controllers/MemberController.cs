@@ -220,5 +220,45 @@ namespace GymApp14V1.Controllers
             return roles;
         }
 
+        /// <summary>
+        /// Gets user collection included with role name
+        /// </summary>
+        /// <param name="_memberId"></param>
+        /// <returns></returns>
+        private async Task<IEnumerable<MemberViewModel>> GetFullMemberCollectionAsync(string _memberId = "")
+        {
+            List<MemberViewModel> members = new();
+
+            if (string.IsNullOrWhiteSpace(_memberId))
+            {
+                return await (from a in _context.Users
+                              join b in _context.UserRoles on a.Id equals b.UserId
+                              join c in _context.Roles on b.RoleId equals c.Id
+                              select new MemberViewModel
+                              {
+                                  Id = a.Id,
+                                  FirstName = a.FirstName,
+                                  LastName = a.LastName,
+                                  Email = a.Email,
+                                  UserName = a.UserName,
+                                  Role = c.Name,
+                              }).ToListAsync();
+            }
+
+            return await (from a in _context.Users
+                          join b in _context.UserRoles on a.Id equals b.UserId
+                          join c in _context.Roles on b.RoleId equals c.Id
+                          where a.Id.ToLower() == _memberId.ToLower()
+                          select new MemberViewModel
+                          {
+                              Id = a.Id,
+                              FirstName = a.FirstName,
+                              LastName = a.LastName,
+                              Email = a.Email,
+                              UserName = a.UserName,
+                              Role = c.Name,
+                          }).ToListAsync();
+        }
+
     }
 }
