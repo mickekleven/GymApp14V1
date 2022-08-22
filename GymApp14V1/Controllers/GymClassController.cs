@@ -43,22 +43,17 @@ namespace GymApp14V1.Controllers
 
         }
 
-        // GET: GymPass/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet, ActionName("Details")]
+        public async Task<IActionResult> DetailsAsync(int? id)
         {
-            if (id == null || _context.GymPasses == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.GymPasses == null) { return NotFound(); }
 
-            var gymPass = await _context.GymPasses
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (gymPass == null)
-            {
-                return NotFound();
-            }
+            var getResult = await GetGymClassVMAsync(id.ToString());
+            if (getResult == null) { return NotFound(); }
 
-            return View(gymPass);
+            getResult.PageHeader = GetPageHeader("Details", "Additional information");
+
+            return View("../GymClass/GymClassDetails", getResult);
         }
 
         // GET: GymPass/Create
@@ -304,8 +299,6 @@ namespace GymApp14V1.Controllers
 
             return _mapper.Map<MemberViewModel>(member);
         }
-
-
         private async Task<ApplicationUser> GetMemberAsync(string _memberIdOrName)
         {
 
@@ -330,14 +323,26 @@ namespace GymApp14V1.Controllers
             return _user;
 
         }
-
-
-
         private async Task<IEnumerable<MemberViewModel>> GetAllMemberAsync()
         {
             return await _mapper.ProjectTo<MemberViewModel>(_context.Users)
                 .OrderBy(a => a.FirstName)
                 .ToListAsync();
+        }
+
+
+        private PageHeaderViewModel GetPageHeader(string headLine, string SubTitle, string content = "")
+        {
+            content = string.IsNullOrWhiteSpace(content)
+                ? "Start live helthier today already"
+                : content;
+
+            return new PageHeaderViewModel
+            {
+                HeadLine = headLine,
+                SubTitle = SubTitle,
+                Content = content
+            };
         }
     }
 }
