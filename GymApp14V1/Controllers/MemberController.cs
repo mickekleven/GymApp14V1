@@ -165,6 +165,8 @@ namespace GymApp14V1.Controllers
         {
             var member = await GetAsync(_memberId);
 
+            var roles = await GetRolesAsync(member);
+
             return _mapper.Map<MemberViewModel>(member);
         }
 
@@ -183,11 +185,14 @@ namespace GymApp14V1.Controllers
             if (isGuid)
             {
                 _user = await _userManager.FindByIdAsync(_memberIdOrName);
+
             }
             else
             {
                 _user = await _userManager.FindByNameAsync(_memberIdOrName);
             }
+
+
 
             return _user;
 
@@ -198,6 +203,21 @@ namespace GymApp14V1.Controllers
             return await _mapper.ProjectTo<MemberViewModel>(_context.Users)
                 .OrderBy(a => a.FirstName)
                 .ToListAsync();
+        }
+
+
+        private async Task<IList<string>> GetRolesAsync(ApplicationUser _user) =>
+                                                    await _userManager.GetRolesAsync(_user);
+
+
+        private async Task<IEnumerable<string>> GetRolesByMemberIdAsync(string _memberId)
+        {
+            var roles = await (from a in _context.UserRoles
+                               join b in _context.Roles on a.UserId equals b.Id
+                               where a.UserId.ToLower() == b.Id.ToLower()
+                               select b.Name).ToListAsync();
+
+            return roles;
         }
 
     }
