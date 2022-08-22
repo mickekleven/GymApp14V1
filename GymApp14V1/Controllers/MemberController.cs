@@ -23,11 +23,12 @@ namespace GymApp14V1.Controllers
             _userManager = userManager;
         }
 
+
         [Authorize(Roles = "Administrator")]
         [HttpGet, ActionName("Index")]
         public async Task<IActionResult> IndexAsync()
         {
-            var getResult = await GetAllAsync();
+            var getResult = await GetFullMemberCollectionAsync();
 
             var viewModel = new AdminViewModel
             {
@@ -242,7 +243,7 @@ namespace GymApp14V1.Controllers
                                   Email = a.Email,
                                   UserName = a.UserName,
                                   Role = c.Name,
-                              }).ToListAsync();
+                              }).OrderBy(f => f.FirstName).ToListAsync();
             }
 
             return await (from a in _context.Users
@@ -257,7 +258,7 @@ namespace GymApp14V1.Controllers
                               Email = a.Email,
                               UserName = a.UserName,
                               Role = c.Name,
-                          }).ToListAsync();
+                          }).OrderBy(f => f.FirstName).ToListAsync();
         }
 
     }
