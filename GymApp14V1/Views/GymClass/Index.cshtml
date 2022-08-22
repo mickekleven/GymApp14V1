@@ -6,9 +6,11 @@
 }
 
 
-<p>
-    <a class="btn btn-info btn-lg mt-4" asp-controller="GymClass" asp-action="Create">Add GymClass</a>
-</p>
+@if (User.IsInRole("Administrator")) {
+    <p>
+        <a class="btn btn-info btn-lg mt-4" asp-controller="GymClass" asp-action="Create">Add GymClass</a>
+    </p>
+}
 
 
 <table class="table">
