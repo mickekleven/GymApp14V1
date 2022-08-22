@@ -50,35 +50,11 @@ namespace GymApp14V1.Controllers
             return View(memberViewModel);
         }
 
-        // GET: Member/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Member/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,UserName,Email,Password,ConfirmPassword,GymClassId")] MemberViewModel memberViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(memberViewModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(memberViewModel);
-        }
-
-        // GET: Member/Edit/5
 
         [HttpGet, ActionName("MemberEdit")]
         public async Task<IActionResult> MemberEditAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id)) return NotFound();
-
 
             var memberViewModel = await GetVMAsync(id);
             if (memberViewModel == null) return NotFound();
@@ -88,7 +64,6 @@ namespace GymApp14V1.Controllers
 
         [HttpPost, ActionName("MemberEdit")]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> MemberEditAsync(string id, MemberViewModel memberViewModel)
         {
             if (id != memberViewModel.Id) return NotFound();
@@ -105,7 +80,7 @@ namespace GymApp14V1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberViewModelExists(memberViewModel.Id))
+                    if (!MemberExist(memberViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -119,39 +94,44 @@ namespace GymApp14V1.Controllers
             return View(memberViewModel);
         }
 
-        // GET: Member/Delete/5
-        public async Task<IActionResult> Delete(string id)
+
+        [HttpGet, ActionName("Delete")]
+        public async Task<IActionResult> MemberDeleteAsync(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
+
 
             var memberViewModel = await GetVMAsync(id);
-            if (memberViewModel == null)
-            {
-                return NotFound();
-            }
+            if (memberViewModel == null) return NotFound();
+
 
             return View(memberViewModel);
         }
 
         // POST: Member/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> MemberDeleteConfirmedAsync(string id)
         {
-            var memberViewModel = await GetAsync(id);
-            if (memberViewModel != null)
+            var member = await GetAsync(id);
+            if (member != null)
             {
-                _context.GymMembers.Remove(memberViewModel);
+                var deleteRoles = await _userManager
+                    .RemoveFromRolesAsync(member, new List<string> { "Administrator", "Member", "Visitor" });
+                if (!deleteRoles.Succeeded) { return BadRequest(); }
+
+
+
+
+                var deleteRole = _userManager.DeleteAsync(member);
+
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberViewModelExists(string id)
+        private bool MemberExist(string id)
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
@@ -257,5 +237,33 @@ namespace GymApp14V1.Controllers
                           }).OrderBy(f => f.FirstName).ToListAsync();
         }
 
+
+        private async Task<bool> DeleteMemberAsync(string _memberId)
+        {
+            var member = await GetAsync(_memberId);
+            if (member is null) return false;
+
+            var deleteRole = await DeleteMemberRolesAsync(member);
+
+            var deleteMember = await _userManager.DeleteAsync(member);
+            if (!deleteMember.Succeeded) return false;
+
+            return true;
+        }
+
+        private async Task<bool> DeleteMemberRolesAsync(ApplicationUser _member)
+        {
+            var deleteRoles = await _userManager
+                .RemoveFromRolesAsync(_member, new List<string> { "Administrator", "Member", "Visitor" });
+            if (!deleteRoles.Succeeded) return false;
+
+            return true;
+        }
+
+
+        private async Task<bool> DeleteFromGymClassAsync(string _memberId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
