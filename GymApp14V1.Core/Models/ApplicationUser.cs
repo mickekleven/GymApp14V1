@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace GymApp14V1.Models
+namespace GymApp14V1.Core.Models
 {
 #nullable disable
     public class ApplicationUser : IdentityUser

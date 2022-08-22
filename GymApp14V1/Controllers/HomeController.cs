@@ -1,4 +1,4 @@
-﻿using GymApp14V1.Models;
+﻿using GymApp14V1.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

@@ -1,8 +1,7 @@
-﻿using GymApp14V1.Models;
+﻿using GymApp14V1.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using GymApp14V1.Models.ViewModels;
 
 namespace GymApp14V1.Data
 {

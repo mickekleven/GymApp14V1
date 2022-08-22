@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info", "Info", "{D5E26509-1
 		Notes.txt = Notes.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymApp14V1.Data", "GymApp14V1.Data\GymApp14V1.Data.csproj", "{E34A8B41-C0DE-4FBD-8962-AEA7FA79AC76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymApp14V1.Core", "GymApp14V1.Core\GymApp14V1.Core.csproj", "{5F68DFA0-1D99-4132-BAC7-253AD4F509EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{CCADEF0C-946A-4A09-9CFB-C1137C6DE810}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCADEF0C-946A-4A09-9CFB-C1137C6DE810}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCADEF0C-946A-4A09-9CFB-C1137C6DE810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E34A8B41-C0DE-4FBD-8962-AEA7FA79AC76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E34A8B41-C0DE-4FBD-8962-AEA7FA79AC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E34A8B41-C0DE-4FBD-8962-AEA7FA79AC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E34A8B41-C0DE-4FBD-8962-AEA7FA79AC76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F68DFA0-1D99-4132-BAC7-253AD4F509EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F68DFA0-1D99-4132-BAC7-253AD4F509EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F68DFA0-1D99-4132-BAC7-253AD4F509EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F68DFA0-1D99-4132-BAC7-253AD4F509EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

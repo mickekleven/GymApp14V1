@@ -1,4 +1,4 @@
-﻿namespace GymApp14V1.Models.ViewModels
+﻿namespace GymApp14V1.Core.ViewModels
 {
     public enum MemberAction { NONE, Add, Update, Delete, UserMessage }
 

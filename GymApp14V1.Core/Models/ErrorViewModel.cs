@@ -1,4 +1,4 @@
-namespace GymApp14V1.Models
+namespace GymApp14V1.Core.Models
 {
     public class ErrorViewModel
     {

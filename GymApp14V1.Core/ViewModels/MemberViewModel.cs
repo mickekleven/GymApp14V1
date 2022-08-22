@@ -1,4 +1,6 @@
-﻿namespace GymApp14V1.Models.ViewModels
+﻿using GymApp14V1.Core.Models;
+
+namespace GymApp14V1.Core.ViewModels
 {
     public class MemberViewModel
     {

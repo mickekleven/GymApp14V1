@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GymApp14V1.Models.ViewModels
+namespace GymApp14V1.Core.Models
 {
 #nullable disable
-    public class GymClassViewModel
+    public class GymClass
     {
-
         public int Id { get; set; }
 
         [Required]
@@ -15,5 +14,6 @@ namespace GymApp14V1.Models.ViewModels
         public TimeSpan Duration { get; set; }
         public DateTime EndTime => StartTime + Duration;
         public string Description { get; set; }
+        public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; }
     }
 }

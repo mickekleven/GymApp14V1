@@ -1,4 +1,4 @@
-﻿namespace GymApp14V1.Models.ViewModels
+﻿namespace GymApp14V1.Core.ViewModels
 {
 #nullable disable
     public class AdminViewModel

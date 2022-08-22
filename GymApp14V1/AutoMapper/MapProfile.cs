@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using GymApp14V1.Models;
-using GymApp14V1.Models.ViewModels;
+using GymApp14V1.Core.Models;
+using GymApp14V1.Core.ViewModels;
 
 namespace GymApp14V1.AutoMapper
 {

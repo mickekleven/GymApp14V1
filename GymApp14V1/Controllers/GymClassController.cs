@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using GymApp14V1.Core.Models;
+using GymApp14V1.Core.ViewModels;
 using GymApp14V1.Data;
-using GymApp14V1.Models;
-using GymApp14V1.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
