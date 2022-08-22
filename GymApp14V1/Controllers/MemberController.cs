@@ -47,10 +47,10 @@ namespace GymApp14V1.Controllers
         {
             if (id == null) { return NotFound(); }
 
-            var memberViewModel = await GetVMAsync(id);
+            var memberViewModel = await GetFullMemberCollectionAsync(id);
             if (memberViewModel == null) { return NotFound(); }
 
-            return View(memberViewModel);
+            return View("../Members/MemberDetails", memberViewModel.ElementAt(0));
         }
 
 
@@ -62,7 +62,7 @@ namespace GymApp14V1.Controllers
             var memberViewModel = await GetVMAsync(id);
             if (memberViewModel == null) return NotFound();
 
-            return View(memberViewModel);
+            return View("../Members/MemberEdit", memberViewModel);
         }
 
         [HttpPost, ActionName("MemberEdit")]
@@ -108,7 +108,7 @@ namespace GymApp14V1.Controllers
             if (memberViewModel == null) return NotFound();
 
 
-            return View(memberViewModel);
+            return View("../Members/MemberDelete", memberViewModel);
         }
 
         // POST: Member/Delete/5
