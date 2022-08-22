@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace GymApp14V1.Migrations
+namespace GymApp14V1.Data.Migrations
 {
     public partial class initdb : Migration
     {

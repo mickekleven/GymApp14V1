@@ -1,6 +1,6 @@
 using GymApp14V1.AutoMapper;
 using GymApp14V1.Core.Models;
-using GymApp14V1.Data;
+using GymApp14V1.Data.Data;
 using GymApp14V1.Seeding;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

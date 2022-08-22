@@ -1,5 +1,5 @@
 ﻿using GymApp14V1.Core.Models;
-using GymApp14V1.Data;
+using GymApp14V1.Data.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
