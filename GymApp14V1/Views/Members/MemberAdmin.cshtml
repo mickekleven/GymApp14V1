@@ -1,14 +1,14 @@
 ﻿@model AdminViewModel
 
 
-<h1>Admin panel - Member</h1>
+@if (Model.PageHeader is not null)
+{
+    <partial name="_PageHeader" model="Model.PageHeader"></partial>
+}
 
-<p>
-    <a asp-action="Create">Add Gym Class</a>
-</p>
 
 
-<div class="btn-group" role="group" aria-label="Basic example">
+<div class="btn-group mt-4" role="group" aria-label="Basic example">
     <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Register</a>
     <a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Login">Login</a>
 </div>

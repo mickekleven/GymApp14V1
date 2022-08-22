@@ -32,6 +32,7 @@ namespace GymApp14V1.Controllers
 
             var viewModel = new AdminViewModel
             {
+                PageHeader = GetPageHeader("Registered members", "Update, delete for admin and member"),
                 Members = getResult
             };
 
@@ -258,6 +259,20 @@ namespace GymApp14V1.Controllers
             if (!deleteRoles.Succeeded) return false;
 
             return true;
+        }
+
+        private PageHeaderViewModel GetPageHeader(string headLine, string SubTitle, string content = "")
+        {
+            content = string.IsNullOrWhiteSpace(content)
+                ? "Start live helthier today already"
+                : content;
+
+            return new PageHeaderViewModel
+            {
+                HeadLine = headLine,
+                SubTitle = SubTitle,
+                Content = content
+            };
         }
 
 

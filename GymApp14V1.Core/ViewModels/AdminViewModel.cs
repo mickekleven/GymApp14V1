@@ -5,5 +5,7 @@
     {
         public MemberViewModel Member { get; set; }
         public IEnumerable<MemberViewModel> Members { get; set; }
+
+        public PageHeaderViewModel PageHeader { get; set; }
     }
 }
