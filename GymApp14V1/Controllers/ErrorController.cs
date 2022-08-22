@@ -4,11 +4,11 @@ using System.Diagnostics;
 
 namespace GymApp14V1.Controllers
 {
-    public class HomeController : Controller
+    public class ErrorController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ErrorController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public ErrorController(ILogger<ErrorController> logger)
         {
             _logger = logger;
         }

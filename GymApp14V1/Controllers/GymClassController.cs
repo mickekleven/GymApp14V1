@@ -29,13 +29,11 @@ namespace GymApp14V1.Controllers
 
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        [HttpGet, ActionName("Index")]
+        public async Task<IActionResult> IndexAsync()
         {
+            return View("../GymClass/Index", await GetAllGymClassesAsync());
 
-
-            return _context.GymPasses != null ?
-                        View(await GetGymClassesAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.GymPasses'  is null.");
         }
 
         // GET: GymPass/Details/5
