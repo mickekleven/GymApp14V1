@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace GymApp14V1.Controllers
 {
@@ -56,26 +57,37 @@ namespace GymApp14V1.Controllers
             return View("../GymClass/GymClassDetails", getResult);
         }
 
-        // GET: GymPass/Create
+        [HttpGet, ActionName("Create")]
         public IActionResult Create()
         {
-            return View();
+            return View("../GymClass/GymClassCreate", new GymClassViewModel
+            {
+                PageHeader = GetPageHeader("Add GymClass", "CRUD operation")
+            });
         }
 
         // POST: GymPass/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GymPassId,Name,StartTime,Duration,Description")] GymClass gymPass)
+        public async Task<IActionResult> CreateAsync(GymClassViewModel model)
         {
+            Expression<Func<GymClass, bool>> predicate = f => f.Name.ToLower() == model.Name.ToLower();
+
+            var isExist = await FindAsync(predicate);
+            if (isExist.Any()) { return View("../GymClass/GymClassCreate", model); }
+
+            var entity = _mapper.Map<GymClass>(model);
+
+
             if (ModelState.IsValid)
             {
-                _context.Add(gymPass);
+                _context.Add(entity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(gymPass);
+            return View("../GymClass/Index");
         }
 
 
@@ -291,6 +303,8 @@ namespace GymApp14V1.Controllers
         // *******************************************************************
 
 
+        private async Task<IEnumerable<GymClassViewModel>> FindAsync(Expression<Func<GymClass, bool>> predicate) =>
+            await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses.Where(predicate)).ToListAsync();
 
 
         private async Task<MemberViewModel> GetMemberVMAsync(string _memberId)
@@ -329,8 +343,6 @@ namespace GymApp14V1.Controllers
                 .OrderBy(a => a.FirstName)
                 .ToListAsync();
         }
-
-
         private PageHeaderViewModel GetPageHeader(string headLine, string SubTitle, string content = "")
         {
             content = string.IsNullOrWhiteSpace(content)
