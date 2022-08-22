@@ -14,7 +14,10 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+/*    background-image: url("/images/Gym-BG-retuch.jpg");*/
+    margin-bottom: 60px;
+    background-repeat: no-repeat;
+    overflow-y: scroll;
 }
 
 
