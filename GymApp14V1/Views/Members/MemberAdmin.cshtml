@@ -13,8 +13,9 @@
     <a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Login">Login</a>
 </div>
 
-<
+
 <p class="text-primary fw-bold"> Number of Registered members: @Model.Members.Count()</p>
+<p class="fw-bold">You have @(User.IsInRole("Administrator") ? "Admin rights" : "Member rights")</p>
 
 
 <partial name="../Members/_MemberListTable" model="Model.Members"></partial>

@@ -36,7 +36,8 @@
     <tbody>
         @foreach (var item in Model)
         {
-            @if (User?.Identity?.Name?.ToLower() == item.Email || User.IsInRole("Administrator")) {
+            @if (User?.Identity?.Name?.ToLower() == item.Email || User.IsInRole("Administrator"))
+            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
@@ -56,15 +57,11 @@
                         @Html.DisplayFor(modelItem => item.Role)
                     </td>
 
-
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    }
+                    <td>
+                        <a asp-controller="Member" asp-action="MemberEdit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Member" asp-action="MemberDetails" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="Member" asp-action="MemberDelete" asp-route-id="@item.Id">Delete</a>
+                    </td>
                 </tr>
             }
         }

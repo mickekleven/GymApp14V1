@@ -24,7 +24,7 @@ namespace GymApp14V1.Controllers
         }
 
 
-        [Authorize(Roles = "Administrator")]
+
         [HttpGet, ActionName("Index")]
         public async Task<IActionResult> IndexAsync()
         {
@@ -40,7 +40,10 @@ namespace GymApp14V1.Controllers
         }
 
         // GET: Member/Details/5
-        public async Task<IActionResult> Details(string id)
+
+        [HttpGet]
+        [ActionName("MemberDetails")]
+        public async Task<IActionResult> MemberDetailsAsync(string id)
         {
             if (id == null) { return NotFound(); }
 
