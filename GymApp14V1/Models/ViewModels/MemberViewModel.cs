@@ -3,6 +3,7 @@
     public class MemberViewModel
     {
 #nullable disable
+
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
