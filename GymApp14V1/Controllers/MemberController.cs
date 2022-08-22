@@ -168,7 +168,6 @@ namespace GymApp14V1.Controllers
             return _mapper.Map<MemberViewModel>(member);
         }
 
-
         private async Task<ApplicationUser> GetAsync(string _memberIdOrName)
         {
 
@@ -193,8 +192,6 @@ namespace GymApp14V1.Controllers
             return _user;
 
         }
-
-
 
         private async Task<IEnumerable<MemberViewModel>> GetAllAsync()
         {
