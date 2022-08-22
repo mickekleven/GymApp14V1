@@ -98,7 +98,7 @@ namespace GymApp14V1.Controllers
         }
 
 
-        [HttpGet, ActionName("Delete")]
+        [HttpGet, ActionName("MemberDelete")]
         public async Task<IActionResult> MemberDeleteAsync(string id)
         {
             if (id == null) return NotFound();
