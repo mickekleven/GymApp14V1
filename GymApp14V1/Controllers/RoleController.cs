@@ -67,9 +67,6 @@ namespace GymApp14V1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-
-
         [HttpGet, ActionName("Edit")]
         public async Task<IActionResult> EditAsync(string id)
         {
