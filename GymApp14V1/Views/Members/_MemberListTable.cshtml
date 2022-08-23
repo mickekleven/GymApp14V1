@@ -5,7 +5,8 @@
 
 @if (User.Identity.IsAuthenticated) {
 
-    @if (User.IsInRole("Administrator")) {
+    @if (User.IsInRole(ClientArgs.ADMIN_ROLE))
+    {
         <p>
             <a asp-controller="GymClass" asp-action="Create">Add Gym Class</a>
         </p>
@@ -45,7 +46,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                @if (User?.Identity?.Name?.ToLower() == item.Email || User.IsInRole("Administrator"))
+                @if (User?.Identity?.Name?.ToLower() == item.Email || User.IsInRole(ClientArgs.ADMIN_ROLE))
                 {
                     <tr>
                         <td>

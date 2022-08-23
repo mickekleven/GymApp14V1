@@ -29,12 +29,12 @@
     @if (User.Identity.IsAuthenticated) {
         <p class="h6 mt-4">Permission for @User.Identity.Name</p>
 
-        @if (User.IsInRole("Administrator"))
+        @if (User.IsInRole(ClientArgs.ADMIN_ROLE))
         {
             <p class="text-danger fw-bold h5">Your account have Admin rights</p>
         }
 
-        @if (User.IsInRole("Member"))
+        @if (User.IsInRole(ClientArgs.MEMBER_ROLE))
         {
             <p class="text-primary fw-bold h5">Your account have Member rights</p>
         }

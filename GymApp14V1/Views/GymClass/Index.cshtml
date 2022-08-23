@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GymApp14V1.Core.ViewModels.GymClassViewModel>
+﻿@using GymApp14V1.Util.Helpers
+@model IEnumerable<GymApp14V1.Core.ViewModels.GymClassViewModel>
 
 
 @if (ViewBag.PageHeader is not null) {
@@ -6,7 +7,8 @@
 }
 
 
-@if (User.IsInRole("Administrator")) {
+@if (User.IsInRole(ClientArgs.ADMIN_ROLE))
+{
     <p>
         <a class="btn btn-info btn-lg mt-4" asp-controller="GymClass" asp-action="Create">Add GymClass</a>
     </p>
@@ -48,7 +50,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
 
-                @if (User.IsInRole("Administrator"))
+                @if (User.IsInRole(ClientArgs.ADMIN_ROLE))
                 {
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -59,7 +61,7 @@
                     </td>
                 }
 
-                @if (User.IsInRole("Member")) {
+                @if (User.IsInRole(ClientArgs.MEMBER_ROLE)) {
                     <a asp-controller="GymClass" asp-action="Booking" asp-route-id="@item?.Id">Gym Reservation</a> 
                 }
 
