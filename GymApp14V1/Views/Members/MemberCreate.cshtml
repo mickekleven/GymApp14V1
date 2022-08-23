@@ -1,13 +1,9 @@
 ﻿@model GymApp14V1.Core.ViewModels.MemberViewModel
 
-@{
-    ViewData["Title"] = "Create";
+@if (Model.PageHeader is not null)
+{
+        <partial name="_PageHeader" model="Model.PageHeader"></partial>
 }
-
-<h1>Add Member</h1>
-
-<h4>Admin only</h4>
-<hr />
 
 <div class="row">
     <div class="col-md-4">

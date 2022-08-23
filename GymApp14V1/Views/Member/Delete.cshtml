@@ -1,12 +1,11 @@
 ﻿@model GymApp14V1.Core.ViewModels.MemberViewModel
 
-@{
-    ViewData["Title"] = "Delete";
+@if (Model.PageHeader is not null)
+{
+    <partial name="_PageHeader" model="Model.PageHeader"></partial>
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>MemberViewModel</h4>
     <hr />

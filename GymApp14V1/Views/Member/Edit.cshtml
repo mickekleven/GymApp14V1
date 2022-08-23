@@ -1,12 +1,11 @@
 ﻿@model GymApp14V1.Core.ViewModels.MemberViewModel
 
-@{
-    ViewData["Title"] = "Edit";
+@if (Model.PageHeader is not null)
+{
+    <partial name="_PageHeader" model="Model.PageHeader"></partial>
 }
 
-<h1>Edit</h1>
 
-<h4>MemberViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

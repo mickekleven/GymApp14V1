@@ -51,6 +51,9 @@ namespace GymApp14V1.Controllers
             var memberViewModel = await GetFullMemberCollectionAsync(id);
             if (memberViewModel == null) { return NotFound(); }
 
+
+            memberViewModel.ElementAt(0).PageHeader = GetPageHeader("Details - Membership", "Additional information");
+
             return View("../Members/MemberDetails", memberViewModel.ElementAt(0));
         }
 
@@ -62,6 +65,9 @@ namespace GymApp14V1.Controllers
 
             var memberViewModel = await GetVMAsync(id);
             if (memberViewModel == null) return NotFound();
+
+            memberViewModel.PageHeader =
+                memberViewModel.PageHeader = GetPageHeader("Edit - Member info", "Update Member");
 
             return View("../Members/MemberEdit", memberViewModel);
         }
@@ -108,6 +114,7 @@ namespace GymApp14V1.Controllers
             var memberViewModel = await GetVMAsync(id);
             if (memberViewModel == null) return NotFound();
 
+            memberViewModel.PageHeader = GetPageHeader("Delete Member", "Delete member account");
 
             return View("../Members/MemberDelete", memberViewModel);
         }

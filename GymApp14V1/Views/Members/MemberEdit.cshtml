@@ -1,9 +1,10 @@
 ﻿@model GymApp14V1.Core.ViewModels.MemberViewModel
 
+@if (Model.PageHeader is not null)
+{
+    <partial name="_PageHeader" model="Model.PageHeader"></partial>
+}
 
-<h1>Update Memeber</h1>
-
-<h4>For logged member</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
