@@ -15,7 +15,7 @@ namespace GymApp14V1.Data.Data
         public DbSet<GymClass> GymPasses => Set<GymClass>();
         public DbSet<ApplicationUser> GymMembers => Set<ApplicationUser>();
 
-        //public DbSet<ApplicationUserGymClass> GymClassMembers => Set<ApplicationUserGymClass>();
+        public DbSet<ApplicationUserGymClass> ApplicationUsersGymClasses => Set<ApplicationUserGymClass>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
