@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Gym - Muscle gain</title>
+    <title>@ViewData["Title"] - Gainers Gym</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GymApp14V1.styles.css" asp-append-version="true" />
@@ -29,10 +29,6 @@
 
 
                         @if (User is not null && User.Identity.IsAuthenticated) {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="GymClass" asp-action="Booking">Booking</a>
-                            </li>
-
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="index">Account</a>
                             </li>
@@ -64,7 +60,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - GymApp14V1 - <a asp-area="" asp-controller="GymClass" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Gainers Gym - <a asp-area="" asp-controller="GymClass" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
