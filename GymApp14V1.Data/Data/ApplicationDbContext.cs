@@ -15,15 +15,18 @@ namespace GymApp14V1.Data.Data
         public DbSet<GymClass> GymPasses => Set<GymClass>();
         public DbSet<ApplicationUser> GymMembers => Set<ApplicationUser>();
 
-        //public DbSet<ApplicationUserGymClass> GymRelation => Set<ApplicationUserGymClass>();
+        //public DbSet<ApplicationUserGymClass> GymClassMembers => Set<ApplicationUserGymClass>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            var dataTimeNow = DateTime.Now;
+
             builder.Entity<ApplicationUserGymClass>()
                 .HasKey(aug => new { aug.GymClassId, aug.ApplicationUserId });
 
+            builder.Entity<GymClass>().HasQueryFilter(d => d.StartTime > DateTime.Now);
         }
     }
 }

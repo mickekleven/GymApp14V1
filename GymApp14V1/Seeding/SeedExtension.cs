@@ -71,6 +71,10 @@ namespace GymApp14V1.Seeding
 
         public static async Task SeedAsync(this ApplicationDbContext _db, IPasswordHasher<ApplicationUser> _pwdHasher)
         {
+
+            if (_db.GymMembers.Any()) { return; }
+
+
             //Remove database
             EnsureDeleted(_db);
 
