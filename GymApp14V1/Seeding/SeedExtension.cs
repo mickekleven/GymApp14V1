@@ -198,7 +198,7 @@ namespace GymApp14V1.Seeding
                     Description = l.Value,
                     Duration = TimeSpan.FromHours(rnd.Next(1, 5)),
                     Name = l.Value,
-                    StartTime = DateTime.Now.AddDays(rnd.Next(10))
+                    StartTime = DateTime.Now.AddDays(rnd.Next(-5, 10))
                 });
 
             return _gymClasses.ToList();
