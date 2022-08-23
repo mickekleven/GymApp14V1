@@ -185,14 +185,26 @@ namespace GymApp14V1.Controllers
         }
 
 
+
+
+
+
+
         [HttpGet, ActionName("Booking")]
-        public async Task<IActionResult> BookingToggleAsync()
+        public async Task<IActionResult> BookingToggleAsync(int? id)
         {
+            if (id is null) { return BadRequest(); }
+
             var member = await GetMemberVMAsync(User.Identity.Name);
+            if (member is null) return NotFound();
+
+            var gymClass = await GetGymClassVMAsync(id.ToString());
+
             if (member is null)
             {
                 var info = new BookingViewModel
                 {
+                    GymClass = gymClass,
                     MemberAction = MemberAction.UserMessage,
                     UserMessage = "You are not logged in"
                 };
@@ -205,8 +217,7 @@ namespace GymApp14V1.Controllers
             var bookingVM = new BookingViewModel
             {
                 Member = member,
-                GymClasses = await GetAllGymClassesAsync(),
-                MemberAction = MemberAction.Add,
+                GymClass = gymClass,
                 PageHeader = GetPageHeader("Reservation - Gym Pass", "Book two sessions for the price of one")
             };
 
@@ -214,14 +225,14 @@ namespace GymApp14V1.Controllers
         }
 
         [HttpPost, ActionName("Booking")]
-        public async Task<IActionResult> BookingToggleAsync(int? id)
+        public async Task<IActionResult> BookingToggleAsync(BookingViewModel model)
         {
-            if (id is null) { return NotFound(); }
+
 
             var member = await GetMemberAsync(User.Identity.Name);
             if (member is null) { return NotFound(); }
 
-            var gymClass = await GetGymClassAsync(id.ToString());
+            var gymClass = await GetGymClassAsync(model.Id.ToString());
 
             var memberAttn = _context.ApplicationUsersGymClasses.FirstOrDefaultAsync(a => a.ApplicationUser.Id == member.Id);
 
