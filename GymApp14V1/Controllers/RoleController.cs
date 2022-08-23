@@ -29,6 +29,8 @@ namespace GymApp14V1.Controllers
         {
             var getResult = await GetAllAsync();
 
+
+
             ViewBag.PageHeader = GetPageHeader("Member role list", "Admin page CRUD");
 
             return View($"{viewLocation}/Index", getResult);
@@ -54,7 +56,41 @@ namespace GymApp14V1.Controllers
 
             var indentityRole = _mapper.Map<IdentityRole>(model);
 
+            indentityRole.Id = Guid.NewGuid().ToString();
+
             var insertResult = await _roleManager.CreateAsync(indentityRole);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        [HttpGet, ActionName("Edit")]
+        public async Task<IActionResult> EditAsync(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) { return BadRequest(); }
+
+            var _role = await _roleManager.FindByIdAsync(id);
+            if (_role is null) { return NotFound(); }
+
+            var role = _mapper.Map<RoleViewModel>(_role);
+
+
+            role.PageHeader = GetPageHeader("Member role list", "Admin page CRUD");
+
+            return View($"{viewLocation}/Edit", role);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        public async Task<IActionResult> EditAsync(RoleViewModel model)
+        {
+
+            var role = await _roleManager.FindByIdAsync(model.Id);
+            if (role is null) { return NotFound(); }
+
+            role.Name = model.Name;
+
+            var updateResult = await _roleManager.UpdateAsync(role);
 
             return RedirectToAction(nameof(Index));
         }
