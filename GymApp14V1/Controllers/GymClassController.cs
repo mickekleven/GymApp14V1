@@ -206,7 +206,8 @@ namespace GymApp14V1.Controllers
             {
                 Member = member,
                 GymClasses = await GetAllGymClassesAsync(),
-                MemberAction = MemberAction.Add
+                MemberAction = MemberAction.Add,
+                PageHeader = GetPageHeader("Reservation - Gym Pass", "Book two sessions for the price of one")
             };
 
             return View("../Bookings/Booking", bookingVM);

@@ -26,13 +26,18 @@
     </div>
 
 
-    @if (User.IsInRole("Administrator")) {
-        <p class="text-danger fw-bold h5">Your account have Admin rights</p>
-    }
+    @if (User.Identity.IsAuthenticated) {
+        <p class="h6 mt-4">Permission for @User.Identity.Name</p>
 
-    @if (User.IsInRole("Member"))
-    {
-        <p class="text-primary fw-bold h5">Your account have Member rights</p>
+        @if (User.IsInRole("Administrator"))
+        {
+            <p class="text-danger fw-bold h5">Your account have Admin rights</p>
+        }
+
+        @if (User.IsInRole("Member"))
+        {
+            <p class="text-primary fw-bold h5">Your account have Member rights</p>
+        }
     }
 
 }

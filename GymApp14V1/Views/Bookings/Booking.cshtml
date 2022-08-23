@@ -3,9 +3,15 @@
 
 <div class="row">
 
-    <div class="col-md-12">
-        <h1 class="display-1 fw-bold">Booking</h1>
-        <p class="display-6">You are fully free to change or delete this booking as last 2 hours before it starts</p>
+    @if (Model.PageHeader is not null)
+    {
+        <partial name="_PageHeader" model="Model.PageHeader"></partial>
+    }
+
+
+
+    <div class="col-md-12 mt-4">
+        <p class="h5 text-info">You are free to cancel a actual gym pass two hours before a session begin without charge</p>
     </div>
     <hr />
 
