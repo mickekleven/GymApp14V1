@@ -369,10 +369,24 @@ namespace GymApp14V1.Controllers
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        private async Task<IEnumerable<MemberViewModel>> GetMemberGymClassesAsync()
+        private async Task<IEnumerable<MemberViewModel>> GetMemberGymClassesAsync(string _memberId = "")
         {
-            var getResult = await _context.GymMembers
-                .Include(a => a.AttendedClasses).ToListAsync();
+            //Todo: Admin would see all but a member are only allow to see it's own information
+
+            if (string.IsNullOrWhiteSpace(_memberId))
+            {
+                var getResult = await _context.GymMembers
+                    .Include(a => a.AttendedClasses).ToListAsync();
+            }
+            else
+            {
+                var getResult = await _context.GymMembers
+                    .Include(a => a.AttendedClasses)
+                    .Where(a => a.Id.ToLower() == _memberId.ToLower())
+                    .ToListAsync();
+            }
+
+
 
             throw new NotImplementedException();
         }
