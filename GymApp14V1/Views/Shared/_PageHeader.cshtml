@@ -39,6 +39,12 @@
             <p class="text-primary fw-bold h5">Your account have Member rights</p>
         }
     }
+    else {
+
+        <p class="text-danger fw-bold h5 mt-4">You must be a logged in member to booking a gympass</p>
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    }
 
 }
 
