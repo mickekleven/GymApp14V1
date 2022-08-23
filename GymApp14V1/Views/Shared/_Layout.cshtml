@@ -24,7 +24,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="GymClass" asp-action="GymClasses">Gym Classes</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="GymClass" asp-action="Index">Gym Classes</a>
                         </li>
 
 
@@ -38,6 +38,14 @@
                             </li>
                         }
 
+
+                        @if (User is not null && User.Identity.IsAuthenticated && User.IsInRole(ClientArgs.ADMIN_ROLE)) {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="index">Role Settings</a>
+                            </li>
+
+                        }
  
 
 

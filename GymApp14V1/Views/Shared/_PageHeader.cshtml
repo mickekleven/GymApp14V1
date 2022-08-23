@@ -1,7 +1,8 @@
 ﻿@model GymApp14V1.Core.ViewModels.PageHeaderViewModel
 
 
-@if (Model is not null) {
+@if (Model is not null)
+{
     <div class="row text-light bgcolor-blue">
         @if (!string.IsNullOrWhiteSpace(Model.HeadLine))
         {
@@ -26,7 +27,8 @@
     </div>
 
 
-    @if (User.Identity.IsAuthenticated) {
+    @if (User.Identity.IsAuthenticated)
+    {
         <p class="h6 mt-4">Permission for @User.Identity.Name</p>
 
         @if (User.IsInRole(ClientArgs.ADMIN_ROLE))
@@ -39,11 +41,20 @@
             <p class="text-primary fw-bold h5">Your account have Member rights</p>
         }
     }
-    else {
+    else
+    {
 
-        <p class="text-danger fw-bold h5 mt-4">You must be a logged in member to booking a gympass</p>
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <p class="text-dark fw-bold h5 mt-4">
+            You must be a logged in member to make a gympass reservation
+        </p>
+
+        <p class="text-dark fw-bold h6 mt-4">
+            Select link below...
+        </p>
+
+
+        <a class="nav-link text-danger h4 text-uppercase" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="nav-link text-danger h4 text-uppercase" asp-area="Identity" asp-page="/Account/Register">Register</a>
     }
 
 }
