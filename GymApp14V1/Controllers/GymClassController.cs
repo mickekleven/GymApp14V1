@@ -253,6 +253,15 @@ namespace GymApp14V1.Controllers
         {
             var getResult = await GetAllGymClassesAsync();
 
+
+            ViewBag.PageHeader = new PageHeaderViewModel
+            {
+                HeadLine = "Welcome to Gainers Gym",
+                SubTitle = "Most visited gym in the area",
+                Content = "Below you find our selection. Just register an account if you are new here or login and start a helthier life"
+            };
+
+
             return View("GymClassMain", getResult);
         }
 

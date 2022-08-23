@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<GymApp14V1.Core.ViewModels.GymClassViewModel>
 
 
+@if (ViewBag.PageHeader is not null)
+{
+    <partial name="_PageHeader" model="ViewBag.PageHeader"></partial>
+}
+
 <p>
     <a asp-action="Create">Add Gym Class</a>
 </p>
