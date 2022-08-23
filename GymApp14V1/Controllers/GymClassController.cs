@@ -265,6 +265,19 @@ namespace GymApp14V1.Controllers
             return View("GymClassMain", getResult);
         }
 
+        [AllowAnonymous]
+        [HttpGet, ActionName("GetMembersAndGymClasses")]
+        public async Task<IActionResult> GetMembersAndGymClasses()
+        {
+            var getResult = await GetMemberGymClassesAsync();
+
+            var dd = 0;
+
+            throw new NotImplementedException();
+        }
+
+
+
 
 
         private bool GymPassExists(int id)
@@ -295,6 +308,8 @@ namespace GymApp14V1.Controllers
         /// <returns></returns>
         private async Task<GymClass?> GetGymClassAsync(string _gymClassId) =>
             await _context.GymPasses.FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
+
+
 
 
         private async Task<IEnumerable<GymClassViewModel>> GetAllGymClassesAsync() =>
@@ -373,22 +388,21 @@ namespace GymApp14V1.Controllers
         {
             //Todo: Admin would see all but a member are only allow to see it's own information
 
+
+            var test = await _context.GymMembers
+                    .Include(a => a.AttendedClasses).ToListAsync();
+
             if (string.IsNullOrWhiteSpace(_memberId))
             {
-                var getResult = await _context.GymMembers
-                    .Include(a => a.AttendedClasses).ToListAsync();
-            }
-            else
-            {
-                var getResult = await _context.GymMembers
-                    .Include(a => a.AttendedClasses)
-                    .Where(a => a.Id.ToLower() == _memberId.ToLower())
-                    .ToListAsync();
+                return await _mapper.ProjectTo<MemberViewModel>(_context.GymMembers
+                    .Include(a => a.AttendedClasses)).ToListAsync();
             }
 
 
-
-            throw new NotImplementedException();
+            return await _mapper.ProjectTo<MemberViewModel>(_context.GymMembers
+                .Include(a => a.AttendedClasses)
+                .Where(a => a.Id.ToLower() == _memberId.ToLower()))
+                .ToListAsync();
         }
 
         /// <summary>
@@ -396,12 +410,10 @@ namespace GymApp14V1.Controllers
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        private async Task<IEnumerable<ApplicationUserGymClass>> GetGymClassesMembersAsync()
+        private async Task<IEnumerable<GymClassViewModel>> GetGymClassesMembersAsync()
         {
-            var getResult = await _context.GymPasses
-                .Include(a => a.AttendingMembers).ToListAsync();
-
-            throw new NotImplementedException();
+            return await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses
+                .Include(a => a.AttendingMembers)).ToListAsync();
         }
 
     }
