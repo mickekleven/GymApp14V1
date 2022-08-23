@@ -1,4 +1,6 @@
-﻿namespace GymApp14V1.Core.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GymApp14V1.Core.ViewModels
 {
     public enum MemberAction { NONE, Add, Update, Delete, UserMessage }
 
@@ -7,6 +9,15 @@
 #nullable disable
 
         public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Gym class name")]
+        public string Name { get; set; }
+        public DateTime StartTime { get; set; }
+        public TimeSpan Duration { get; set; }
+        public DateTime EndTime => StartTime + Duration;
+        public string Description { get; set; }
+
 
         public MemberViewModel Member { get; set; }
         public GymClassViewModel GymClass { get; set; }

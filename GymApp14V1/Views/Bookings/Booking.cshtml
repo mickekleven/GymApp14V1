@@ -1,50 +1,46 @@
 ﻿@model GymApp14V1.Core.ViewModels.BookingViewModel
 
 
+@if (Model.PageHeader is not null)
+{
+    <partial name="_PageHeader" model="Model.PageHeader"></partial>
+}
+
+<hr />
 <div class="row">
-
-    @if (Model.PageHeader is not null)
-    {
-        <partial name="_PageHeader" model="Model.PageHeader"></partial>
-    }
-
-
-
-    <div class="col-md-12 mt-4">
-        <p class="h5 text-info">You are free to cancel a actual gym pass two hours before a session begin without charge</p>
+    <div class="col-md-4">
+        <form asp-controller="GymClass" asp-action="Booking">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <hr />
-
-    @if (Model.MemberAction == MemberAction.Add)
-    {
-        <div class="col-md-4">
-            <form asp-controller="GymClass" asp-action="Booking">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label class="control-label"></label>
-                    <partial name="../Bookings/_GymClassSelectList"></partial>
-                </div>
-                <div class="form-group mt-3">
-                    <input type="submit" value="Reserve" class="btn btn-lg btn-primary" />
-                </div>
-
-            </form>
-        </div>
-    }
-    else if (Model.MemberAction == MemberAction.UserMessage) {
-
-
-        <h1 class="display-4 fw-bold">Booking OK</h1>
-
-        <h1 class="display-4 fw-bold">Booking to our Gymclasses</h1>
-    }
-
-
 </div>
 
 <div>
-    <a asp-controller="GymClass" asp-action="Index">Back to List</a>
-</div>
+    <a asp-action="Index">Back to List</a>
+</div
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
