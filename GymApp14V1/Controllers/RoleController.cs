@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
 using GymApp14V1.Core.ViewModels;
 using GymApp14V1.Data.Data;
-using GymApp14V1.Util.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymApp14V1.Controllers
 {
-    [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
+    //[Authorize(Roles = ClientArgs.ADMIN_ROLE)]
     public class RoleController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
+
+        private const string viewLocation = "../Roles";
 
         public RoleController(ApplicationDbContext context, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
@@ -29,25 +29,34 @@ namespace GymApp14V1.Controllers
         {
             var getResult = await GetAllAsync();
 
-            ViewBag.PageHeader = GetPageHeader("Member role list", "Admin page");
+            ViewBag.PageHeader = GetPageHeader("Member role list", "Admin page CRUD");
 
-            return View(getResult);
+            return View($"{viewLocation}/Index", getResult);
         }
 
 
         [HttpGet, ActionName("Create")]
-        public async Task<IActionResult> CreateAsync()
+        public IActionResult Create()
         {
+            var model = new RoleViewModel
+            {
+                PageHeader = GetPageHeader("Member role list", "Admin page CRUD")
+            };
 
-
-
-            return View();
+            return View($"{viewLocation}/Create", model);
         }
 
-        [HttpGet, ActionName("Create")]
+        [HttpPost, ActionName("Create")]
         public async Task<IActionResult> CreateAsync(RoleViewModel model)
         {
-            return View();
+            var isExist = await _roleManager.FindByNameAsync(model.Name);
+            if (isExist is not null) { return BadRequest(); }
+
+            var indentityRole = _mapper.Map<IdentityRole>(model);
+
+            var insertResult = await _roleManager.CreateAsync(indentityRole);
+
+            return RedirectToAction(nameof(Index));
         }
 
 
