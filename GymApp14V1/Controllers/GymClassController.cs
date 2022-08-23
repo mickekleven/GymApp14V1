@@ -213,25 +213,32 @@ namespace GymApp14V1.Controllers
             return View("../Bookings/Booking", bookingVM);
         }
 
-
         [HttpPost, ActionName("Booking")]
-        public async Task<IActionResult> BookingToggleAsync(BookingViewModel model)
+        public async Task<IActionResult> BookingToggleAsync(int? id)
         {
-            if (model.GymClassId == 0) { return NotFound(); }
+            if (id is null) { return NotFound(); }
 
             var member = await GetMemberAsync(User.Identity.Name);
             if (member is null) { return NotFound(); }
 
-            var gymClass = await GetGymClassAsync(model.GymClassId.ToString());
-            if (gymClass is null) { return NotFound(); }
-
-            var appUserGymClass = new ApplicationUserGymClass
+            var gymClass = await GetGymClassAsync(id.ToString());
+            if (gymClass is null)
             {
-                ApplicationUser = member,
-                GymClass = gymClass
-            };
+                var appUserGymClass = new ApplicationUserGymClass
+                {
+                    ApplicationUserId = member.Id,
+                    GymClassId = gymClass.Id
+                };
 
-            _context.Add(appUserGymClass);
+                _context.Add(appUserGymClass);
+            }
+            else
+            {
+
+            }
+
+
+
             var addResult = await _context.SaveChangesAsync();
 
 
