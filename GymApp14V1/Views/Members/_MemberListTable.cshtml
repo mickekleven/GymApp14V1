@@ -3,67 +3,80 @@
 
 
 
+@if (User.Identity.IsAuthenticated) {
 
-<p>
-    <a asp-action="Create">Add Gym Class</a>
-</p>
+    @if (User.IsInRole("Administrator")) {
+        <p>
+            <a asp-controller="GymClass" asp-action="Create">Add Gym Class</a>
+        </p>
+    }
+    else {
+        <p>
+            <a asp-controller="GymClass" asp-action="Booking">join GymClass</a>
+        </p>
+    }
 
-<p class="text-primary fw-bold"> Number of Gym classes: @Model.Count()</p>
+
+    <p class="text-primary fw-bold"> Number of Gym classes: @Model.Count()</p>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Role)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            @if (User?.Identity?.Name?.ToLower() == item.Email || User.IsInRole("Administrator"))
+                <th>
+                    @Html.DisplayNameFor(model => model.Role)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
+                @if (User?.Identity?.Name?.ToLower() == item.Email || User.IsInRole("Administrator"))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Role)
-                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Role)
+                        </td>
 
-                    <td>
-                        <a asp-controller="Member" asp-action="MemberEdit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-controller="Member" asp-action="MemberDetails" asp-route-id="@item.Id">Details</a> |
-                        <a asp-controller="Member" asp-action="MemberDelete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+                        <td>
+                            <a asp-controller="Member" asp-action="MemberEdit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-controller="Member" asp-action="MemberDetails" asp-route-id="@item.Id">Details</a> |
+                            <a asp-controller="Member" asp-action="MemberDelete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
+
+
+
