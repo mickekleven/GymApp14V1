@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GymApp14V1.Core.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace GymApp14V1.Core.ViewModels
 {
@@ -16,6 +17,7 @@ namespace GymApp14V1.Core.ViewModels
         public DateTime EndTime => StartTime + Duration;
         public string Description { get; set; }
 
+        public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; }
 
         public PageHeaderViewModel PageHeader { get; set; }
     }
