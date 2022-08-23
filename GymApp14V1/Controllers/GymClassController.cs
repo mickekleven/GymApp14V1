@@ -222,6 +222,9 @@ namespace GymApp14V1.Controllers
             if (member is null) { return NotFound(); }
 
             var gymClass = await GetGymClassAsync(id.ToString());
+
+            var memberAttn = _context.ApplicationUsersGymClasses.FirstOrDefaultAsync(a => a.ApplicationUser.Id == member.Id);
+
             if (gymClass is null)
             {
                 var appUserGymClass = new ApplicationUserGymClass
@@ -234,7 +237,7 @@ namespace GymApp14V1.Controllers
             }
             else
             {
-
+                _context.Remove(memberAttn);
             }
 
 
