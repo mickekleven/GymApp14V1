@@ -234,7 +234,7 @@ namespace GymApp14V1.Controllers
 
             var memberAttn = await _context.ApplicationUsersGymClasses.FirstOrDefaultAsync(a => a.ApplicationUser.Id == member.Id);
 
-            if (gymClass is null)
+            if (memberAttn is null)
             {
                 var appUserGymClass = new ApplicationUserGymClass
                 {
