@@ -95,6 +95,31 @@ namespace GymApp14V1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet, ActionName("Delete")]
+        public async Task<IActionResult> DeleteAsync(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) { return BadRequest(); }
+
+            var _role = await _roleManager.FindByIdAsync(id);
+            if (_role is null) { return NotFound(); }
+
+            return View($"{viewLocation}/Delete", _mapper.Map<RoleViewModel>(_role));
+
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteAsync(RoleViewModel model)
+        {
+            var _role = await _roleManager.FindByIdAsync(model.Id);
+            if (_role is null) { return NotFound(); }
+
+
+            var deleteResult = await _roleManager.DeleteAsync(_role);
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
 
         private async Task<IEnumerable<RoleViewModel>> GetAllAsync() =>
             await _mapper.ProjectTo<RoleViewModel>(_context.Roles).ToListAsync();
