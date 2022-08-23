@@ -419,8 +419,6 @@ namespace GymApp14V1.Controllers
         {
             //Todo: Admin would see all but a member are only allow to see it's own information
 
-
-
             if (string.IsNullOrWhiteSpace(_memberId))
             {
                 return await _mapper.ProjectTo<MemberViewModel>(_context.GymMembers
