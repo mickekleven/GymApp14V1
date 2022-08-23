@@ -361,5 +361,34 @@ namespace GymApp14V1.Controllers
                 Content = content
             };
         }
+
+
+
+        /// <summary>
+        /// Gets members and All attended classes
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private async Task<IEnumerable<MemberViewModel>> GetMemberGymClassesAsync()
+        {
+            var getResult = await _context.GymMembers
+                .Include(a => a.AttendedClasses).ToListAsync();
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get GymClasses and all attending menbers
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private async Task<IEnumerable<ApplicationUserGymClass>> GetGymClassesMembersAsync()
+        {
+            var getResult = await _context.GymPasses
+                .Include(a => a.AttendingMembers).ToListAsync();
+
+            throw new NotImplementedException();
+        }
+
     }
 }
