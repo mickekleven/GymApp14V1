@@ -36,7 +36,12 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+
+
+                var color = item.StartTime < DateTime.Now ? "text-danger" : "text-primary"; 
+
+
+            <tr class="@color">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
