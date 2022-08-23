@@ -93,7 +93,7 @@ namespace GymApp14V1.Controllers
         }
 
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
         [HttpGet, ActionName("BookingXX")]
         public async Task<IActionResult> BookingAsync(string gymClassId)
         {
@@ -104,13 +104,13 @@ namespace GymApp14V1.Controllers
 
 
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
         [HttpGet, ActionName("Edit")]
         public async Task<IActionResult> EditAsync(int? id)
         {
             if (id == null) { return NotFound(); }
 
-            var getResult = await GetGymClassVMAsync(id.ToString());
+            var getResult = await GetGymClassVMAsync(id.ToString(), true);
             if (getResult == null) { return NotFound(); }
 
 
@@ -121,18 +121,20 @@ namespace GymApp14V1.Controllers
 
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAsync(int id, GymClassViewModel model)
         {
             if (id != model.Id) { return NotFound(); }
 
-            var entity = await GetGymClassAsync(id.ToString());
+            var entity = await GetGymClassAsync(id.ToString(), true);
+            if (entity is null) { return NotFound(); }
 
             entity.Description = model.Description;
             entity.Name = model.Name;
             entity.Duration = model.Duration;
+            entity.StartTime = model.StartTime;
 
 
             if (ModelState.IsValid)
@@ -158,7 +160,7 @@ namespace GymApp14V1.Controllers
             return View("../GymClass/Index");
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
         [HttpGet, ActionName("Delete")]
         public async Task<IActionResult> DeleteAsync(int? id)
         {
@@ -173,7 +175,7 @@ namespace GymApp14V1.Controllers
 
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmedAsync(int id)
@@ -315,8 +317,15 @@ namespace GymApp14V1.Controllers
         /// </summary>
         /// <param name="_gymClassId"></param>
         /// <returns></returns>
-        private async Task<GymClassViewModel?> GetGymClassVMAsync(string _gymClassId)
+        private async Task<GymClassViewModel?> GetGymClassVMAsync(string _gymClassId, bool ignoreQueryFilters = false)
         {
+            if (ignoreQueryFilters)
+            {
+                return await _mapper.
+                    ProjectTo<GymClassViewModel>(_context.GymPasses).IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
+            }
+
             return await _mapper.
                 ProjectTo<GymClassViewModel>(_context.GymPasses)
                 .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
@@ -327,8 +336,19 @@ namespace GymApp14V1.Controllers
         /// </summary>
         /// <param name="_gymClassId"></param>
         /// <returns></returns>
-        private async Task<GymClass?> GetGymClassAsync(string _gymClassId) =>
-            await _context.GymPasses.FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
+        private async Task<GymClass?> GetGymClassAsync(string _gymClassId, bool ignoreQueryFilters = false)
+        {
+            if (ignoreQueryFilters)
+            {
+                return await _context.GymPasses
+                    .IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
+            }
+
+            return await _context.GymPasses
+                .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
+        }
+
 
 
 
