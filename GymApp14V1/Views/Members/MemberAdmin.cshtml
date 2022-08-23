@@ -8,7 +8,5 @@
 
 
 <p class="text-primary fw-bold"> Number of Registered members: @Model.Members.Count()</p>
-<p class="fw-bold">You have @(User.IsInRole("Administrator") ? "Admin rights" : "Member rights")</p>
-
 
 <partial name="../Members/_MemberListTable" model="Model.Members"></partial>
