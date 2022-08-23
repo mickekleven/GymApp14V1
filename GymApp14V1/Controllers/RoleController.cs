@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using GymApp14V1.Core.ViewModels;
 using GymApp14V1.Data.Data;
+using GymApp14V1.Util.Helpers;
+using GymApp14V1.Validations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymApp14V1.Controllers
 {
-    //[Authorize(Roles = ClientArgs.ADMIN_ROLE)]
+    [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
     public class RoleController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -48,6 +51,7 @@ namespace GymApp14V1.Controllers
             return View($"{viewLocation}/Create", model);
         }
 
+        [ModelStateValidation]
         [HttpPost, ActionName("Create")]
         public async Task<IActionResult> CreateAsync(RoleViewModel model)
         {
@@ -62,6 +66,7 @@ namespace GymApp14V1.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
 
 
 
@@ -81,6 +86,7 @@ namespace GymApp14V1.Controllers
             return View($"{viewLocation}/Edit", role);
         }
 
+        [ModelStateValidation]
         [HttpPost, ActionName("Edit")]
         public async Task<IActionResult> EditAsync(RoleViewModel model)
         {
