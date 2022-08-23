@@ -17,7 +17,7 @@ namespace GymApp14V1.Core.ViewModels
 
 
         public int GymClassId { get; set; }
-        public IEnumerable<GymClass> GymClasses { get; set; } = new List<GymClass>();
+        public ICollection<ApplicationUserGymClass> AttendedClasses { get; set; } = new List<ApplicationUserGymClass>();
 
         public PageHeaderViewModel PageHeader { get; set; }
     }

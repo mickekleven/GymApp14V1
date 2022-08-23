@@ -389,8 +389,6 @@ namespace GymApp14V1.Controllers
             //Todo: Admin would see all but a member are only allow to see it's own information
 
 
-            var test = await _context.GymMembers
-                    .Include(a => a.AttendedClasses).ToListAsync();
 
             if (string.IsNullOrWhiteSpace(_memberId))
             {

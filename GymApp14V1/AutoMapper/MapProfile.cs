@@ -10,18 +10,13 @@ namespace GymApp14V1.AutoMapper
 
         public MapProfile()
         {
-            CreateMap<GymClass, GymClassViewModel>()
-                .ForMember(dest => dest.AttendingMembers, opt => opt.MapFrom(src => src.AttendingMembers));
+            CreateMap<GymClass, GymClassViewModel>();
 
-            CreateMap<GymClass, GymClassViewModel>()
-                .ForMember(dest => dest.AttendingMembers, opt => opt.MapFrom(src => src.AttendingMembers)).ReverseMap();
+            CreateMap<GymClass, GymClassViewModel>().ReverseMap();
 
-            CreateMap<ApplicationUser, MemberViewModel>()
-                .ForMember(dest => dest.GymClasses, opt => opt.MapFrom(src => src.AttendedClasses));
+            CreateMap<ApplicationUser, MemberViewModel>();
 
-            CreateMap<ApplicationUser, MemberViewModel>()
-                .ForMember(dest => dest.GymClasses, opt => opt.MapFrom(src => src.AttendedClasses))
-                .ReverseMap();
+            CreateMap<ApplicationUser, MemberViewModel>();
 
 
             //CreateMap<ApplicationUser, MemberViewModel>().ReverseMap();
