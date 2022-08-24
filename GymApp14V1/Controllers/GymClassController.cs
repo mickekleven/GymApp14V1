@@ -56,7 +56,7 @@ namespace GymApp14V1.Controllers
         {
             if (id == null) { return NotFound(); }
 
-            var getResult = await GetGymClassVMAsync(id.ToString());
+            var getResult = await GetGymClassVMAsync(id.ToString(), User.IsInRole(ClientArgs.ADMIN_ROLE));
             if (getResult == null) { return NotFound(); }
 
             getResult.PageHeader = GetPageHeader("Details", "Additional information");
@@ -116,7 +116,7 @@ namespace GymApp14V1.Controllers
         {
             if (id == null) { return NotFound(); }
 
-            var getResult = await GetGymClassVMAsync(id.ToString(), true);
+            var getResult = await GetGymClassVMAsync(id.ToString(), User.IsInRole(ClientArgs.ADMIN_ROLE));
             if (getResult == null) { return NotFound(); }
 
 
@@ -147,8 +147,8 @@ namespace GymApp14V1.Controllers
             {
                 try
                 {
-                    _context.Update(entity);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.GymClassRepo.Update(entity);
+                    await _unitOfWork.CompleteAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -189,8 +189,9 @@ namespace GymApp14V1.Controllers
             var entity = await GetGymClassAsync(id.ToString());
             if (entity is null) { return NotFound(); }
 
-            _context.GymPasses.Remove(entity);
-            await _context.SaveChangesAsync();
+            _unitOfWork.GymClassRepo.Remove(entity);
+            await _unitOfWork.CompleteAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
