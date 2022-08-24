@@ -49,9 +49,21 @@ namespace GymApp14V1.Repository
             }
         }
 
-        public virtual IQueryable<GymClass?> Find(Expression<Func<GymClass, bool>> predicate) =>
-                AppDbContext!.GymPasses
-                .Where(predicate);
+        public IQueryable<GymClass> Find(Expression<Func<GymClass, bool>> predicate, bool ignoreQueryFilter = false)
+        {
+
+            if (ignoreQueryFilter)
+            {
+                return AppDbContext!.GymPasses
+                    .Where(predicate)
+                    .IgnoreQueryFilters();
+            }
+
+            return AppDbContext!.GymPasses
+                .Where(predicate)
+                .IgnoreQueryFilters();
+        }
+
 
 
         public IQueryable<GymClass> GetAll(bool ignoreQueryFilter = false)
@@ -64,6 +76,7 @@ namespace GymApp14V1.Repository
 
             return AppDbContext!.GymPasses;
         }
+
 
 
         /// <summary>

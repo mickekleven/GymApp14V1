@@ -82,7 +82,7 @@ namespace GymApp14V1.Controllers
         {
             Expression<Func<GymClass, bool>> predicate = f => f.Name.ToLower() == model.Name.ToLower();
 
-            var isExist = await FindAsync(predicate);
+            var isExist = await FindAsync(predicate, User.IsInRole(ClientArgs.ADMIN_ROLE));
             if (isExist.Any()) { return View("../GymClass/GymClassCreate", model); }
 
             var entity = _mapper.Map<GymClass>(model);
@@ -193,12 +193,6 @@ namespace GymApp14V1.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
-
-
-
-
 
         [HttpGet, ActionName("Booking")]
         public async Task<IActionResult> BookingToggleAsync(int? id)
@@ -351,8 +345,13 @@ namespace GymApp14V1.Controllers
         // *******************************************************************
 
 
-        private async Task<IEnumerable<GymClassViewModel>> FindAsync(Expression<Func<GymClass, bool>> predicate) =>
-            await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses.Where(predicate)).ToListAsync();
+        private async Task<IEnumerable<GymClassViewModel>> FindAsync(
+            Expression<Func<GymClass, bool>> predicate, bool ignoreQueryFilter = false)
+        {
+            var findResult = _unitOfWork.GymClassRepo.Find(predicate, ignoreQueryFilter);
+            return await _mapper.ProjectTo<GymClassViewModel>(findResult).ToListAsync();
+        }
+
 
 
         private async Task<MemberViewModel> GetMemberVMAsync(string _memberId)
