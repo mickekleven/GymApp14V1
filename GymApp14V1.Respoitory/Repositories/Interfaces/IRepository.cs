@@ -15,9 +15,7 @@ namespace GymApp14V1.Repository.Interfaces
         /// <param name="asNoTracking"></param>
         /// <exception cref="ArgumentNullException">Thrown when userId input arguments is null</exception>
         /// <returns></returns>
-        Task<TEntity?> GetAsync(string id, bool asNoTracking = false);
-
-
+        Task<TEntity?> GetAsync(string id);
 
         /// <summary>
         /// Gets the full collection from DB
@@ -27,7 +25,7 @@ namespace GymApp14V1.Repository.Interfaces
         IQueryable<TEntity?> GetAll(string sortAlt = "");
 
 
-        IQueryable<TEntity?> Find(Expression<Func<TEntity, bool>> predicate, bool asNoTracking = true);
+        IQueryable<TEntity?> Find(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// Finds records based on user input

@@ -1,6 +1,5 @@
 ﻿using GymApp14V1.Data.Data;
 using GymApp14V1.Repository.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace GymApp14V1.Repository
@@ -31,17 +30,12 @@ namespace GymApp14V1.Repository
         /// <param name="id"></param>
         /// <param name="asNoTracking"></param>
         /// <returns></returns>
-        public virtual async Task<TEntity?> GetAsync(string id, bool asNoTracking = false)
+        public virtual async Task<TEntity?> GetAsync(string id)
         {
             return await Context.Set<TEntity?>().FindAsync(id).ConfigureAwait(false);
         }
 
 
-
-        public virtual async Task<IEnumerable<TEntity?>> GetAllReducedAsync(string sortAlt = "")
-        {
-            return await Context.Set<TEntity?>().ToListAsync().ConfigureAwait(false);
-        }
 
 
         /// <summary>
@@ -49,7 +43,7 @@ namespace GymApp14V1.Repository
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public virtual IQueryable<TEntity?> Find(Expression<Func<TEntity, bool>> predicate, bool asNotracking = true)
+        public virtual IQueryable<TEntity?> Find(Expression<Func<TEntity, bool>> predicate)
         {
             return Context.Set<TEntity?>().Where(predicate);
         }

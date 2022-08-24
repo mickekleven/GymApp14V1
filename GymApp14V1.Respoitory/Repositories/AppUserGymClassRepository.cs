@@ -25,13 +25,11 @@ namespace GymApp14V1.Repository
 
         public override void Remove(ApplicationUserGymClass entity)
         {
-
-
             AppDbContext.Remove(entity);
         }
 
 
-        public async override Task<ApplicationUserGymClass?> GetAsync(string id, bool asNoTracking = false)
+        public async override Task<ApplicationUserGymClass?> GetAsync(string id)
         {
             var isId = int.TryParse(id, out int idd);
             try

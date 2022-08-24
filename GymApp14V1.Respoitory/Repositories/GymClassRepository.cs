@@ -29,7 +29,7 @@ namespace GymApp14V1.Repository
         }
 
 
-        public async override Task<GymClass?> GetAsync(string id, bool asNoTracking = false)
+        public async override Task<GymClass?> GetAsync(string id)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace GymApp14V1.Repository
             }
         }
 
-        public virtual IQueryable<GymClass?> Find(Expression<Func<GymClass, bool>> predicate, bool asNotracking = true) =>
+        public virtual IQueryable<GymClass?> Find(Expression<Func<GymClass, bool>> predicate) =>
                 AppDbContext!.GymPasses
                 .Where(predicate);
 

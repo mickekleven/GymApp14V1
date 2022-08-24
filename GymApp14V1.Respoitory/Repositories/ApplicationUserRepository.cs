@@ -11,7 +11,7 @@ namespace GymApp14V1.Repository
         {
         }
 
-        public virtual IQueryable<ApplicationUser> Find(Expression<Func<ApplicationUser, bool>> predicate, bool asNotracking = true) =>
+        public override IQueryable<ApplicationUser> Find(Expression<Func<ApplicationUser, bool>> predicate) =>
           AppDbContext.Users
                 .Where(predicate);
 
