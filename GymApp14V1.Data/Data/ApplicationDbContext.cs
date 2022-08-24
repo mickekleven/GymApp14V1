@@ -27,6 +27,7 @@ namespace GymApp14V1.Data.Data
                 .HasKey(aug => new { aug.GymClassId, aug.ApplicationUserId });
 
             builder.Entity<GymClass>().HasQueryFilter(d => d.StartTime > DateTime.Now);
+            builder.Entity<ApplicationUserGymClass>().HasQueryFilter(g => g.GymClass.StartTime > DateTime.Now);
         }
     }
 }
