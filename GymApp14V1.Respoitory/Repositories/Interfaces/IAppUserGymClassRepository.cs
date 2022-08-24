@@ -5,6 +5,6 @@ namespace GarageV3.Data.Repositories.Interfaces
 {
     public interface IAppUserGymClassRepository : IRepository<ApplicationUserGymClass>
     {
-
+        Task<ApplicationUserGymClass> GetAsync(string memberId, int gymClassId);
     }
 }

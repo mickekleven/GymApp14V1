@@ -28,6 +28,17 @@ namespace GymApp14V1.Repository
             AppDbContext.Remove(entity);
         }
 
+        public async Task<ApplicationUserGymClass> GetAsync(string memberId, int gymClassId)
+        {
+            var result = await AppDbContext.ApplicationUsersGymClasses
+                .Include(x => x.ApplicationUser)
+                .Include(x => x.GymClass)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(x => x.GymClassId == gymClassId && x.ApplicationUserId.ToLower() == memberId.ToLower());
+
+            return result is not null ? result : default!;
+        }
+
 
         public async override Task<ApplicationUserGymClass?> GetAsync(string id)
         {
@@ -72,6 +83,8 @@ namespace GymApp14V1.Repository
                 .Include(v => v.GymClass)
                 .AsSplitQuery();
         }
+
+
 
 
         /// <summary>

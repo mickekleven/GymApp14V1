@@ -251,16 +251,15 @@ namespace GymApp14V1.Controllers
                     GymClassId = gymClass.Id
                 };
 
-                _context.ApplicationUsersGymClasses.Add(appUserGymClass);
+                _unitOfWork.AppUserGymClassRepo.Add(appUserGymClass);
             }
             else
             {
-                _context.ApplicationUsersGymClasses.Remove(memberAttn);
+                _unitOfWork.AppUserGymClassRepo.Remove(memberAttn);
             }
 
 
-
-            var addResult = await _context.SaveChangesAsync();
+            var addResult = await _unitOfWork.CompleteAsync();
 
 
             var bookingVM = new BookingViewModel
