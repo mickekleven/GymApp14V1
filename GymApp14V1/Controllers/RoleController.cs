@@ -135,6 +135,14 @@ namespace GymApp14V1.Controllers
         // Todo: Get AllUser, With roles passed to View UserRoleView
         // 
 
+        [HttpGet, ActionName("EditUserAndRole")]
+        public async Task<IActionResult> EditUserAndRoleAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+
+
 
         [HttpGet, ActionName("AddRoleToMember")]
         public async Task<IActionResult> AddRoleToMemberAsync(string memberId)
