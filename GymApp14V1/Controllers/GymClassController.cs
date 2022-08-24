@@ -125,8 +125,6 @@ namespace GymApp14V1.Controllers
 
 
             getResult.PageHeader = GetPageHeader("Update GymClass", "CRUD operation");
-
-
             return View("../GymClass/GymClassEdit", getResult);
 
         }
@@ -167,7 +165,9 @@ namespace GymApp14V1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View("../GymClass/Index");
+
+            model.PageHeader = GetPageHeader("Update GymClass", "CRUD operation");
+            return View("../GymClass/GymClassEdit", model);
         }
 
         [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
