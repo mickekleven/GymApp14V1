@@ -45,6 +45,9 @@ namespace GymApp14V1.Seeding
         public static async Task AddGymData(this WebApplication appl, ConfigurationManager confManager)
         {
 
+            seedPwd = confManager.GetValue<string>("UserAccountPwd");
+            ArgumentNullException.ThrowIfNull(nameof(seedPwd), "UserSecret must have UserAccountPwd");
+
             SetSeedDataParams(confManager.GetSection("SeedDataParams"));
 
             SetSeedRoles(confManager.GetSection("Roles"));
@@ -217,7 +220,6 @@ namespace GymApp14V1.Seeding
         private static void SetSeedDataParams(IConfigurationSection _confSection)
         {
             numberOfSeedItems = _confSection.GetValue<int>("NumberOfSeedItems");
-            seedPwd = _confSection.GetValue<string>("SeedPwd");
             firstNames = _confSection.GetSection("FirstNames").AsEnumerable();
             lastNames = _confSection.GetSection("LastNames").AsEnumerable();
             emailProviders = _confSection.GetSection("EmailProviders").AsEnumerable();
