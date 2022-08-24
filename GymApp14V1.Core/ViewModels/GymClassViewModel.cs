@@ -1,4 +1,5 @@
-﻿using GymApp14V1.Core.Models;
+﻿using GymApp14V1.Core.Filters;
+using GymApp14V1.Core.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace GymApp14V1.Core.ViewModels
@@ -12,6 +13,8 @@ namespace GymApp14V1.Core.ViewModels
         [Required]
         [Display(Name = "Gym class name")]
         public string Name { get; set; }
+
+        [DateLessThanNow]
         public DateTime StartTime { get; set; }
         public TimeSpan Duration { get; set; }
         public DateTime EndTime => StartTime + Duration;

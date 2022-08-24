@@ -78,6 +78,7 @@ namespace GymApp14V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
+        //[ModelStateValidation] //- Todo: Add middleware and catch any exception there. 
         public async Task<IActionResult> CreateAsync(GymClassViewModel model)
         {
             Expression<Func<GymClass, bool>> predicate = f => f.Name.ToLower() == model.Name.ToLower();
@@ -94,8 +95,11 @@ namespace GymApp14V1.Controllers
                 await _unitOfWork.CompleteAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            return View("../GymClass/Index");
+            else
+            {
+                model.PageHeader = GetPageHeader("Add GymClass", "CRUD operation");
+                return View("../GymClass/GymClassCreate", model);
+            }
         }
 
 
