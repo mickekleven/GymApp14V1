@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GymApp14V1.Core.Models;
 using GymApp14V1.Core.ViewModels;
 using GymApp14V1.Data.Data;
 using GymApp14V1.Util.Helpers;
@@ -16,14 +17,18 @@ namespace GymApp14V1.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
-
+        private readonly UserManager<ApplicationUser> _userManager;
         private const string viewLocation = "../Roles";
 
-        public RoleController(ApplicationDbContext context, IMapper mapper, RoleManager<IdentityRole> roleManager)
+        public RoleController(
+            ApplicationDbContext context,
+            IMapper mapper,
+            RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _mapper = mapper;
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
 
@@ -121,6 +126,34 @@ namespace GymApp14V1.Controllers
 
             return RedirectToAction(nameof(Index));
 
+        }
+
+        // ****************************************************************
+        // User and Roles
+        // ****************************************************************
+
+        // Todo: Get AllUser, With roles passed to View UserRoleView
+        // 
+
+
+        [HttpGet, ActionName("AddRoleToMember")]
+        public async Task<IActionResult> AddRoleToMemberAsync(string memberId)
+        {
+            var member = await _userManager.FindByIdAsync(memberId);
+            if (member is null) { return NotFound(); }
+
+            // Roles
+            var roles = await _context.Roles.ToListAsync();
+            var _roles = roles.Select(l => l.Name);
+
+            // UserRoles
+            var userRoles = await _userManager.GetRolesAsync(member);
+            if (roles is null) { return NotFound(); }
+
+            var union = _roles.Union(userRoles).Distinct();
+
+
+            return View(union);
         }
 
 
