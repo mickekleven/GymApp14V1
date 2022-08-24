@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GymApp14V1.Core\GymApp14V1.Core.csproj" />
     <ProjectReference Include="..\GymApp14V1.Data\GymApp14V1.Data.csproj" />
+    <ProjectReference Include="..\GymApp14V1.Respoitory\GymApp14V1.Respoitory.csproj" />
     <ProjectReference Include="..\GymApp14V1.Util\GymApp14V1.Util.csproj" />
   </ItemGroup>
 

@@ -48,10 +48,16 @@ namespace GymApp14V1.Repository
                 AppDbContext!.GymPasses
                 .Where(predicate);
 
-        public override IQueryable<GymClass> GetAll(string sortAlt = "")
-        {
-            return AppDbContext!.GymPasses;
 
+        public IQueryable<GymClass> GetAll(bool ignoreQueryFilter = false)
+        {
+
+            if (ignoreQueryFilter)
+            {
+                return AppDbContext!.GymPasses.IgnoreQueryFilters();
+            }
+
+            return AppDbContext!.GymPasses;
         }
 
 

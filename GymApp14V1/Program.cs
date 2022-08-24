@@ -1,6 +1,8 @@
 using GymApp14V1.AutoMapper;
 using GymApp14V1.Core.Models;
 using GymApp14V1.Data.Data;
+using GymApp14V1.Repository;
+using GymApp14V1.Repository.Interfaces;
 using GymApp14V1.Seeding;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,7 @@ builder.Services.AddAutoMapper(typeof(MapProfile));
 
 builder.Services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 var app = builder.Build();

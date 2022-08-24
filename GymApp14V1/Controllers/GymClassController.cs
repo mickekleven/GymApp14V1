@@ -2,6 +2,7 @@
 using GymApp14V1.Core.Models;
 using GymApp14V1.Core.ViewModels;
 using GymApp14V1.Data.Data;
+using GymApp14V1.Repository.Interfaces;
 using GymApp14V1.Util.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,14 +19,17 @@ namespace GymApp14V1.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
+        private readonly IUnitOfWork _unitOfWork;
+
 
         public GymClassController(
             ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager, IMapper mapper)
+            UserManager<ApplicationUser> userManager, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _context = context;
             _userManager = userManager;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -40,7 +44,6 @@ namespace GymApp14V1.Controllers
                 SubTitle = "Most visited gym in the area",
                 Content = "Below you find our selection. Just register an account if you are new here or login and start a helthier life"
             };
-
 
             return View("../GymClass/Index", await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE)));
 
@@ -355,16 +358,9 @@ namespace GymApp14V1.Controllers
 
         private async Task<IEnumerable<GymClassViewModel>> GetAllGymClassesAsync(bool ignoreQueryFilters = false)
         {
-            if (ignoreQueryFilters)
-            {
-                return await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses)
-                        .OrderBy(a => a.Name).IgnoreQueryFilters()
-                        .ToListAsync();
-            }
-
-            return await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses)
-                    .OrderBy(a => a.Name)
-                    .ToListAsync();
+            return await _mapper
+                .ProjectTo<GymClassViewModel>(
+                _unitOfWork.GymClassRepo.GetAll(ignoreQueryFilters)).ToListAsync();
         }
 
 
