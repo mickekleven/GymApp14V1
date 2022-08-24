@@ -45,6 +45,8 @@ namespace GymApp14V1.Controllers
                 Content = "Below you find our selection. Just register an account if you are new here or login and start a helthier life"
             };
 
+            var test = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
+
             return View("../GymClass/Index", await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE)));
 
         }
@@ -52,7 +54,7 @@ namespace GymApp14V1.Controllers
         [HttpGet, ActionName("Details")]
         public async Task<IActionResult> DetailsAsync(int? id)
         {
-            if (id == null || _context.GymPasses == null) { return NotFound(); }
+            if (id == null) { return NotFound(); }
 
             var getResult = await GetGymClassVMAsync(id.ToString());
             if (getResult == null) { return NotFound(); }
@@ -88,10 +90,11 @@ namespace GymApp14V1.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(entity);
-                await _context.SaveChangesAsync();
+                _unitOfWork.GymClassRepo.Add(entity);
+                await _unitOfWork.CompleteAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View("../GymClass/Index");
         }
 
@@ -322,16 +325,8 @@ namespace GymApp14V1.Controllers
         /// <returns></returns>
         private async Task<GymClassViewModel?> GetGymClassVMAsync(string _gymClassId, bool ignoreQueryFilters = false)
         {
-            if (ignoreQueryFilters)
-            {
-                return await _mapper.
-                    ProjectTo<GymClassViewModel>(_context.GymPasses).IgnoreQueryFilters()
-                    .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
-            }
-
-            return await _mapper.
-                ProjectTo<GymClassViewModel>(_context.GymPasses)
-                .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
+            var getResult = await _unitOfWork.GymClassRepo.GetAsync(_gymClassId, ignoreQueryFilters);
+            return _mapper.Map<GymClassViewModel>(getResult);
         }
 
         /// <summary>
@@ -339,22 +334,8 @@ namespace GymApp14V1.Controllers
         /// </summary>
         /// <param name="_gymClassId"></param>
         /// <returns></returns>
-        private async Task<GymClass?> GetGymClassAsync(string _gymClassId, bool ignoreQueryFilters = false)
-        {
-            if (ignoreQueryFilters)
-            {
-                return await _context.GymPasses
-                    .IgnoreQueryFilters()
-                    .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
-            }
-
-            return await _context.GymPasses
-                .FirstOrDefaultAsync(g => g.Id == int.Parse(_gymClassId));
-        }
-
-
-
-
+        private async Task<GymClass?> GetGymClassAsync(string _gymClassId, bool ignoreQueryFilters = false) =>
+                                            await _unitOfWork.GymClassRepo.GetAsync(_gymClassId, ignoreQueryFilters);
 
         private async Task<IEnumerable<GymClassViewModel>> GetAllGymClassesAsync(bool ignoreQueryFilters = false)
         {

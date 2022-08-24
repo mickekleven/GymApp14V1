@@ -29,13 +29,18 @@ namespace GymApp14V1.Repository
         }
 
 
-        public async override Task<GymClass?> GetAsync(string id)
+        public async Task<GymClass?> GetAsync(string id, bool ignoreQueryFilter = false)
         {
             try
             {
-                return await AppDbContext.GymPasses
-                    .FirstOrDefaultAsync(a => a.Id == int.Parse(id));
+                if (ignoreQueryFilter)
+                {
+                    return await AppDbContext.GymPasses.IgnoreQueryFilters()
+                        .FirstOrDefaultAsync(g => g.Id == int.Parse(id));
+                }
 
+                return await AppDbContext.GymPasses
+                        .FirstOrDefaultAsync(g => g.Id == int.Parse(id));
             }
             catch (Exception e)
             {
