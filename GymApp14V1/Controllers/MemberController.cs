@@ -85,8 +85,12 @@ namespace GymApp14V1.Controllers
 
                 try
                 {
-                    _context.Update(memberViewModel);
-                    await _context.SaveChangesAsync();
+                    member.Email = memberViewModel.Email;
+                    member.FirstName = memberViewModel.FirstName;
+                    member.LastName = memberViewModel.LastName;
+                    member.PhoneNumber = memberViewModel.PhoneNumber;
+
+                    await _userManager.UpdateAsync(member);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
