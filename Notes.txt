@@ -8,8 +8,19 @@ SELECT * FROM [GymAppDBInstance].[dbo].[AspNetUserRoles]
 SELECT * FROM [GymAppDBInstance].[dbo].[GymPasses]
 SELECT * FROM [GymAppDBInstance].[dbo].[ApplicationUserGymClass]
 
+IMPORTANT:
+User secrets
+Add Key value pair ->
+
+{
+  "UserAccountPwd": "*YouPassword*"
+}
+
 Disble the seed?
 Set flag IsSeedDatabase to false in appsettings.json
+
+
+
 
 Set the amount of seed records?
 Adjust the NumberOfSeedItems value in appsettings.json. The value is 40 as default
