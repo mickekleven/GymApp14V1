@@ -135,7 +135,6 @@ namespace GymApp14V1.Controllers
 
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
