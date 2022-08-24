@@ -1,4 +1,6 @@
 ﻿using GymApp14V1.Core.Models;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace GymApp14V1.Core.ViewModels
 {
@@ -7,9 +9,17 @@ namespace GymApp14V1.Core.ViewModels
 #nullable disable
 
         public string Id { get; set; }
+
+        [Required]
+        [StringLength(30)]
         public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(30)]
         public string LastName { get; set; }
         public string UserName { get; set; }
+
+        [ProtectedPersonalData]
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
