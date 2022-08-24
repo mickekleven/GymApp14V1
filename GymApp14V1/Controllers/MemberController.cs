@@ -127,8 +127,10 @@ namespace GymApp14V1.Controllers
             var member = await GetAsync(id);
             if (member != null)
             {
+                var roles = await _userManager.GetRolesAsync(member);
+
                 var deleteRoles = await _userManager
-                    .RemoveFromRolesAsync(member, new List<string> { "Administrator", "Member", "Visitor" });
+                    .RemoveFromRolesAsync(member, roles);
                 if (!deleteRoles.Succeeded) { return BadRequest(); }
 
                 var deleteRole = _userManager.DeleteAsync(member);
