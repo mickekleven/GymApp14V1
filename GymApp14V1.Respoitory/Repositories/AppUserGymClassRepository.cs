@@ -97,7 +97,7 @@ namespace GymApp14V1.Repository
                     .Where(a =>
                         a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
                         {
-                            IsAttending = a.ApplicationUser.Email.ToLower() == memberEmail,
+                            IsAttending = a.ApplicationUser.Email.ToLower() == memberEmail.ToLower(),
                             Name = a.GymClass.Name,
                             Description = a.GymClass.Description,
                             Duration = a.GymClass.Duration,

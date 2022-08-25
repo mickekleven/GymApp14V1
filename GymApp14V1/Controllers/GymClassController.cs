@@ -54,7 +54,7 @@ namespace GymApp14V1.Controllers
             }
 
 
-            return View("../GymClass/Index", model);
+            return View("../GymClass/Index", model.DistinctBy(x => x.Name));
 
         }
 
