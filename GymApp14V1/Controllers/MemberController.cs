@@ -2,6 +2,7 @@
 using GymApp14V1.Core.Models;
 using GymApp14V1.Core.ViewModels;
 using GymApp14V1.Data.Data;
+using GymApp14V1.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,18 @@ namespace GymApp14V1.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public MemberController(ApplicationDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager)
+        public MemberController(
+            ApplicationDbContext context,
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _mapper = mapper;
             _userManager = userManager;
+            _unitOfWork = unitOfWork;
         }
 
 
