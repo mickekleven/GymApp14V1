@@ -54,9 +54,11 @@ namespace GymApp14V1.Controllers
             var _model01 = model.Where(b => !b.IsAttending).DistinctBy(a => a.Name).ToList();
 
             var joins = _model01.Union(_model);
+            var groupBy = joins.OrderByDescending(i => i.IsAttending).GroupBy(g => g.Name).Select(f => f.First());
 
 
-            return View("../GymClass/Index", joins);
+
+            return View("../GymClass/Index", groupBy);
 
         }
 
