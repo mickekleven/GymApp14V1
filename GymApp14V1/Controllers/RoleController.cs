@@ -134,26 +134,52 @@ namespace GymApp14V1.Controllers
         // User and Roles
         // ****************************************************************
 
-
-        [HttpGet, ActionName("EditUserAndRole")]
-        public async Task<IActionResult> EditUserAndRoleAsync()
+        [HttpGet, ActionName("MemberRoleIndex")]
+        public async Task<IActionResult> MemberRoleIndexAsync()
         {
             //Todo: Continue here with implementation
 
-            var MemberList = await _unitOfWork.ApplicationUserRepo.GetAll().ToListAsync();
-            var aspRoles = await _mapper.ProjectTo<MemberRoleViewModel>(_unitOfWork.RoleRepo.GetAll()).ToListAsync();
+            var MemberList = _unitOfWork.ApplicationUserRepo.GetAll();
 
-
-            var model = new RoleViewModel
+            var model = new MemberRoleViewModel
             {
-                PageHeader = GetPageHeader("Member role list", "Admin page CRUD")
+                Members = await _mapper.ProjectTo<MemberViewModel>(MemberList).ToListAsync(),
+                PageHeader = GetPageHeader("Member and role crud", "Admin page CRUD")
             };
 
-
-            throw new NotImplementedException();
+            return View("../MembersAndRoles/MemberRoleIndex", model);
         }
 
 
+
+        //Update
+        [HttpGet, ActionName("MemberRoleEdit")]
+        public async Task<IActionResult> MemberRoleEditAsync(string id)
+        {
+            //Todo: Continue here with implementation
+
+            var member = await _userManager.FindByIdAsync(id);
+            if (member is null) { return NotFound(); }
+
+            var roles = await _userManager.GetRolesAsync(member);
+
+            var aspRoles = await _mapper.ProjectTo<MemberRoleViewModel>(_unitOfWork.RoleRepo.GetAll()).ToListAsync();
+
+            var model = new MemberRoleViewModel
+            {
+                Member = _mapper.Map<MemberViewModel>(member),
+                Roles = roles,
+                PageHeader = GetPageHeader("Member role list", "Admin page CRUD")
+            };
+
+            return View("../MembersAndRoles/MemberRoleEdit", model);
+        }
+
+        [HttpPost, ActionName("MemberRoleEdit")]
+        public async Task<IActionResult> MemberRoleEditAsync(MemberRoleViewModel model)
+        {
+            throw new NotImplementedException();
+        }
 
 
         [HttpGet, ActionName("AddRoleToMember")]

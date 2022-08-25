@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MemberViewModel>
+
+
+
+
+@if (User.Identity.IsAuthenticated) {
+
+    <p class="text-primary fw-bold"> Number of Gym classes: @Model.Count()</p>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                @if (User?.Identity?.Name?.ToLower() == item.Email || User.IsInRole(ClientArgs.ADMIN_ROLE))
+                {
+                    var isCurrent = User.Identity.Name.Equals(item.Email, StringComparison.OrdinalIgnoreCase);
+
+                    <tr class="@(isCurrent ? "text-light fw-bold bg-secondary" : "")">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+
+                        <td>
+                            <a class="@(isCurrent ? "text-light fw-bold" : "")" asp-controller="Role" asp-action="MemberRoleEdit" asp-route-id="@item.Id">Edit</a><span> | </span>
+                            <a class="@(isCurrent ? "text-light fw-bold" : "")" asp-controller="Role" asp-action="MemberRoleDetails" asp-route-id="@item.Id">Details</a><span> | </span>
+                            <a class="@(isCurrent ? "text-light fw-bold" : "")" asp-controller="Role" asp-action="MemberRoleDelete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+
+
