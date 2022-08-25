@@ -39,9 +39,6 @@ namespace GymApp14V1.Controllers
                 Content = "Below you find our selection. Just register an account if you are new here or login and start a helthier life"
             };
 
-
-
-
             IEnumerable<GymClassViewModel> model;
 
             if (User.Identity is not null && !string.IsNullOrWhiteSpace(User.Identity.Name))
@@ -52,7 +49,6 @@ namespace GymApp14V1.Controllers
             {
                 model = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
             }
-
 
             return View("../GymClass/Index", model.DistinctBy(x => x.Name));
 

@@ -98,7 +98,7 @@ namespace GymApp14V1.Repository
                         a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
                         {
                             Id = a.GymClassId,
-                            IsAttending = a.ApplicationUser.Email.ToLower() == memberEmail.ToLower(),
+                            IsAttending = a.ApplicationUser.Email.ToLower().Equals(memberEmail.ToLower()),
                             Name = a.GymClass.Name,
                             Description = a.GymClass.Description,
                             Duration = a.GymClass.Duration,
@@ -115,7 +115,7 @@ namespace GymApp14V1.Repository
                     a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
                     {
                         Id = a.GymClassId,
-                        IsAttending = a.ApplicationUser.Email.ToLower() == memberEmail.ToLower(),
+                        IsAttending = a.ApplicationUser.Email.ToLower().Equals(memberEmail.ToLower()),
                         Name = a.GymClass.Name,
                         Description = a.GymClass.Description,
                         Duration = a.GymClass.Duration,
