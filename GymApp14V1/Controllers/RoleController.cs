@@ -164,8 +164,10 @@ namespace GymApp14V1.Controllers
             var aspNetRoles = await _unitOfWork.RoleRepo.GetAll().ToListAsync();
             var _aspNetRoles = aspNetRoles.Select(l => l.Name).ToList();
 
-            var NotSelected = _aspNetRoles.Union(roles).Distinct();
+            var NotSelected = _aspNetRoles.Union(roles).Distinct().ToList();
 
+
+            //Todo remove User Role from collection
 
             var aspRoles = await _unitOfWork.RoleRepo.GetAll().ToListAsync();
 
