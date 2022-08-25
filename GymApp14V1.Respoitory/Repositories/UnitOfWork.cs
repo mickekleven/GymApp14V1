@@ -12,6 +12,8 @@ namespace GymApp14V1.Repository
         public IGymClassRepository GymClassRepo { get; private set; }
         public IApplicationUserRepository ApplicationUserRepo { get; private set; }
 
+        public IRoleRepository RoleRepo { get; private set; }
+
 
         public UnitOfWork(ApplicationDbContext _context)
         {
@@ -22,6 +24,8 @@ namespace GymApp14V1.Repository
             ApplicationUserRepo = new ApplicationUserRepository(_context);
 
             GymClassRepo = new GymClassRepository(_context);
+
+            RoleRepo = new RoleRepository(_context);
 
         }
 

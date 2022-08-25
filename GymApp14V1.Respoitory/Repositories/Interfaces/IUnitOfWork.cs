@@ -8,6 +8,8 @@ namespace GymApp14V1.Repository.Interfaces
         IGymClassRepository GymClassRepo { get; }
         IApplicationUserRepository ApplicationUserRepo { get; }
 
+        IRoleRepository RoleRepo { get; }
+
         Task<int> CompleteAsync(bool stopTracker = false);
 
     }

@@ -1,30 +1,28 @@
 ﻿using AutoMapper;
 using GymApp14V1.Core.Models;
 using GymApp14V1.Core.ViewModels;
-using GymApp14V1.Data.Data;
 using GymApp14V1.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace GymApp14V1.Controllers
 {
     [Authorize]
     public class MemberController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
 
         public MemberController(
-            ApplicationDbContext context,
+
             IUnitOfWork unitOfWork,
             IMapper mapper,
             UserManager<ApplicationUser> userManager)
         {
-            _context = context;
             _mapper = mapper;
             _userManager = userManager;
             _unitOfWork = unitOfWork;
@@ -101,7 +99,9 @@ namespace GymApp14V1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberExist(memberViewModel.Id))
+                    var memberExists = await MemberExist(memberViewModel.Id);
+
+                    if (!memberExists)
                     {
                         return NotFound();
                     }
@@ -151,9 +151,14 @@ namespace GymApp14V1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberExist(string id)
+        private async Task<bool> MemberExist(string id)
         {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+
+            Expression<Func<ApplicationUser, bool>> predicate = i => i.Id.ToLower() == id.ToLower();
+
+            var result = await _unitOfWork.ApplicationUserRepo.Find(predicate).ToListAsync();
+
+            return result.Any();
         }
 
 
@@ -207,15 +212,10 @@ namespace GymApp14V1.Controllers
                                                     await _userManager.GetRolesAsync(_user);
 
 
-        private async Task<IEnumerable<string>> GetRolesByMemberIdAsync(string _memberId)
-        {
-            var roles = await (from a in _context.UserRoles
-                               join b in _context.Roles on a.UserId equals b.Id
-                               where a.UserId.ToLower() == b.Id.ToLower()
-                               select b.Name).ToListAsync();
+        private async Task<IEnumerable<string>> GetRolesByMemberIdAsync(string _memberId) =>
+            await _unitOfWork.RoleRepo.GetRolesByMemberIdAsync(_memberId).ToListAsync();
 
-            return roles;
-        }
+
 
         /// <summary>
         /// Gets user collection included with role name
