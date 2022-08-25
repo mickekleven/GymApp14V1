@@ -137,8 +137,6 @@ namespace GymApp14V1.Controllers
         [HttpGet, ActionName("MemberRoleIndex")]
         public async Task<IActionResult> MemberRoleIndexAsync()
         {
-            //Todo: Continue here with implementation
-
             var MemberList = _unitOfWork.ApplicationUserRepo.GetAll();
 
             var model = new MemberRoleViewModel
@@ -163,13 +161,21 @@ namespace GymApp14V1.Controllers
 
             var roles = await _userManager.GetRolesAsync(member);
 
+            var aspNetRoles = await _unitOfWork.RoleRepo.GetAll().ToListAsync();
+            var _aspNetRoles = aspNetRoles.Select(l => l.Name).ToList();
+
+            var NotSelected = _aspNetRoles.Union(roles).Distinct();
+
+
             var aspRoles = await _unitOfWork.RoleRepo.GetAll().ToListAsync();
 
             var model = new MemberRoleViewModel
             {
                 Member = _mapper.Map<MemberViewModel>(member),
-                Roles = roles,
-                PageHeader = GetPageHeader("Member role list", "Admin page CRUD")
+                MemberRoles = roles,
+                NotSelectedRoles = NotSelected,
+
+                PageHeader = GetPageHeader("Add Role", "Admin page CRUD")
             };
 
             return View("../MembersAndRoles/MemberRoleEdit", model);
