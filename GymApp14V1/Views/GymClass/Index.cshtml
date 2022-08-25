@@ -55,10 +55,17 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
 
-                @if (User.IsInRole(ClientArgs.ADMIN_ROLE))
+                @if (User.Identity.IsAuthenticated)
                 {
                     <td>
                         <a class="btn @(item.IsAttending ? "btn-danger" : "btn-primary") btn-block" asp-controller="GymClass" asp-action="Booking" asp-route-id="@item?.Id">@(item.IsAttending ? "CANCEL" : "BOOK")</a>
+
+                    </td>
+                }
+
+                @if (User.IsInRole(ClientArgs.ADMIN_ROLE))
+                {
+                    <td>
                         <a asp-controller="GymClass" asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> | </span>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a><span> | </span>
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a><span> | </span>
@@ -69,7 +76,6 @@
                 @if (User.IsInRole(ClientArgs.MEMBER_ROLE)) {
                     <a asp-controller="GymClass" asp-action="Booking" asp-route-id="@item?.Id">Gym Reservation</a> 
                 }
-
 
             </tr>
         }

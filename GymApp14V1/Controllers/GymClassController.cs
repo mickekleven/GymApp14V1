@@ -39,31 +39,12 @@ namespace GymApp14V1.Controllers
                 Content = "Below you find our selection. Just register an account if you are new here or login and start a helthier life"
             };
 
-            IEnumerable<GymClassViewModel> model;
 
-            if (User.Identity is not null && !string.IsNullOrWhiteSpace(User.Identity.Name))
-            {
-                model = await GetAttendingCollectionAsync(User.Identity.Name);
-            }
-            else
-            {
-                model = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
-            }
+            var model = await SetDefaultCollectionAsync();
 
-            var _model = model.Where(a => a.IsAttending).ToList();
-            var _model01 = model.Where(b => !b.IsAttending).DistinctBy(a => a.Name).ToList();
-
-            var joins = _model01.Union(_model);
-            var groupBy = joins.OrderByDescending(i => i.IsAttending).GroupBy(g => g.Name).Select(f => f.First());
-
-
-
-            return View("../GymClass/Index", groupBy);
+            return View("../GymClass/Index", model);
 
         }
-
-
-
 
         [AllowAnonymous]
         [HttpGet, ActionName("IndexOld")]
@@ -498,5 +479,26 @@ namespace GymApp14V1.Controllers
 
 
         }
+
+        private async Task<IEnumerable<GymClassViewModel>> SetDefaultCollectionAsync()
+        {
+            IEnumerable<GymClassViewModel> model;
+
+            if (User.Identity is not null && !string.IsNullOrWhiteSpace(User.Identity.Name))
+            {
+                model = await GetAttendingCollectionAsync(User.Identity.Name);
+            }
+            else
+            {
+                model = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
+            }
+
+            var _model = model.Where(a => a.IsAttending).ToList();
+            var _model01 = model.Where(b => !b.IsAttending).DistinctBy(a => a.Name).ToList();
+
+            var joins = _model01.Union(_model);
+            return joins.OrderByDescending(i => i.IsAttending).GroupBy(g => g.Name).Select(f => f.First());
+        }
+
     }
 }
