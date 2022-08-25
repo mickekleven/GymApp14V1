@@ -121,7 +121,7 @@ namespace GymApp14V1.Repository
                         Duration = a.GymClass.Duration,
                         StartTime = a.GymClass.StartTime
 
-                    }).IgnoreAutoIncludes().ToListAsync();
+                    }).IgnoreQueryFilters().ToListAsync();
         }
 
         /// <summary>
