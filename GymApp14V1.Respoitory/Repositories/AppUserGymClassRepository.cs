@@ -95,10 +95,9 @@ namespace GymApp14V1.Repository
                     .Include(a => a.ApplicationUser)
                     .Include(a => a.GymClass)
                     .Where(a =>
-                        a.ApplicationUser.Email.ToLower() == memberEmail.ToLower() &&
                         a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
                         {
-                            IsAttending = true,
+                            IsAttending = a.ApplicationUser.Email.ToLower() == memberEmail,
                             Name = a.GymClass.Name,
                             Description = a.GymClass.Description,
                             Duration = a.GymClass.Duration,
@@ -112,10 +111,9 @@ namespace GymApp14V1.Repository
                 .Include(a => a.ApplicationUser)
                 .Include(a => a.GymClass)
                 .Where(a =>
-                    a.ApplicationUser.Email.ToLower() == memberEmail.ToLower() &&
                     a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
                     {
-                        IsAttending = true,
+                        IsAttending = a.ApplicationUser.Email.ToLower() == memberEmail.ToLower(),
                         Name = a.GymClass.Name,
                         Description = a.GymClass.Description,
                         Duration = a.GymClass.Duration,
