@@ -6,44 +6,54 @@
     <partial name="_PageHeader" model="Model.PageHeader"></partial>
 }
 
-<hr />
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GymClass.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GymClass.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GymClass.StartTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GymClass.StartTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GymClass.Duration)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GymClass.Duration)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GymClass.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GymClass.Description)
+        </dd>
+    </dl>
+</div>
+
+
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="GymClass" asp-action="Booking">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="GymClass.Name" class="control-label"></label>
-                <input asp-for="GymClass.Name" class="form-control" />
-                <span asp-validation-for="GymClass.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GymClass.StartTime" class="control-label"></label>
-                <input asp-for="GymClass.StartTime" class="form-control" />
-                <span asp-validation-for="GymClass.StartTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GymClass.Duration" class="control-label"></label>
-                <input asp-for="GymClass.Duration" class="form-control" />
-                <span asp-validation-for="GymClass.Duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GymClass.Description" class="control-label"></label>
-                <input asp-for="GymClass.Description" class="form-control" />
-                <span asp-validation-for="GymClass.Description" class="text-danger"></span>
+                <input asp-for="GymClass.Id" class="form-control" hidden/>
             </div>
             <div class="form-group">
                 <input type="submit" value="@(Model.IsAttending ? "CANCEL" : "BOOK")" class="btn @(Model.IsAttending ? "btn-danger" : "btn-primary")" />
             </div>
-
-            <input asp-for="GymClass.Id" class="form-control" hidden/>
-
         </form>
     </div>
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div
+</div>
 
 
 
