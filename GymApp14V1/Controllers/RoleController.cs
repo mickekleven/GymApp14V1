@@ -190,7 +190,7 @@ namespace GymApp14V1.Controllers
 
                 await _userManager.AddToRoleAsync(user, model.SelectedRole);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("MemberRoleIndex");
             }
 
             throw new NotImplementedException();
