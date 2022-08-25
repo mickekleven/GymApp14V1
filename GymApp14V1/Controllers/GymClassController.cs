@@ -416,18 +416,16 @@ namespace GymApp14V1.Controllers
         /// <exception cref="NotImplementedException"></exception>
         private async Task<IEnumerable<MemberViewModel>> GetMemberGymClassesAsync(string _memberId = "")
         {
-            //Todo: Admin would see all but a member are only allow to see it's own information
+            var attendedClss = _unitOfWork.AppUserGymClassRepo.GetAll();
 
             if (string.IsNullOrWhiteSpace(_memberId))
             {
-                return await _mapper.ProjectTo<MemberViewModel>(_context.GymMembers
-                    .Include(a => a.AttendedClasses)).ToListAsync();
+                return await _mapper.ProjectTo<MemberViewModel>(attendedClss).ToListAsync();
             }
 
 
-            return await _mapper.ProjectTo<MemberViewModel>(_context.GymMembers
-                .Include(a => a.AttendedClasses)
-                .Where(a => a.Id.ToLower() == _memberId.ToLower()))
+            return await _mapper.ProjectTo<MemberViewModel>(attendedClss)
+                .Where(a => a.Id.ToLower() == _memberId.ToLower())
                 .ToListAsync();
         }
 
@@ -438,8 +436,8 @@ namespace GymApp14V1.Controllers
         /// <exception cref="NotImplementedException"></exception>
         private async Task<IEnumerable<GymClassViewModel>> GetGymClassesMembersAsync()
         {
-            return await _mapper.ProjectTo<GymClassViewModel>(_context.GymPasses
-                .Include(a => a.AttendingMembers)).ToListAsync();
+            var attendedClss = _unitOfWork.AppUserGymClassRepo.GetAll();
+            return await _mapper.ProjectTo<GymClassViewModel>(attendedClss).ToListAsync();
         }
 
     }
