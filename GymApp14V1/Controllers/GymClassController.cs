@@ -278,7 +278,10 @@ namespace GymApp14V1.Controllers
                 var appUserGymClass = new ApplicationUserGymClass
                 {
                     ApplicationUserId = member.Id,
-                    GymClassId = gymClass.Id
+                    GymClassId = gymClass.Id,
+                    GymClass = gymClass,
+                    ApplicationUser = member
+
                 };
 
                 _unitOfWork.AppUserGymClassRepo.Add(appUserGymClass);
@@ -302,8 +305,6 @@ namespace GymApp14V1.Controllers
 
 
             return RedirectToAction(nameof(Index));
-
-            return View("../Bookings/Booking", bookingVM);
         }
 
         [AllowAnonymous]
