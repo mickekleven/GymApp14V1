@@ -4,7 +4,7 @@ namespace GymApp14V1.Repository.Interfaces
 {
     public interface IRoleRepository : IRepository<IdentityRole>
     {
-        IQueryable<IdentityRole> GetAll();
+        IQueryable<IdentityRole> GetRoles(string roleId = "");
 
         IQueryable<string> GetRolesByMemberIdAsync(string _memberId);
     }

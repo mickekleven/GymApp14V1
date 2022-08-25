@@ -15,19 +15,17 @@ namespace GymApp14V1.Repository
           AppDbContext.Roles
                 .Where(predicate);
 
-        public IQueryable<IdentityRole> GetAll(string id = "")
+        public override IQueryable<IdentityRole> GetAll(string sortAlt = "") => AppDbContext.Roles;
+
+
+        public IQueryable<IdentityRole> GetRoles(string roleId = "")
         {
-            if (!string.IsNullOrWhiteSpace(id))
+            if (!string.IsNullOrWhiteSpace(roleId))
             {
-                return AppDbContext.Roles.Where(i => i.Id.ToLower() == id.ToLower());
+                return AppDbContext.Roles.Where(i => i.Id.ToLower() == roleId.ToLower());
             }
 
             return AppDbContext.Roles;
-        }
-
-        public IQueryable<IdentityRole> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public IQueryable<string> GetRolesByMemberIdAsync(string _memberId)
@@ -37,6 +35,8 @@ namespace GymApp14V1.Repository
                     where a.UserId.ToLower() == b.Id.ToLower()
                     select b.Name);
         }
+
+
 
 
 

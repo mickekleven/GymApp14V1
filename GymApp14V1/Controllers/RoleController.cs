@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using GymApp14V1.Core.Models;
 using GymApp14V1.Core.ViewModels;
-using GymApp14V1.Data.Data;
+using GymApp14V1.Repository.Interfaces;
 using GymApp14V1.Util.Helpers;
 using GymApp14V1.Validations;
 using Microsoft.AspNetCore.Authorization;
@@ -14,21 +14,23 @@ namespace GymApp14V1.Controllers
     [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
     public class RoleController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+
+        private readonly IUnitOfWork _unitOfWork;
         private const string viewLocation = "../Roles";
 
         public RoleController(
-            ApplicationDbContext context,
             IMapper mapper,
+            IUnitOfWork unitOfWork,
             RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+
             _mapper = mapper;
             _roleManager = roleManager;
             _userManager = userManager;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -151,7 +153,7 @@ namespace GymApp14V1.Controllers
             if (member is null) { return NotFound(); }
 
             // Roles
-            var roles = await _context.Roles.ToListAsync();
+            var roles = await _unitOfWork.RoleRepo.GetRoles().ToListAsync();
             var _roles = roles.Select(l => l.Name);
 
             // UserRoles
@@ -166,10 +168,10 @@ namespace GymApp14V1.Controllers
 
 
         private async Task<IEnumerable<RoleViewModel>> GetAllAsync() =>
-            await _mapper.ProjectTo<RoleViewModel>(_context.Roles).ToListAsync();
+            await _mapper.ProjectTo<RoleViewModel>(_unitOfWork.RoleRepo.GetAll()).ToListAsync();
 
         private async Task<IEnumerable<MemberViewModel>> GetAllMemberAsync() =>
-            await _mapper.ProjectTo<MemberViewModel>(_context.Users).ToListAsync();
+            await _mapper.ProjectTo<MemberViewModel>(_unitOfWork.ApplicationUserRepo.GetAll()).ToListAsync();
 
 
         private PageHeaderViewModel GetPageHeader(string headLine, string SubTitle, string content = "")
