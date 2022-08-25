@@ -226,6 +226,8 @@ namespace GymApp14V1.Controllers
         {
             List<MemberViewModel> members = new();
 
+            return await _unitOfWork.ApplicationUserRepo.GetFullCollection(memberId: _memberId).ToListAsync();
+
             if (string.IsNullOrWhiteSpace(_memberId))
             {
                 return await (from a in _context.Users

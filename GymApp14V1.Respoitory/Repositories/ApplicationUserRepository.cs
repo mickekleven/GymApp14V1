@@ -23,7 +23,7 @@ namespace GymApp14V1.Repository
 
         public IQueryable<MemberViewModel> GetFullCollection(string memberId = "")
         {
-            if (string.IsNullOrWhiteSpace(memberId))
+            if (!string.IsNullOrWhiteSpace(memberId))
             {
                 return (from a in AppDbContext.Users
                         join b in AppDbContext.UserRoles on a.Id equals b.UserId
