@@ -241,6 +241,9 @@ namespace GymApp14V1.Controllers
 
             var gymClass = await GetGymClassAsync(model.GymClass.Id.ToString());
 
+
+            var _memberAttn = await GetMemberGymClassAsync(member.Id, gymClass.Id);
+
             var memberAttn = await _context.ApplicationUsersGymClasses.FirstOrDefaultAsync(a => a.ApplicationUser.Id == member.Id);
 
             if (memberAttn is null)
@@ -440,5 +443,15 @@ namespace GymApp14V1.Controllers
             return await _mapper.ProjectTo<GymClassViewModel>(attendedClss).ToListAsync();
         }
 
+
+        private async Task<ApplicationUserGymClass> GetMemberGymClassAsync(string memberId, int gymClassId)
+        {
+            if (string.IsNullOrWhiteSpace(memberId) || gymClassId <= 0) { return default; }
+
+            return await _unitOfWork.AppUserGymClassRepo.GetAsync(memberId, gymClassId);
+
+
+
+        }
     }
 }
