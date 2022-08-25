@@ -154,7 +154,7 @@ namespace GymApp14V1.Controllers
         [HttpGet, ActionName("MemberRoleEdit")]
         public async Task<IActionResult> MemberRoleEditAsync(string id)
         {
-            //Todo: Continue here with implementation
+
 
             var member = await _userManager.FindByIdAsync(id);
             if (member is null) { return NotFound(); }
@@ -194,6 +194,44 @@ namespace GymApp14V1.Controllers
             }
 
             throw new NotImplementedException();
+        }
+
+        [HttpGet, ActionName("MemberRoleDelete")]
+        public async Task<IActionResult> MemberRoleDeleteAsync(string id)
+        {
+            //Todo: Continue here with implementation
+
+            var member = await _userManager.FindByIdAsync(id);
+            if (member is null) { return NotFound(); }
+
+
+            var memberRoles = await _userManager.GetRolesAsync(member);
+
+
+            var model = new MemberRoleViewModel
+            {
+                Member = _mapper.Map<MemberViewModel>(member),
+                MemberRoles = memberRoles,
+
+                PageHeader = GetPageHeader("Delete Role", "Admin page CRUD")
+            };
+
+            return View("../MembersAndRoles/MemberRoleDelete", model);
+
+        }
+
+
+        [HttpPost, ActionName("MemberRoleDelete")]
+        public async Task<IActionResult> MemberRoleDeleteAsync(MemberRoleViewModel model)
+        {
+            //Todo: Continue here with implementation
+
+            var member = await _userManager.FindByIdAsync(model.Member.Id);
+            if (member is null) { return NotFound(); }
+
+            var deleteResult = await _userManager.RemoveFromRoleAsync(member, model.SelectedRole);
+
+            return RedirectToAction("MemberRoleIndex");
         }
 
 
