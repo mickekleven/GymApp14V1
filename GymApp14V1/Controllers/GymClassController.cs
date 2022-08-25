@@ -50,7 +50,7 @@ namespace GymApp14V1.Controllers
                 model = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
             }
 
-            return View("../GymClass/Index", model.DistinctBy(x => x.Name));
+            return View("../GymClass/Index", model);
 
         }
 
