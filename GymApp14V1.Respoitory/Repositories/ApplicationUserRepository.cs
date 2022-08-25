@@ -28,7 +28,7 @@ namespace GymApp14V1.Repository
                 return (from a in AppDbContext.Users
                         join b in AppDbContext.UserRoles on a.Id equals b.UserId
                         join c in AppDbContext.Roles on b.RoleId equals c.Id
-                        where c.Id == memberId
+                        where a.Id.ToLower() == memberId.ToLower()
                         select new MemberViewModel
                         {
                             Id = a.Id,
