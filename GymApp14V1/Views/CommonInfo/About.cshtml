@@ -1,0 +1,39 @@
+﻿@using GymApp14V1.Util.Helpers
+@model CommonInfoViewModel
+
+
+@if (Model.PageHeader is not null) {
+    <partial name="../Shared/_PageHeader" model="Model.PageHeader"></partial>
+}
+
+
+<p>
+    <a class="btn btn-info btn-lg mt-4" asp-controller="GymClass" asp-action="Index">Home</a>
+</p>
+
+
+<div class="row">
+
+    <div class="col-md-12 mt-4">
+        <h1 class="display-5 fw-bold">@Model.Paragraph</h1>
+    </div>
+
+    <div class="col-md-12 mt-4">
+        <h1 class="display-6">@Model.Paragraph01</h1>
+    </div>
+
+    <div class="col-md-12 mt-4">
+        <h1 class="display-6">@Model.Paragraph02</h1>
+    </div>
+
+    <div class="col-md-12 mt-4">
+        <h1 class="display-6">@Model.Paragraph03</h1>
+    </div>
+
+    <div class="col-md-12 mt-4">
+        <h1 class="display-6">@Model.Paragraph04</h1>
+    </div>
+
+</div>
+
+
