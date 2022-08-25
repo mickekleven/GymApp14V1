@@ -116,21 +116,6 @@ namespace GymApp14V1.Controllers
 
 
         [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
-        [HttpGet, ActionName("BookingXX")]
-        public async Task<IActionResult> BookingAsync(string gymClassId)
-        {
-            if (string.IsNullOrWhiteSpace(gymClassId)) { return NotFound(); }
-            var getResult = await GetGymClassVMAsync(gymClassId);
-
-
-
-
-            return View(getResult);
-        }
-
-
-
-        [Authorize(Roles = ClientArgs.ADMIN_ROLE)]
         [HttpGet, ActionName("Edit")]
         public async Task<IActionResult> EditAsync(int? id)
         {
