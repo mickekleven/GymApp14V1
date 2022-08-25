@@ -163,7 +163,7 @@ namespace GymApp14V1.Controllers
 
             var roles = await _userManager.GetRolesAsync(member);
 
-            var aspRoles = await _mapper.ProjectTo<MemberRoleViewModel>(_unitOfWork.RoleRepo.GetAll()).ToListAsync();
+            var aspRoles = await _unitOfWork.RoleRepo.GetAll().ToListAsync();
 
             var model = new MemberRoleViewModel
             {
