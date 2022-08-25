@@ -167,9 +167,6 @@ namespace GymApp14V1.Controllers
             var notSelected = _aspNetRoles.Except(userRoles).ToList();
 
 
-
-
-
             var model = new MemberRoleViewModel
             {
                 Member = _mapper.Map<MemberViewModel>(member),
@@ -185,6 +182,17 @@ namespace GymApp14V1.Controllers
         [HttpPost, ActionName("MemberRoleEdit")]
         public async Task<IActionResult> MemberRoleEditAsync(MemberRoleViewModel model)
         {
+
+            if (!string.IsNullOrWhiteSpace(model.SelectedRole))
+            {
+                var user = await _userManager.FindByIdAsync(model.Member.Id);
+                if (user is null) { return NotFound(); }
+
+                await _userManager.AddToRoleAsync(user, model.SelectedRole);
+
+                return RedirectToAction(nameof(Index));
+            }
+
             throw new NotImplementedException();
         }
 
