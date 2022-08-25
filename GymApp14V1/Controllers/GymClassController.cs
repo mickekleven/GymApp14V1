@@ -50,8 +50,8 @@ namespace GymApp14V1.Controllers
                 model = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
             }
 
-            var _model = model.Where(a => a.IsAttending);
-            var _model01 = model.DistinctBy(a => a.Name).ToList();
+            var _model = model.Where(a => a.IsAttending).ToList();
+            var _model01 = model.Where(b => !b.IsAttending).DistinctBy(a => a.Name).ToList();
 
             var joins = _model01.Union(_model);
 
