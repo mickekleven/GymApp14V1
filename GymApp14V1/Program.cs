@@ -29,11 +29,6 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
-
-//ToDo: skapa seedningen här.
-// Seeda roller (Admin, Member)
-
-
 var seedParams = builder.Configuration.GetSection("SeedDataParams");
 if (seedParams.GetValue<bool>("IsSeedDatabase"))
 {

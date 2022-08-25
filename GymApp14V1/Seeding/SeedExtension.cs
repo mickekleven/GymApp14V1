@@ -98,7 +98,6 @@ namespace GymApp14V1.Seeding
             var identUserRoles = ReferenceUsersAndRoles(_members, _roles);
             _db.AddRange(identUserRoles);
 
-            //ToDo: Add GymClasses and members
             var userAndGymClasses = ReferenceUserAndGymClass(_members, gymClasses);
             _db.AddRange(userAndGymClasses);
 

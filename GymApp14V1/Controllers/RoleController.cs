@@ -134,12 +134,22 @@ namespace GymApp14V1.Controllers
         // User and Roles
         // ****************************************************************
 
-        // Todo: Get AllUser, With roles passed to View UserRoleView
-        // 
 
         [HttpGet, ActionName("EditUserAndRole")]
         public async Task<IActionResult> EditUserAndRoleAsync()
         {
+            //Todo: Continue here with implementation
+
+            var MemberList = await _unitOfWork.ApplicationUserRepo.GetAll().ToListAsync();
+            var aspRoles = await _mapper.ProjectTo<MemberRoleViewModel>(_unitOfWork.RoleRepo.GetAll()).ToListAsync();
+
+
+            var model = new RoleViewModel
+            {
+                PageHeader = GetPageHeader("Member role list", "Admin page CRUD")
+            };
+
+
             throw new NotImplementedException();
         }
 

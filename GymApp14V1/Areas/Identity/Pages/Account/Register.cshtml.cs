@@ -182,15 +182,10 @@ namespace GymApp14V1.Areas.Identity.Pages.Account
         {
             string _usrName = string.Empty;
 
-            //Todo: Check if userName already exist
+
             var usr = await _userManager.FindByNameAsync(usrName);
 
             if (usr is null) return usrName;
-
-            // Todo: Reminder
-            // Extract last char of the string
-            // if last char is a digit, then + 1
-            // if not, the add 1
 
             return _usrName;
 
