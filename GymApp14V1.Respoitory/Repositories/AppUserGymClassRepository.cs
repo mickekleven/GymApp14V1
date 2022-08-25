@@ -1,5 +1,6 @@
 ﻿using GarageV3.Data.Repositories.Interfaces;
 using GymApp14V1.Core.Models;
+using GymApp14V1.Core.ViewModels;
 using GymApp14V1.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -86,6 +87,42 @@ namespace GymApp14V1.Repository
 
 
 
+        public async Task<IEnumerable<GymClassViewModel>> GetAttendingCollectionAsync(string memberEmail, bool isIgnoreQueryFiler = false)
+        {
+            if (isIgnoreQueryFiler)
+            {
+                return await AppDbContext.ApplicationUsersGymClasses
+                    .Include(a => a.ApplicationUser)
+                    .Include(a => a.GymClass)
+                    .Where(a =>
+                        a.ApplicationUser.Email.ToLower() == memberEmail.ToLower() &&
+                        a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
+                        {
+                            IsAttending = true,
+                            Name = a.GymClass.Name,
+                            Description = a.GymClass.Description,
+                            Duration = a.GymClass.Duration,
+                            StartTime = a.GymClass.StartTime
+
+                        }).ToListAsync();
+            }
+
+
+            return await AppDbContext.ApplicationUsersGymClasses
+                .Include(a => a.ApplicationUser)
+                .Include(a => a.GymClass)
+                .Where(a =>
+                    a.ApplicationUser.Email.ToLower() == memberEmail.ToLower() &&
+                    a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
+                    {
+                        IsAttending = true,
+                        Name = a.GymClass.Name,
+                        Description = a.GymClass.Description,
+                        Duration = a.GymClass.Duration,
+                        StartTime = a.GymClass.StartTime
+
+                    }).IgnoreAutoIncludes().ToListAsync();
+        }
 
         /// <summary>
         /// Sets the generic context to its type

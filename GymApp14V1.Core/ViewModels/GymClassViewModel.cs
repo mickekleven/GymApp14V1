@@ -19,6 +19,9 @@ namespace GymApp14V1.Core.ViewModels
         public TimeSpan Duration { get; set; }
         public DateTime EndTime => StartTime + Duration;
 
+
+        public bool IsAttending { get; set; }
+
         [Required]
         [StringLength(150)]
         public string Description { get; set; }

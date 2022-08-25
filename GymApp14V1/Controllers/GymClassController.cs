@@ -28,10 +28,34 @@ namespace GymApp14V1.Controllers
         }
 
 
-
         [AllowAnonymous]
         [HttpGet, ActionName("Index")]
         public async Task<IActionResult> IndexAsync()
+        {
+            ViewBag.PageHeader = new PageHeaderViewModel
+            {
+                HeadLine = "Welcome to Gainers Gym",
+                SubTitle = "Most visited gym in the area",
+                Content = "Below you find our selection. Just register an account if you are new here or login and start a helthier life"
+            };
+
+
+            //Check if user is logged and set flag is if so.
+
+
+
+            var test = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
+
+            return View("../GymClass/Index", await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE)));
+
+        }
+
+
+
+
+        [AllowAnonymous]
+        [HttpGet, ActionName("IndexOld")]
+        public async Task<IActionResult> IndexAsyncOld()
         {
             ViewBag.PageHeader = new PageHeaderViewModel
             {
@@ -343,6 +367,14 @@ namespace GymApp14V1.Controllers
             return await _mapper
                 .ProjectTo<GymClassViewModel>(
                 _unitOfWork.GymClassRepo.GetAll(ignoreQueryFilters)).ToListAsync();
+        }
+
+
+        private async Task<IEnumerable<GymClassViewModel>> GetAttendingCollectionAsync(string memberEmail, bool ignoreQueryFilters = false)
+        {
+            var result = await _unitOfWork.AppUserGymClassRepo.GetAttendingCollectionAsync(memberEmail, ignoreQueryFilters);
+
+            return result;
         }
 
 
