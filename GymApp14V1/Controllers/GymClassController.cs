@@ -274,6 +274,8 @@ namespace GymApp14V1.Controllers
             };
 
 
+            return RedirectToAction(nameof(Index));
+
             return View("../Bookings/Booking", bookingVM);
         }
 
