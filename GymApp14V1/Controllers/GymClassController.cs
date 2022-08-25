@@ -40,13 +40,21 @@ namespace GymApp14V1.Controllers
             };
 
 
-            //Check if user is logged and set flag is if so.
 
 
+            IEnumerable<GymClassViewModel> model;
 
-            var test = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
+            if (User.Identity is not null && !string.IsNullOrWhiteSpace(User.Identity.Name))
+            {
+                model = await GetAttendingCollectionAsync(User.Identity.Name);
+            }
+            else
+            {
+                model = await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE));
+            }
 
-            return View("../GymClass/Index", await GetAllGymClassesAsync(User.IsInRole(ClientArgs.ADMIN_ROLE)));
+
+            return View("../GymClass/Index", model);
 
         }
 
