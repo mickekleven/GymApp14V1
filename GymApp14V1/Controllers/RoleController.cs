@@ -159,23 +159,22 @@ namespace GymApp14V1.Controllers
             var member = await _userManager.FindByIdAsync(id);
             if (member is null) { return NotFound(); }
 
-            var roles = await _userManager.GetRolesAsync(member);
+            var userRoles = await _userManager.GetRolesAsync(member);
 
             var aspNetRoles = await _unitOfWork.RoleRepo.GetAll().ToListAsync();
             var _aspNetRoles = aspNetRoles.Select(l => l.Name).ToList();
 
-            var NotSelected = _aspNetRoles.Union(roles).Distinct().ToList();
+            var notSelected = _aspNetRoles.Except(userRoles).ToList();
 
 
-            //Todo remove User Role from collection
 
-            var aspRoles = await _unitOfWork.RoleRepo.GetAll().ToListAsync();
+
 
             var model = new MemberRoleViewModel
             {
                 Member = _mapper.Map<MemberViewModel>(member),
-                MemberRoles = roles,
-                NotSelectedRoles = NotSelected,
+                MemberRoles = userRoles,
+                NotSelectedRoles = notSelected,
 
                 PageHeader = GetPageHeader("Add Role", "Admin page CRUD")
             };
