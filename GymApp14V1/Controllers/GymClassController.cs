@@ -390,9 +390,8 @@ namespace GymApp14V1.Controllers
         }
         private async Task<IEnumerable<MemberViewModel>> GetAllMemberAsync()
         {
-            return await _mapper.ProjectTo<MemberViewModel>(_context.Users)
-                .OrderBy(a => a.FirstName)
-                .ToListAsync();
+            var users = _unitOfWork.ApplicationUserRepo.GetAll();
+            return _mapper.ProjectTo<MemberViewModel>(users).ToList();
         }
         private PageHeaderViewModel GetPageHeader(string headLine, string SubTitle, string content = "")
         {
