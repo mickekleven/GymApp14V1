@@ -19,6 +19,8 @@ namespace GymApp14V1.Core.ViewModels
         public string Description { get; set; }
 
 
+        public bool IsAttending { get; set; }
+
         public MemberViewModel Member { get; set; }
         public GymClassViewModel GymClass { get; set; }
         public IEnumerable<GymClassViewModel> GymClasses { get; set; }

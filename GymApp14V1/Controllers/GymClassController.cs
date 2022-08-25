@@ -121,6 +121,10 @@ namespace GymApp14V1.Controllers
         {
             if (string.IsNullOrWhiteSpace(gymClassId)) { return NotFound(); }
             var getResult = await GetGymClassVMAsync(gymClassId);
+
+
+
+
             return View(getResult);
         }
 
@@ -223,10 +227,12 @@ namespace GymApp14V1.Controllers
 
             var gymClass = await GetGymClassVMAsync(id.ToString());
 
+
             if (member is null)
             {
                 var info = new BookingViewModel
                 {
+
                     GymClass = gymClass,
                     MemberAction = MemberAction.UserMessage,
                     UserMessage = "You are not logged in"
@@ -235,10 +241,9 @@ namespace GymApp14V1.Controllers
                 return View("../Bookings/Booking", info);
             }
 
-            var gymClasses = await GetGymClassesAsync();
-
             var bookingVM = new BookingViewModel
             {
+                IsAttending = await IsAttendingAsync(member.Id, gymClass.Id),
                 Member = member,
                 GymClass = gymClass,
                 PageHeader = GetPageHeader("Reservation - Gym Pass", "Book two sessions for the price of one")
@@ -500,5 +505,11 @@ namespace GymApp14V1.Controllers
             return joins.OrderByDescending(i => i.IsAttending).GroupBy(g => g.Name).Select(f => f.First());
         }
 
+
+        private async Task<bool> IsAttendingAsync(string memberId, int gymClassId)
+        {
+            var isAttending = await GetMemberGymClassAsync(memberId, gymClassId);
+            return isAttending is not null;
+        }
     }
 }
