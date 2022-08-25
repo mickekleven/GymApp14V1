@@ -197,7 +197,7 @@ namespace GymApp14V1.Controllers
 
         private async Task<IEnumerable<MemberViewModel>> GetAllAsync()
         {
-            return await _mapper.ProjectTo<MemberViewModel>(_context.Users)
+            return await _mapper.ProjectTo<MemberViewModel>(_unitOfWork.AppUserGymClassRepo.GetAll())
                 .OrderBy(a => a.FirstName)
                 .ToListAsync();
         }
@@ -227,36 +227,6 @@ namespace GymApp14V1.Controllers
             List<MemberViewModel> members = new();
 
             return await _unitOfWork.ApplicationUserRepo.GetFullCollection(memberId: _memberId).ToListAsync();
-
-            if (string.IsNullOrWhiteSpace(_memberId))
-            {
-                return await (from a in _context.Users
-                              join b in _context.UserRoles on a.Id equals b.UserId
-                              join c in _context.Roles on b.RoleId equals c.Id
-                              select new MemberViewModel
-                              {
-                                  Id = a.Id,
-                                  FirstName = a.FirstName,
-                                  LastName = a.LastName,
-                                  Email = a.Email,
-                                  UserName = a.UserName,
-                                  Role = c.Name,
-                              }).OrderBy(f => f.FirstName).ToListAsync();
-            }
-
-            return await (from a in _context.Users
-                          join b in _context.UserRoles on a.Id equals b.UserId
-                          join c in _context.Roles on b.RoleId equals c.Id
-                          where a.Id.ToLower() == _memberId.ToLower()
-                          select new MemberViewModel
-                          {
-                              Id = a.Id,
-                              FirstName = a.FirstName,
-                              LastName = a.LastName,
-                              Email = a.Email,
-                              UserName = a.UserName,
-                              Role = c.Name,
-                          }).OrderBy(f => f.FirstName).ToListAsync();
         }
 
 
