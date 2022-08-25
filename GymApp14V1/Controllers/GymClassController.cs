@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using GymApp14V1.Core.Models;
 using GymApp14V1.Core.ViewModels;
-using GymApp14V1.Data.Data;
 using GymApp14V1.Repository.Interfaces;
 using GymApp14V1.Util.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -15,18 +14,14 @@ namespace GymApp14V1.Controllers
     [Authorize]
     public class GymClassController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public GymClassController(
-            ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager, IMapper mapper, IUnitOfWork unitOfWork)
+        public GymClassController(UserManager<ApplicationUser> userManager, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _context = context;
             _userManager = userManager;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -154,7 +149,9 @@ namespace GymApp14V1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GymPassExists(entity.Id))
+                    var gymPassExists = await GymPassExists(entity.Id);
+
+                    if (!gymPassExists)
                     {
                         return NotFound();
                     }
@@ -242,9 +239,7 @@ namespace GymApp14V1.Controllers
             var gymClass = await GetGymClassAsync(model.GymClass.Id.ToString());
 
 
-            var _memberAttn = await GetMemberGymClassAsync(member.Id, gymClass.Id);
-
-            var memberAttn = await _context.ApplicationUsersGymClasses.FirstOrDefaultAsync(a => a.ApplicationUser.Id == member.Id);
+            var memberAttn = await GetMemberGymClassAsync(member.Id, gymClass.Id);
 
             if (memberAttn is null)
             {
@@ -312,9 +307,12 @@ namespace GymApp14V1.Controllers
 
 
 
-        private bool GymPassExists(int id)
+        private async Task<bool> GymPassExists(int id)
         {
-            return (_context.GymPasses?.Any(e => e.Id == id)).GetValueOrDefault();
+            Expression<Func<GymClass, bool>> predicate = i => i.Id == id;
+
+            var isExist = await _unitOfWork.GymClassRepo.Find(predicate).ToListAsync();
+            return isExist.Any();
         }
 
         // *******************************************************************
