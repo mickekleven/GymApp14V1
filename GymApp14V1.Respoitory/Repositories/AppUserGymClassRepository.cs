@@ -87,68 +87,35 @@ namespace GymApp14V1.Repository
 
         public async Task<IEnumerable<GymClassViewModel>> GetAttendingCollectionAsync(string memberEmail, bool isIgnoreQueryFiler = false)
         {
-            return await GetAttendingAsync(memberEmail);
-
 
             if (isIgnoreQueryFiler)
             {
-                return await AppDbContext.ApplicationUsersGymClasses
-                    .Include(a => a.ApplicationUser)
-                    .Include(a => a.GymClass)
-                    .Where(a =>
-                        a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
-                        {
-                            Id = a.GymClassId,
-                            IsAttending = a.ApplicationUser.Email.ToLower().Equals(memberEmail.ToLower()),
-                            Name = a.GymClass.Name,
-                            Description = a.GymClass.Description,
-                            Duration = a.GymClass.Duration,
-                            StartTime = a.GymClass.StartTime
+                return await AppDbContext.GymPasses.Select(g => new GymClassViewModel
+                {
+                    Description = g.Description,
+                    Duration = g.Duration,
+                    Id = g.Id,
+                    Name = g.Name,
+                    AttendingMembers = g.AttendingMembers,
+                    IsAttending = g.AttendingMembers.Any(a => a.ApplicationUser.Email.ToLower() == memberEmail.ToLower()),
+                    StartTime = g.StartTime
 
-                        }).ToListAsync();
+                }).IgnoreQueryFilters().ToListAsync();
             }
 
-
-            return await AppDbContext.ApplicationUsersGymClasses
-                .Include(a => a.ApplicationUser)
-                .Include(a => a.GymClass)
-                .Where(a =>
-                    a.GymClass.StartTime > DateTime.Now).Select(a => new GymClassViewModel
-                    {
-                        Id = a.GymClassId,
-                        IsAttending = a.ApplicationUser.Email.ToLower().Equals(memberEmail.ToLower()),
-                        Name = a.GymClass.Name,
-                        Description = a.GymClass.Description,
-                        Duration = a.GymClass.Duration,
-                        StartTime = a.GymClass.StartTime
-
-                    }).IgnoreQueryFilters().ToListAsync();
-        }
-
-
-
-        private async Task<IEnumerable<GymClassViewModel>> GetAttendingAsync(string _memberEmail, bool ignoreQueryFilter = false)
-        {
-
-
-            var gymClasses = await AppDbContext.GymPasses.Select(g => new GymClassViewModel
+            return await AppDbContext.GymPasses.Select(g => new GymClassViewModel
             {
                 Description = g.Description,
                 Duration = g.Duration,
                 Id = g.Id,
                 Name = g.Name,
                 AttendingMembers = g.AttendingMembers,
-                IsAttending = g.AttendingMembers.Any(a => a.ApplicationUser.Email.ToLower() == _memberEmail.ToLower()),
+                IsAttending = g.AttendingMembers.Any(a => a.ApplicationUser.Email.ToLower() == memberEmail.ToLower()),
                 StartTime = g.StartTime
 
             }).ToListAsync();
 
-
-            return gymClasses;
-
-
         }
-
 
         /// <summary>
         /// Sets the generic context to its type
