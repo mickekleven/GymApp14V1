@@ -50,7 +50,7 @@
                 {
                     var isCurrent = User.Identity.Name.Equals(item.Email, StringComparison.OrdinalIgnoreCase);
 
-                    <tr class="@(isCurrent ? "text-light fw-bold bg-secondary" : "")">
+                    <tr class="@(isCurrent ? "text-primart fw-bold bg-light" : "")">
                         <td>
                             @Html.DisplayFor(modelItem => item.FirstName)
                         </td>
@@ -70,9 +70,9 @@
                         </td>
 
                         <td>
-                            <a class="@(isCurrent ? "text-light fw-bold" : "")" asp-controller="Member" asp-action="MemberEdit" asp-route-id="@item.Id">Edit</a><span> | </span>
-                            <a class="@(isCurrent ? "text-light fw-bold" : "")"  asp-controller="Member" asp-action="MemberDetails" asp-route-id="@item.Id">Details</a><span> | </span>
-                            <a class="@(isCurrent ? "text-light fw-bold" : "")"  asp-controller="Member" asp-action="MemberDelete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn @(isCurrent ? "btn-danger" : "btn-primary") btn-custom" asp-controller="Member" asp-action="MemberEdit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn @(isCurrent ? "btn-danger" : "btn-primary") btn-custom" asp-controller="Member" asp-action="MemberDetails" asp-route-id="@item.Id">Details</a>
+                            <a class="btn @(isCurrent ? "btn-danger" : "btn-primary") btn-custom" asp-controller="Member" asp-action="MemberDelete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
                 }
