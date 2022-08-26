@@ -489,19 +489,7 @@ namespace GymApp14V1.Controllers
             var _model = model.Where(a => a.IsAttending).ToList();
             var _model01 = model.Where(b => !b.IsAttending).DistinctBy(a => a.Name).ToList();
 
-
-
             var joins = _model01.Union(_model);
-
-
-
-            //Todo: Issue.The collection is only populated with already booked GymPass due the linq query in repos
-            // only access the ref table
-
-            //***  some test code which is not working
-            // var noAttendingGc = await GetAllGymClassesAsync();
-            // var _joins = noAttendingGc.Where(a => joins.Any(h => h.Id != a.Id));
-            // return _joins;
 
             return joins.OrderByDescending(i => i.IsAttending).GroupBy(g => g.Name).Select(f => f.First());
         }
