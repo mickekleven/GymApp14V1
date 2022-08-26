@@ -199,8 +199,6 @@ namespace GymApp14V1.Controllers
         [HttpGet, ActionName("MemberRoleDelete")]
         public async Task<IActionResult> MemberRoleDeleteAsync(string id)
         {
-            //Todo: Continue here with implementation
-
             var member = await _userManager.FindByIdAsync(id);
             if (member is null) { return NotFound(); }
 
@@ -224,7 +222,6 @@ namespace GymApp14V1.Controllers
         [HttpPost, ActionName("MemberRoleDelete")]
         public async Task<IActionResult> MemberRoleDeleteAsync(MemberRoleViewModel model)
         {
-            //Todo: Continue here with implementation
 
             var member = await _userManager.FindByIdAsync(model.Member.Id);
             if (member is null) { return NotFound(); }
