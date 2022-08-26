@@ -15,7 +15,7 @@
 }
 
 
-<table class="table">
+<table class="table mt-4">
     <thead>
         <tr>
             <th>
@@ -38,7 +38,7 @@
         {
 
 
-                var color = item.StartTime < DateTime.Now ? "text-danger" : "text-primary"; 
+            var color = item.StartTime < DateTime.Now ? "text-danger" : "text-primary"; 
 
 
             <tr class="@color">
@@ -55,6 +55,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
 
+
                 @if (User.Identity.IsAuthenticated)
                 {
                     <td>
@@ -62,6 +63,15 @@
 
                     </td>
                 }
+                else {
+
+                    <td>
+                        <a class="btn @(item.IsAttending ? "btn-danger" : "btn-primary")" 
+                                  asp-area="Identity" 
+                                  asp-page="/Account/Login">Login</a>
+                    </td>
+                }
+
 
                 @if (User.IsInRole(ClientArgs.ADMIN_ROLE))
                 {
@@ -71,10 +81,6 @@
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a><span> | </span>
 
                     </td>
-                }
-
-                @if (User.IsInRole(ClientArgs.MEMBER_ROLE)) {
-                    <a asp-controller="GymClass" asp-action="Booking" asp-route-id="@item?.Id">Gym Reservation</a> 
                 }
 
             </tr>
