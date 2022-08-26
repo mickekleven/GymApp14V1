@@ -59,15 +59,15 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <td>
-                        <a class="btn @(item.IsAttending ? "btn-danger" : "btn-primary") btn-block" asp-controller="GymClass" asp-action="Booking" asp-route-id="@item?.Id">@(item.IsAttending ? "CANCEL" : "BOOK")</a>
+                        <a class="btn @(item.IsAttending ? "btn-danger" : "btn-primary") btn-custom" asp-controller="GymClass" asp-action="Booking" asp-route-id="@item?.Id">@(item.IsAttending ? "CANCEL" : "BOOK")</a>
 
                     </td>
                 }
                 else {
 
                     <td>
-                        <a class="btn @(item.IsAttending ? "btn-danger" : "btn-primary")" 
-                                  asp-area="Identity" 
+                        <a class="btn @(item.IsAttending ? "btn-danger" : "btn-primary") btn-custom"
+                   asp-area="Identity" 
                                   asp-page="/Account/Login">Login</a>
                     </td>
                 }
