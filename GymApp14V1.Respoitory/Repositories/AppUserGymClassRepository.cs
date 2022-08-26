@@ -85,10 +85,11 @@ namespace GymApp14V1.Repository
                 .AsSplitQuery();
         }
 
-
-
         public async Task<IEnumerable<GymClassViewModel>> GetAttendingCollectionAsync(string memberEmail, bool isIgnoreQueryFiler = false)
         {
+            return await GetAttendingAsync(memberEmail);
+
+
             if (isIgnoreQueryFiler)
             {
                 return await AppDbContext.ApplicationUsersGymClasses
@@ -123,6 +124,31 @@ namespace GymApp14V1.Repository
 
                     }).IgnoreQueryFilters().ToListAsync();
         }
+
+
+
+        private async Task<IEnumerable<GymClassViewModel>> GetAttendingAsync(string _memberEmail, bool ignoreQueryFilter = false)
+        {
+
+
+            var gymClasses = await AppDbContext.GymPasses.Select(g => new GymClassViewModel
+            {
+                Description = g.Description,
+                Duration = g.Duration,
+                Id = g.Id,
+                Name = g.Name,
+                AttendingMembers = g.AttendingMembers,
+                IsAttending = g.AttendingMembers.Any(a => a.ApplicationUser.Email.ToLower() == _memberEmail.ToLower()),
+                StartTime = g.StartTime
+
+            }).ToListAsync();
+
+
+            return gymClasses;
+
+
+        }
+
 
         /// <summary>
         /// Sets the generic context to its type

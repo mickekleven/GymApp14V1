@@ -71,10 +71,13 @@ namespace GymApp14V1.Repository
 
             if (ignoreQueryFilter)
             {
-                return AppDbContext!.GymPasses.IgnoreQueryFilters();
+                return AppDbContext!.GymPasses
+                    .Include(a => a.AttendingMembers)
+                    .IgnoreQueryFilters();
             }
 
-            return AppDbContext!.GymPasses;
+            return AppDbContext!.GymPasses
+                .Include(a => a.AttendingMembers);
         }
 
 
